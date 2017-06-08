@@ -39,8 +39,8 @@
 	function ball( width, height, color, x, y ) {
 		this.width = width;
 		this.height = height;
-		this.spdX = maxBallSpeed;
-		this.spdY = 0;
+		this.spdX = 0;
+		this.spdY = maxBallSpeed;
 		this.x = x;
 		this.y = y;
 		this.update = function() {
@@ -98,7 +98,17 @@
 
 			var xpos = obj.x;
 
-			if ( xpos >= left && xpos <  )
+			if ( xpos <= left ) {
+				obj.spdY = -maxBallSpeed;
+			} else if ( xpos > left && xpos <= middle ) {
+				obj.spdY = -3
+			} else if ( xpos > middle && xpos <= right ) {
+				obj.spdY = 0
+			} else if ( xpos > middle && xpos <= right ) {
+				obj.spdY = 3
+			} else if ( xpos > right && xpos <= far_right ) {
+				obj.spdY = maxBallSpeed
+			}
 		}
 
 	}
