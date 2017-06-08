@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Block Breaker</title>
+	<style>
+		canvas {
+			display: block;
+			margin: 50px auto;
+			background-color: #ededed;
+			border: 1px solid #000;
+			width: 960px;
+			height: 540px;
+		}
+	</style>
+</head>
+
+<body onload="startGame()">
+
+<canvas id="game"></canvas>
+<p>
+	x: <span id="x"></span><br/>
+	y: <span id="y"></span>
+	<p id="log"></p>
+</p>
+<script>
+
+	var width = 960;
+	var height = 540;
+	var maxBallSpeed = 5;
+	var myGamePiece;
+	var myPaddle;
+
+	function startGame() {
+		myPaddle = new paddle();
+		myGamePiece = new ball( 15, 15, "red", (width / 2) - 7, 100 );
+		myGameArea.start();
+	}
+
+	function ball( width, height, color, x, y ) {
+		this.width = width;
+		this.height = height;
+		this.spdX = maxBallSpeed;
+		this.spdY = 0;
+		this.x = x;
+		this.y = y;
+		this.update = function() {
+			ctx = myGameArea.context;
+			ctx.fillStyle = color;
+			ctx.fillRect( this.x, this.y, this.width, this.height );
+		}
+		this.newPos = function() {
+			this.x += this.spdX;
+			this.y += this.spdY;
+		}
+	}
+
+	function paddle() {
+		this.width = 100;
+		this.height = 7;
+		this.x = width / 2 - 50;
+		this.y = height - 75;
+		this.numberHits = 0;
+		this.update = function() {
+			ctx = myGameArea.context;
+			ctx.fillStyle = "#000";
+			ctx.fillRect( this.x, this.y, this.width, this.height );
+		}
+
+		//move the paddle as the mouse moves within the bounds of the canvas
+		this.newPos = function( x, y ) {
+			if ( x <= myGameArea.canvas.width - 100 && x >= 0 )
+				this.x = x;
+				//this.y = y;
+		}
+
+		//check if there was a collision with the paddle
+		this.collision = function( obj ) {
+			//if the left most side is less than the width of the paddle or the right most side is greater than the x position
+			//and the bottom side is less that the top of the paddle
+			if ( ( obj.x <= this.x + this.width && obj.x + obj.width >= this.x ) && ( obj.y + obj.height >= this.y && obj.y <= this.y + this.height ) ) {
+				this.bounceBack(obj);
+				++this.numberHits;
+				dbgr.add( this.numberHits + " PADDLE HIT");
+			}
+		}
+
+		this.bounceBack = function( obj ) {
+			var partition = this.width / 5;
+			var left_bound = this.x;
+			var right_bound = this.x + this.width;
+
+			//partition left bounds
+			var far_left = left_bound; //0 - partition
+			var left = left_bound + partition;
+			var middle = left_bound + ( partition * 2 );
+			var right = left_bound + ( partition * 3 );
+			var far_right = left_bound + ( partition * 4 );
+
+			var xpos = obj.x;
+
+			if ( xpos >= left && xpos <  )
+		}
+
+	}
+
+	var myGameArea = {
+	    canvas : document.getElementById("game"),
+
+	    start : function() {
+	    	this.canvas.width = width;
+	    	this.canvas.height = height;
+	        this.context = this.canvas.getContext("2d");
+	        this.interval = setInterval( updateGameArea, 25 );
+
+        	//canvas event listeners
+	        window.addEventListener('keydown', function(e) {	        	
+	        	myGameArea.keys = (myGameArea.keys || []);
+	        	myGameArea.keys[e.keyCode] = true;
+	        })
+
+	        window.addEventListener('keyup', function(e){
+	        	myGameArea.keys[e.keyCode] = false;
+	        })
+	    },
+
+	    clear : function() {
+	    	this.context.clearRect( 0, 0, this.canvas.width, this.canvas.height );
+	    },
+
+	    collision : function( obj ) {
+    		if ( obj.x + obj.width >= this.canvas.width ) {
+    			obj.spdX *= -1;
+    			dbgr.add( "Right" );
+    		}
+    		else if ( obj.x <= 0 ) {
+    			obj.spdX *= -1;
+    			dbgr.add( "Left" );
+    		}
+    		else if ( obj.y + obj.height >= this.canvas.height ) {
+    			obj.spdY *= -1;
+    			dbgr.add( "Bottom" );
+    		}
+    		else if ( obj.y <= 0 ) {
+    			obj.spdY *= -1;
+    			dbgr.add( "Top" );
+    		}
+	    }
+	}
+
+	function updateGameArea() {
+		myGameArea.clear();
+
+		//logic
+		myGameArea.collision( myGamePiece );
+		myPaddle.collision( myGamePiece );
+		myGamePiece.newPos();
+
+		//updates
+		myGamePiece.update();
+		myPaddle.update();
+
+		document.getElementById("x").innerHTML = myGamePiece.x;
+		document.getElementById("y").innerHTML = myGamePiece.y;
+	}
+
+	var dbgr = {
+		ele : document.getElementById("log"),
+		add : function(msg) {
+			//console.log("working");
+			this.ele.innerHTML = msg + "<br>" + this.ele.innerHTML;
+		}
+	}
+
+	//http://www.html5canvastutorials.com/advanced/html5-canvas-mouse-coordinates/
+	//tracking the mouse coordinates
+	//------------------------------------------------------------------------------------------------------------
+	function getMousePos(canvas, e) {
+        var rect = document.getElementById("game").getBoundingClientRect();
+        return {
+        	x: e.clientX - rect.left,
+        	y: e.clientY - rect.top
+    	};
+	}
+
+	document.getElementById("game").addEventListener('mousemove', function(e) {
+		var mousePos = getMousePos(document.getElementById("game"), e);
+        myPaddle.newPos( mousePos.x, mousePos.y );
+    }, false);
+    //------------------------------------------------------------------------------------------------------------
+</script>
+</body>
+</html>
