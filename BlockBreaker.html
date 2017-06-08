@@ -29,10 +29,11 @@
 	var maxBallSpeed = 5;
 	var myGamePiece;
 	var myPaddle;
+	var balls = [];
 
 	function startGame() {
 		myPaddle = new paddle();
-		myGamePiece = new ball( 15, 15, "red", (width / 2) - 7, 100 );
+		balls.push( new ball( 15, 15, "red", (width / 2) - 7, 100 ) );
 		myGameArea.start();
 	}
 
@@ -70,7 +71,6 @@
 		this.newPos = function( x, y ) {
 			if ( x <= myGameArea.canvas.width - 100 && x >= 0 )
 				this.x = x;
-				//this.y = y;
 		}
 
 		//check if there was a collision with the paddle
@@ -85,32 +85,29 @@
 		}
 
 		this.bounceBack = function( obj ) {
-			var partition = this.width / 5;
-			var left_bound = this.x;
-			var right_bound = this.x + this.width;
+			//first, get the location of the ball in relation to the length of the paddle and turn it into a percentage
+			var total_paddle_width = this.width;
+			var xpos = obj.x + (obj.width / 2);
+			var xpercentage = (xpos - this.x) / total_paddle_width;
+			//console.log( xpos + " - " + this.x + " / " + total_paddle_width + " = " + xpercentage + "%" );
 
-			//partition left bounds
-			var far_left = left_bound; //0 - partition
-			var left = left_bound + partition;
-			var middle = left_bound + ( partition * 2 );
-			var right = left_bound + ( partition * 3 );
-			var far_right = left_bound + ( partition * 4 );
-
-			var xpos = obj.x;
-
-			if ( xpos <= left ) {
-				obj.spdY = -maxBallSpeed;
-			} else if ( xpos > left && xpos <= middle ) {
-				obj.spdY = -3
-			} else if ( xpos > middle && xpos <= right ) {
-				obj.spdY = 0
-			} else if ( xpos > middle && xpos <= right ) {
-				obj.spdY = 3
-			} else if ( xpos > right && xpos <= far_right ) {
-				obj.spdY = maxBallSpeed
+			//now, find where the ball is along the length of the paddle
+			//and determine how the ball will bound
+			if ( xpercentage < .40 ) {
+				//if the ball hits the left 40% of the paddle, multiply by the negative max speed by the location of the ball on the left 50% of the paddle
+				var left_percentage = (.50 - xpercentage) / .50;
+				obj.spdX = ( maxBallSpeed * left_percentage ) * -1;
+				obj.spdY *= -1;
+			} else if ( xpercentage >= .40 && xpercentage <= .60 ) {
+				//if the ball hits the middle 20% of the paddle, 40%-60%, the ball just changes it's Y speed
+				obj.spdY *= -1;
+			} else if ( xpercentage > .60 ) {
+				//if the ball hits the right 40% of the paddle, multiple by the max speed and the location of the ball of the right 50% of the paddle
+				var right_percentage = (xpercentage - .50) / .50;
+				obj.spdX = (maxBallSpeed * right_percentage);
+				obj.spdY *= -1;
 			}
 		}
-
 	}
 
 	var myGameArea = {
@@ -120,7 +117,7 @@
 	    	this.canvas.width = width;
 	    	this.canvas.height = height;
 	        this.context = this.canvas.getContext("2d");
-	        this.interval = setInterval( updateGameArea, 25 );
+	        this.interval = setInterval( updateGameArea, 20 );
 
         	//canvas event listeners
 	        window.addEventListener('keydown', function(e) {	        	
@@ -130,6 +127,10 @@
 
 	        window.addEventListener('keyup', function(e){
 	        	myGameArea.keys[e.keyCode] = false;
+	        })
+
+	        window.addEventListener('click', function(e) {
+	        	balls.push( new ball( 15, 15, "red", (width / 2) - 7, 100 ) );
 	        })
 	    },
 
@@ -161,16 +162,17 @@
 		myGameArea.clear();
 
 		//logic
-		myGameArea.collision( myGamePiece );
-		myPaddle.collision( myGamePiece );
-		myGamePiece.newPos();
+		for ( var i = 0; i < balls.length; ++i ) {
+			myGameArea.collision( balls[i] );
+			myPaddle.collision( balls[i] );
+			balls[i].newPos();
+			balls[i].update();
+		}
 
-		//updates
-		myGamePiece.update();
 		myPaddle.update();
 
-		document.getElementById("x").innerHTML = myGamePiece.x;
-		document.getElementById("y").innerHTML = myGamePiece.y;
+		// document.getElementById("x").innerHTML = myGamePiece.x;
+		// document.getElementById("y").innerHTML = myGamePiece.y;
 	}
 
 	var dbgr = {
