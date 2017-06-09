@@ -18,23 +18,41 @@
 
 <canvas id="game"></canvas>
 <p>
-	x: <span id="x"></span><br/>
-	y: <span id="y"></span>
 	<p id="log"></p>
 </p>
 <script>
 
+	//global values
 	var width = 960;
 	var height = 540;
+
+	//default object values
 	var maxBallSpeed = 5;
+	var default_block_width = 100;
+	var default_block_height = 50;
+
+	//helper elements
+	var partition_block;
+
+	//game pieces
 	var myGamePiece;
 	var myPaddle;
+	var myBlock;
+
 	var balls = [];
+	var blocks = [];
+
+	var isPaused = false;
 
 	function startGame() {
 		myPaddle = new paddle();
-		balls.push( new ball( 15, 15, "red", (width / 2) - 7, 100 ) );
-		myGameArea.start();
+		myBlock = new block( 100, 50, "#0f0", 100, 100 );
+		balls.push( new ball( 15, 15, "blue", (width / 2) - 7, 300 ) );
+
+		//setup the block layout
+        level1_layout( );
+
+		myGameArea.start( );
 	}
 
 	function ball( width, height, color, x, y ) {
@@ -44,6 +62,10 @@
 		this.spdY = maxBallSpeed;
 		this.x = x;
 		this.y = y;
+
+		//empty edges, initialized in update function
+		this.top_edge, this.bottom_edge, this.left_edge, this.right_edge;
+
 		this.update = function() {
 			ctx = myGameArea.context;
 			ctx.fillStyle = color;
@@ -52,6 +74,83 @@
 		this.newPos = function() {
 			this.x += this.spdX;
 			this.y += this.spdY;
+			//edges
+			this.top_edge = this.y;
+			this.bottom_edge = this.top_edge + this.height;
+			this.left_edge = this.x;
+			this.right_edge = this.left_edge + this.width;
+		}
+	}
+
+	function block( width, height, color, x, y, health = 1 ) {
+		this.width = width;
+		this.height = height;
+		this.spdX = 0;
+		this.spdY = 0;
+		this.x = x;
+		this.y = y;
+		this.health = health;
+
+		//edges
+		this.top_edge = this.y;
+		this.bottom_edge = this.top_edge + this.height;
+		this.left_edge = this.x;
+		this.right_edge = this.left_edge + this.width;
+
+		this.update = function() {
+			ctx = myGameArea.context;
+			ctx.fillStyle = color;
+			ctx.fillRect( this.x, this.y, this.width, this.height );
+		}
+
+		this.newPos = function() {
+			this.x += this.spdX;
+			this.y += this.spdY;
+		}
+
+		this.collision = function( obj ) {
+			//hit the left side of block
+			if ( ( obj.top_edge >= this.bottom_edge && obj.bottom_edge <= this.top_edge ) && ( obj.right_edge >= this.left_edge && obj.right_edge <= this.right_edge ) ) {
+				dbgr.add( "LEFT" );
+				obj.spdX *= -1;
+
+				--health;
+
+				if ( health == 0 ) {
+					return true;
+				}
+			}
+			else if ( ( obj.top_edge >= this.bottom_edge && obj.bottom_edge <= this.top_edge ) && ( obj.right_edge <= this.left_edge && obj.right_edge >= this.right_edge ) ) {
+				dbgr.add( "TOP" );
+				obj.spdX *= -1;
+
+				--health;
+
+				if ( health == 0 ) {
+					return true;
+				}
+			}
+			//hit bottom of block
+			else if ( ( obj.top_edge <= this.bottom_edge && obj.top_edge >= this.top_edge ) && ( obj.right_edge >= this.left_edge && obj.left_edge <= this.right_edge ) ) {
+				dbgr.add( "BOTTOM" );
+				obj.spdY *= -1;
+				--health;
+
+				if ( health == 0 ) {
+					return true;
+				}
+			} 
+			//hit top of block
+			else if ( ( obj.bottom_edge >= this.top_edge && obj.bottom_edge <= this.bottom_edge ) && ( obj.right_edge >= this.left_edge && obj.left_edge <= this.right_edge ) ) {
+				dbgr.add( "TOP" );
+				obj.spdY *= -1;
+				
+				--health;
+
+				if ( health == 0 ) {
+					return true;
+				}
+			}
 		}
 	}
 
@@ -80,7 +179,7 @@
 			if ( ( obj.x <= this.x + this.width && obj.x + obj.width >= this.x ) && ( obj.y + obj.height >= this.y && obj.y <= this.y + this.height ) ) {
 				this.bounceBack(obj);
 				++this.numberHits;
-				dbgr.add( this.numberHits + " PADDLE HIT");
+				//dbgr.add( this.numberHits + " PADDLE HIT");
 			}
 		}
 
@@ -121,12 +220,18 @@
 
         	//canvas event listeners
 	        window.addEventListener('keydown', function(e) {	        	
-	        	myGameArea.keys = (myGameArea.keys || []);
-	        	myGameArea.keys[e.keyCode] = true;
+	        	// myGameArea.keys = (myGameArea.keys || []);
+	        	// myGameArea.keys[e.keyCode] = true;
+	        	dbgr.add("KEYCODE: " + e.keyCode);
+	        	if ( e.keyCode == 27 && isPaused == false ) {
+	        		isPaused = true;
+	        	} else if ( e.keyCode == 27 && isPaused == true ) {
+	        		isPaused = false;
+	        	}
 	        })
 
 	        window.addEventListener('keyup', function(e){
-	        	myGameArea.keys[e.keyCode] = false;
+	        	// myGameArea.keys[e.keyCode] = false;
 	        })
 
 	        window.addEventListener('click', function(e) {
@@ -141,38 +246,54 @@
 	    collision : function( obj ) {
     		if ( obj.x + obj.width >= this.canvas.width ) {
     			obj.spdX *= -1;
-    			dbgr.add( "Right" );
+    			//dbgr.add( "Right" );
     		}
     		else if ( obj.x <= 0 ) {
     			obj.spdX *= -1;
-    			dbgr.add( "Left" );
+    			//dbgr.add( "Left" );
     		}
     		else if ( obj.y + obj.height >= this.canvas.height ) {
     			obj.spdY *= -1;
-    			dbgr.add( "Bottom" );
+    			//dbgr.add( "Bottom" );
     		}
     		else if ( obj.y <= 0 ) {
     			obj.spdY *= -1;
-    			dbgr.add( "Top" );
+    			//dbgr.add( "Top" );
     		}
 	    }
 	}
 
 	function updateGameArea() {
-		myGameArea.clear();
+		if ( !isPaused ) {
+			myGameArea.clear();
 
-		//logic
-		for ( var i = 0; i < balls.length; ++i ) {
-			myGameArea.collision( balls[i] );
-			myPaddle.collision( balls[i] );
-			balls[i].newPos();
-			balls[i].update();
+			//logic
+
+			myPaddle.update();
+
+			for ( var i = 0; i < balls.length; ++i ) {
+				myGameArea.collision( balls[i] );
+				myPaddle.collision( balls[i] );
+
+				for ( var j = 0; j < blocks.length; ++j ) {
+					if ( blocks[j].collision( balls[i] ) ) {
+						blocks.splice( j, 1 );
+					}
+					blocks[j].update();
+				}
+
+				balls[i].newPos();
+				balls[i].update();
+			}
+
+			// document.getElementById("x").innerHTML = myGamePiece.x;
+			// document.getElementById("y").innerHTML = myGamePiece.y;
+		} else if ( isPaused ) {
+			myGameArea.context.font = "50px Arial";
+			myGameArea.context.fillStyle = "red";
+			myGameArea.context.textAlign = "center";
+			myGameArea.context.fillText( "Paused", width/2, height/2 );
 		}
-
-		myPaddle.update();
-
-		// document.getElementById("x").innerHTML = myGamePiece.x;
-		// document.getElementById("y").innerHTML = myGamePiece.y;
 	}
 
 	var dbgr = {
@@ -198,6 +319,30 @@
 		var mousePos = getMousePos(document.getElementById("game"), e);
         myPaddle.newPos( mousePos.x, mousePos.y );
     }, false);
+    //------------------------------------------------------------------------------------------------------------
+
+    //create a grid of block objects
+	//------------------------------------------------------------------------------------------------------------
+	function level1_layout( ) {
+		dbgr.add("BUiLD GRiD");
+        var partition_width = width * .75;
+        var partition_height = height * .40; 
+        var margin_left = ( width - partition_width ) / 2
+        var margin_top = 50;
+
+        //partition_block = new block( partition_width, partition_height, "#fff", margin_left, margin_top );
+
+        for ( var i = 0; i < 3; ++i ) {
+    		var ypos = margin_top + ( ( default_block_height * i ) + ( 10 * i ) );
+        	for ( var j = 0; j < 6; ++j ) {
+        		var xpos = margin_left + ( ( default_block_width * j ) + ( 10 * j ) );
+
+        		var new_block = new block( default_block_width, default_block_height, "#0f0", xpos, ypos, 2 );
+        		blocks.push( new_block );
+        		//new_block.draw();
+        	}
+        }
+	}
     //------------------------------------------------------------------------------------------------------------
 </script>
 </body>
