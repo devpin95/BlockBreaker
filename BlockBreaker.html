@@ -5,18 +5,122 @@
 	<style>
 		canvas {
 			display: block;
-			margin: 50px auto;
-			background-color: #ededed;
+			margin: 0 auto;
+			background-color: #ecf0f1;
 			border: 1px solid #000;
 			width: 960px;
 			height: 540px;
+		}
+		#dashboard {
+			position:relative;
+			display:block;
+			margin:10px auto;
+			margin-bottom:0;
+			width: 962px;
+			height:45px;
+			/*background-color:#2c3e50;*/
+
+			/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#2c3e50+1,34495e+52,2c3e50+100 */
+			background: #2c3e50; /* Old browsers */
+			background: -moz-linear-gradient(top, #2c3e50 1%, #34495e 52%, #2c3e50 100%); /* FF3.6-15 */
+			background: -webkit-linear-gradient(top, #2c3e50 1%,#34495e 52%,#2c3e50 100%); /* Chrome10-25,Safari5.1-6 */
+			background: linear-gradient(to bottom, #2c3e50 1%,#34495e 52%,#2c3e50 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2c3e50', endColorstr='#2c3e50',GradientType=0 ); /* IE6-9 */
+		}
+		#dashboard .dashboard_label {
+			margin-right:10px;
+			font-weight: bold;
+			padding:0 10px;
+			border-radius: 10px;
+			text-shadow: 0 1px 1px #f1c40f;
+			/*background-color:#f1c40f;*/
+			/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f39c12+0,f1c40f+50,f39c12+100 */
+			background: #f39c12; /* Old browsers */
+			background: -moz-linear-gradient(top, #f39c12 0%, #f1c40f 50%, #f39c12 100%); /* FF3.6-15 */
+			background: -webkit-linear-gradient(top, #f39c12 0%,#f1c40f 50%,#f39c12 100%); /* Chrome10-25,Safari5.1-6 */
+			background: linear-gradient(to bottom, #f39c12 0%,#f1c40f 50%,#f39c12 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f39c12', endColorstr='#f39c12',GradientType=0 ); /* IE6-9 */
+		}
+		#dashboard #lives_wrapper {
+			width:200px;
+			float:left;
+			font-size:20px;
+			margin-top:10px;
+			margin-left:50px;
+		}
+		#dashboard #lives_wrapper div {
+			float:left;
+		}
+		#dashboard #timer_wrapper {
+			width:200px;
+			float:left;
+			font-size:20px;
+			margin-top:10px;
+		}
+		#dashboard #timer_wrapper div {
+			float:left;
+		}
+		#dashboard #score_wrapper {
+			width:200px;
+			float:left;
+			font-size:20px;
+			margin-top:10px;
+		}
+		#dashboard #score_wrapper div {
+			float:left;
+		}
+		#lives, #timer, #score {
+			color:#ededed;
+			text-shadow:0 1px 1px ##34495e;
+		}
+
+		#b1, #b2, #b3 {
+			width:15px;
+			height:15px;
+			background-color:#e74c3c;
+			border-radius: 50%;
+			float:left;
+			margin: 0 5px;
+			margin-top:5px;
+		}
+		.ball_deactivated {
+			opacity: .25;
+		}
+		.logo {
+			position: absolute;
+			top:-4px;
+			right:50px;
 		}
 	</style>
 </head>
 
 <body onload="startGame()">
 
+<div id="dashboard">
+	<div id="lives_wrapper">
+		<div class="dashboard_label">LIVES</div>
+		<div id="lives">
+			<div class="" id="b1"></div>
+			<div class="" id="b2"></div>
+			<div class="" id="b3"></div>
+		</div>
+	</div>
+
+	<div id="timer_wrapper">
+		<div class="dashboard_label">TIME</div>
+		<div id="timer">0:00</div>
+	</div>
+
+	<div id="score_wrapper">
+		<div class="dashboard_label">SCORE</div>
+		<div id="score">000</div>
+	</div>
+	<div class="logo"><img src="logo.png" /></div>
+	<div style="clear:all;">&nbsp;</div>
+</div>
+
 <canvas id="game"></canvas>
+
 <p id="slope"></p>
 <p id="y"></p>
 <p>
@@ -27,11 +131,14 @@
 	//global values
 	var width = 960;
 	var height = 540;
+	var fps = 1000/50; //50 fps
 
 	//default object values
-	var maxBallSpeed = 5;
-	var default_block_width = 75;
-	var default_block_height = 35;
+	var maxBallSpeed = 7;
+	var default_block_width = 75; //50 || 75
+	var default_block_height = 35; //20 || 35
+	var default_ball_image = "ball_bg.png";
+	var default_block_image = "big_block_bg.jpg";
 
 	//helper elements
 	var partition_block;
@@ -40,30 +147,53 @@
 	var myGamePiece;
 	var myPaddle;
 	var myBlock;
+	var player;
 
 	var balls = [];
 	var blocks = [];
 
+	//game states
 	var isPaused = false;
+	var won = false;
+	var life_lost = false;
+	var ball_ready = false;
+	var stop_time = false;
+
+	//gameplay variables
+	var timer = 0;
+	var multiplyer = 0;
 
 	function startGame() {
+		player = new Player();
 		myPaddle = new paddle();
-		myBlock = new block( 100, 50, "#0f0", 100, 100 );
-		balls.push( new ball( 15, 15, "blue", (width / 2) - 7, 300 ) );
+		myBlock = new block( 100, 50, "", 100, 100, "image" );
+		balls.push( new ball( 15, 15, default_ball_image, 0, 0, "image" ) );
+		ball_ready = true;
 
 		//setup the block layout
         level1_layout( );
+        //document.getElementById("lives").innerHTML = player.lives;
 
 		myGameArea.start( );
 	}
 
-	function ball( width, height, color, x, y ) {
+	function Player() {
+		this.score = 0;
+		this.lives = 3;
+	}
+
+	function ball( width, height, color, x, y, type = "color" ) {
 		this.width = width;
 		this.height = height;
 		this.spdX = 0;
-		this.spdY = maxBallSpeed;
+		this.spdY = 0;
 		this.x = x;
 		this.y = y;
+		this.free = false;
+		if ( type == "image" ) {
+			this.image = new Image();
+			this.image.src = color;
+		}
 		this.center = {
 			x : this.x + (this.width / 2),
 			y : this.y + ( this.height / 2 )
@@ -71,62 +201,73 @@
 		this.equation = {
 			slope : this.x / this.y,
 			y_intercept : null,
-			point_in_distance : {
-				x : null,
-				y : null
-			}
+			//debug values
+			// point_in_distance : {
+			// 	x : null,
+			// 	y : null
+			// }
 		};
 
 		//empty edges, initialized in update function
 		this.top_edge, this.bottom_edge, this.left_edge, this.right_edge;
 
 		this.update = function() {
+			if ( !this.free ) {
+				this.x = ( myPaddle.x + ( myPaddle.width / 2 ) ) - (this.width / 2);
+			 	this.y = myPaddle.y - this.height;
+			}
+
 			ctx = myGameArea.context;
 			ctx.globalCompositeOperation='destination-over';
-			ctx.fillStyle = color;
-			ctx.fillRect( this.x, this.y, this.width, this.height );
+			if ( type == "color" ) {
+				ctx.fillStyle = color;
+				ctx.fillRect( this.x, this.y, this.width, this.height );
+			} else if ( type == "image" ) {
+				ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+			}
 
-			ctx.beginPath();
-			ctx.moveTo( 0, this.equation.y_intercept );
-			ctx.lineTo( this.equation.point_in_distance.x, this.equation.point_in_distance.y );
-			//ctx.lineTo(this.equation.point_in_distance.x, this.equation.point_in_distance.y);
-			ctx.stroke();
+			// ctx.beginPath();
+			// ctx.moveTo( 0, this.equation.y_intercept );
+			// ctx.lineTo( this.equation.point_in_distance.x, this.equation.point_in_distance.y );
+			// ctx.stroke();
 		}
 
 		this.newPos = function() {
-			this.x += this.spdX;
-			this.y += this.spdY;
-			//edges
-			this.top_edge = this.y;
-			this.bottom_edge = this.top_edge + this.height;
-			this.left_edge = this.x;
-			this.right_edge = this.left_edge + this.width;
-			this.center.x = this.x + (this.width / 2);
-			this.center.y = this.y + ( this.height / 2 );
+			//only do this if the ball is free
+			if ( this.free ) {
+				this.x += this.spdX;
+				this.y += this.spdY;
+				//edges
+				this.top_edge = this.y;
+				this.bottom_edge = this.top_edge + this.height;
+				this.left_edge = this.x;
+				this.right_edge = this.left_edge + this.width;
+				this.center.x = this.x + (this.width / 2);
+				this.center.y = this.y + ( this.height / 2 );
 
-			//calculating the slope of the ball
-			this.equation.slope = this.spdY / this.spdX;
+				//calculating the slope of the ball
+				this.equation.slope = this.spdY / this.spdX;
 
-			//b = y - mx
-			this.equation.y_intercept = this.center.y - ( this.equation.slope * this.center.x );
+				//b = y - mx
+				this.equation.y_intercept = this.center.y - ( this.equation.slope * this.center.x );
 
-			//if the slope is negative, we need to move the line endpoint to the negative side of the x-axis
-			var multiplyer = -1;
-			if ( this.equation.y < 0 ) {
-				multiplyer = 1;
-			}
+				//debug information
+				// if ( this.equation.slope >= 0 ) {
+				// 	this.equation.point_in_distance.x = this.center.x + Math.abs(this.spdX) * 100;
+				// 	this.equation.point_in_distance.y = this.center.y + Math.abs(this.spdY) * 100;
+				// } else {
+				// 	this.equation.point_in_distance.x = this.center.x + Math.abs(this.spdX) * 100;
+				// 	this.equation.point_in_distance.y = this.center.y + Math.abs(this.spdY) * -100;
+				// }
 
-			if ( this.equation.slope >= 0 ) {
-				this.equation.point_in_distance.x = this.center.x + Math.abs(this.spdX) * 100;
-				this.equation.point_in_distance.y = this.center.y + Math.abs(this.spdY) * 100;
-			} else {
-				this.equation.point_in_distance.x = this.center.x + Math.abs(this.spdX) * 100;
-				this.equation.point_in_distance.y = this.center.y + Math.abs(this.spdY) * -100;
-			}
+			} //else {
+			// 	this.x = ( paddle.x + ( paddle.width / 2 ) ) - (this.width / 2);
+			// 	this.y = paddle.y - this.height;
+			// }
 		}
 	}
 
-	function block( width, height, color, x, y, health = 1 ) {
+	function block( width, height, color, x, y, health = 1, type = "color" ) {
 		this.width = width;
 		this.height = height;
 		this.spdX = 0;
@@ -138,6 +279,10 @@
 			x : this.x + (this.width / 2),
 			y : this.y + ( this.height / 2 )
 		};
+		if ( type == "image" ) {
+			this.image = new Image();
+			this.image.src = color;
+		}
 
 		//edges
 		this.top_edge = this.y;
@@ -147,8 +292,13 @@
 
 		this.update = function() {
 			ctx = myGameArea.context;
-			ctx.fillStyle = color;
-			ctx.fillRect( this.x, this.y, this.width, this.height );
+			if ( type == "color" ) {
+				ctx.fillStyle = color;
+				ctx.fillRect( this.x, this.y, this.width, this.height );
+			}
+			else if ( type == "image" ) {
+				ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+			}
 		}
 
 		this.newPos = function() {
@@ -164,7 +314,7 @@
 				ball.height + ball.y > block.y ) 
 			{
 				if ( isFinite( ball.equation.slope )  ) {
-					backTrace( ball, block );
+					slopeTrace( ball, block );
 				} else {
 					ball.spdY *= -1;
 				}
@@ -198,8 +348,10 @@
 			//and the bottom side is less that the top of the paddle
 			if ( ( obj.x <= this.x + this.width && obj.x + obj.width >= this.x ) && ( obj.y + obj.height >= this.y && obj.y <= this.y + this.height ) ) {
 				this.bounceBack(obj);
-				++this.numberHits;
 				//dbgr.add( this.numberHits + " PADDLE HIT");
+				if ( obj.free ) {
+					++this.numberHits;
+				}
 			}
 		}
 
@@ -229,6 +381,34 @@
 		}
 	}
 
+	var bonuses = [
+		/*Lives*/
+		function( val ) {
+			return 500 * val;
+		},
+		/*Time*/ 
+		function( val ) {
+			if ( val <= 30 ) {
+				return (30 - val) * 100;
+			} else if ( val < 60 ) {
+				return ( 60 - val ) * 10;
+			} else return 0;
+		},
+		/*Flawless*/ 
+		function( ) {
+			return 2000;
+		},
+		/*Paddle Hits*/
+		function( val ) {
+			if ( val <= 30 ) {
+				return val * 100;
+			}
+			if ( val <= 40 ) {
+				return val * 10;
+			} else return 0;
+		}
+	]
+
 	var myGameArea = {
 	    canvas : document.getElementById("game"),
 
@@ -236,7 +416,9 @@
 	    	this.canvas.width = width;
 	    	this.canvas.height = height;
 	        this.context = this.canvas.getContext("2d");
-	        this.interval = setInterval( updateGameArea, 20 );
+	        this.interval = setInterval( updateGameArea, fps );
+	        this.timer = setInterval( countTime, 1000 );
+	        this.bottom_hit = false;
 
         	//canvas event listeners
 	        window.addEventListener('keydown', function(e) {	        	
@@ -255,7 +437,20 @@
 	        })
 
 	        window.addEventListener('click', function(e) {
-	        	balls.push( new ball( 15, 15, "red", (width / 2) - 7, 100 ) );
+	        	//balls.push( new ball( 15, 15, default_ball_image, (width / 2) - 7, 100, "image" ) );
+	        	if ( won ) {
+	        		won = false;
+	        	} else if ( ball_ready && !isPaused ) {
+        			ball_ready = false;
+
+        			for ( var i = 0; i < balls.length; ++i ) {
+    					if ( !balls[i].free ) {
+    						balls[i].free = true;
+    						balls[i].spdY = maxBallSpeed;
+    						break;
+    					}
+        			}
+	        	}
 	        })
 	    },
 
@@ -264,43 +459,66 @@
 	    },
 
 	    collision : function( obj ) {
+	    	var coll; //true if obj hit left, top, or right wall, false if bottom
+
     		if ( obj.x + obj.width >= this.canvas.width ) {
     			obj.spdX *= -1;
-    			//dbgr.add( "Right" );
     		}
     		else if ( obj.x <= 0 ) {
     			obj.spdX *= -1;
-    			//dbgr.add( "Left" );
     		}
     		else if ( obj.y + obj.height >= this.canvas.height ) {
-    			obj.spdY *= -1;
-    			//dbgr.add( "Bottom" );
+    			life_lost = true;
+    			this.bottom_hit = true;
     		}
     		else if ( obj.y <= 0 ) {
     			obj.spdY *= -1;
-    			//dbgr.add( "Top" );
     		}
 	    }
 	}
 
 
-	var block_to_delete;
+	var block_to_delete = -1;
+	var pulse_text_time = 0;
 
 	function updateGameArea() {
-		if ( !isPaused ) {
+		if ( !isPaused && !won && !life_lost ) 
+		{
 			myGameArea.clear();
 
 			//logic
-
 			myPaddle.update();
 
+			if ( block_to_delete != -1 ) {
+				blocks.splice( block_to_delete, 1 );
+				block_to_delete = -1;
+			}
+
 			for ( var i = 0; i < balls.length; ++i ) {
+
 				myGameArea.collision( balls[i] );
+
+				//check if the ball went past the bottom of the canvas
+				if ( myGameArea.bottom_hit ) {
+					//if it did, remove the ball and deal with the player data
+					--player.lives;
+					stop_time = true;
+					balls.splice( i, 1 );
+					life_lost = true;
+					myGameArea.bottom_hit = false;
+					return;
+				}
+			
+
 				myPaddle.collision( balls[i] );
 
 				for ( var j = 0; j < blocks.length; ++j ) {
 					if ( blocks[j].collision( balls[i] ) ) {
-						blocks.splice( j, 1 );
+						block_to_delete = j;
+						//blocks.splice( j, 1 );
+						player.score += 100;
+						document.getElementById("score").innerHTML = player.score;
+						//break;
 					}
 					blocks[j].update();
 				}
@@ -309,11 +527,168 @@
 				balls[i].update();
 			}
 
-		} else if ( isPaused ) {
+			if ( blocks.length == 0 ) {
+				won = true;
+				// console.log( bonuses[0]( player.lives ) );
+				// console.log( bonuses[1]( total_time ) );
+				// console.log( bonuses[2]( player.lives ) );
+				// console.log( bonuses[3]( myPaddle.numberHits ) );
+				// console.log( myPaddle.numberHits );
+
+				player.score += bonuses[0]( player.lives );
+				player.score += bonuses[1]( total_time );
+				if ( player.lives == 3 ) {
+					player.score += bonuses[2]( );
+				}
+				player.score += bonuses[3]( myPaddle.numberHits );
+			}
+
+		} 
+
+		//handle pausing
+		else if ( isPaused && !won ) 
+		{
 			myGameArea.context.font = "50px Arial";
 			myGameArea.context.fillStyle = "#8e44ad";
 			myGameArea.context.textAlign = "center";
 			myGameArea.context.fillText( "Paused", width/2, height/2 );
+		} 
+
+		//handle a win
+		else if ( !isPaused && won ) 
+		{
+			myGameArea.clear();
+			// player.score += bonuses[0]( player.lives );
+			// player.score += bonuses[1]( total_time );
+			// player.score += bonuses[2]( );
+			// player.score += bonuses[3]( myPaddle.numberHits );
+
+			//var main_text_size = ( (pulse_text_time / 100) + 50 );
+			myGameArea.context.font = "50px Arial";
+			myGameArea.context.fillStyle = "#8e44ad";
+			myGameArea.context.textAlign = "center";
+			myGameArea.context.fillText( "Level Cleared!", width/2, height/2 - 100 );
+
+			myGameArea.context.font = "30px Arial";
+			myGameArea.context.fillStyle = "#000";
+			myGameArea.context.textAlign = "center";
+			myGameArea.context.fillText( "Time: " + minutes + ":" + time_spacer + seconds, width/2 - 100, height/2 - 50 );
+
+			myGameArea.context.font = "30px Arial";
+			myGameArea.context.fillStyle = "#000";
+			myGameArea.context.textAlign = "center";
+			myGameArea.context.fillText( "Score: " + player.score, width/2 + 100, height/2 - 50 );
+
+			//---------------------------------------------------------------------------------------------------------
+			//bonuses
+
+			myGameArea.context.font = "25px Arial";
+			myGameArea.context.fillStyle = "#f00";
+			myGameArea.context.textAlign = "center";
+			myGameArea.context.fillText( "Bonuses", width/2, height/2 );
+
+			//holds the current line of bonuses
+			var next_line = 1;
+
+			if ( player.lives > 0 ) {
+				//player.score += bonuses[0]( player.lives );
+				myGameArea.context.font = "18px Arial";
+				myGameArea.context.fillStyle = "#000";
+				myGameArea.context.textAlign = "center";
+				myGameArea.context.fillText( "Lives: +" + bonuses[0](player.lives), width/2, height/2  + 40 );
+				++next_line;
+			}
+
+			if ( total_time < 60 ) {
+				//player.score += bonuses[1]( total_time );
+				myGameArea.context.font = "18px Arial";
+				myGameArea.context.fillStyle = "#000";
+				myGameArea.context.textAlign = "center";
+				myGameArea.context.fillText( "Time: +" + bonuses[1](total_time), width/2, (height/2) + (40 * next_line) );
+				++next_line;
+			}
+
+			if ( player.lives == 3 ) {
+				//player.score += bonuses[2]( );
+				myGameArea.context.font = "18px Arial";
+				myGameArea.context.fillStyle = "#000";
+				myGameArea.context.textAlign = "center";
+				myGameArea.context.fillText( "Flawless: +" + bonuses[2](), width/2, (height/2) + (40 * next_line) );
+				++next_line;
+			}
+
+			if ( myPaddle.numberHits <= 20 ) {
+				//player.score += bonuses[3]( myPaddle.numberHits );
+				myGameArea.context.font = "18px Arial";
+				myGameArea.context.fillStyle = "#000";
+				myGameArea.context.textAlign = "center";
+				myGameArea.context.fillText( "Paddle Hits: +" + bonuses[3]( myPaddle.numberHits ), width/2, (height/2) + (40 * next_line) );
+				++next_line;
+			}
+
+		} 
+
+		//handle a life lost
+		else if ( life_lost && !isPaused && !won ) 
+		{
+			//Lost a life
+			if ( player.lives >= 0 ) {
+				if ( balls.length == 0 ) {
+					//make a new ball
+					balls.push( new ball( 15, 15, default_ball_image, 0, 0, "image" ) );
+					ball_ready = true;
+				}
+
+				life_lost = false; 
+				stop_time = false;
+
+				document.getElementById( "b" + ( player.lives + 1 ) ).className = "ball_deactivated";
+				//document.getElementById("lives").innerHTML = player.lives;
+				//setInterval( function(){ life_lost = false; stop_time = false; }, 1000 );
+			} 
+
+			//Lost the game
+			else {
+				//( (pulse_text_time / 100) + 50 )
+				myGameArea.context.font = "50px Arial";
+				myGameArea.context.fillStyle = "#8e44ad";
+				myGameArea.context.textAlign = "center";
+				myGameArea.context.fillText( "Game Over, loser", width/2, height/2 - 100 );
+			}
+		}
+
+		// if ( pulse_text_time < 1000 ) {
+		// 	++pulse_text_time;
+		// } else if ( pulse_text_time > -1000 ) {
+		// 	++pulse_text_time;
+		// }
+
+		else if ( life_lost && isPaused && !won ) {
+
+		}
+	}
+
+	var seconds = 0;
+	var minutes = 0;
+	var total_time = 0;
+	var time_spacer = "0";
+	function countTime(  ) {
+		if ( !isPaused && !won && !stop_time ) {
+			++seconds;
+			++total_time;
+
+			if ( seconds < 10 ) {
+				time_spacer = "0";
+			} else {
+				time_spacer = "";
+			}
+
+			if ( seconds == 59 ) {
+				++minutes;
+				seconds = 0; 
+			}
+
+			document.getElementById("timer").innerHTML = minutes + ":" + time_spacer + seconds;
 		}
 	}
 
@@ -372,19 +747,19 @@
 
         //partition_block = new block( partition_width, partition_height, "#fff", margin_left, margin_top );
 
-        for ( var i = 0; i < 4; ++i ) {
-    		var ypos = margin_top + ( ( default_block_height * i ) + ( 10 * i ) );
-        	for ( var j = 0; j < 8; ++j ) {
-        		var xpos = margin_left + ( ( default_block_width * j ) + ( 10 * j ) );
+        for ( var i = 0; i < 5; ++i ) {
+    		var ypos = margin_top + ( ( default_block_height * i ) /* + ( 10 * i ) */ );
+        	for ( var j = 0; j < 9; ++j ) {
+        		var xpos = margin_left + ( ( default_block_width * j ) /* + ( 10 * j ) */);
 
-        		var new_block = new block( default_block_width, default_block_height, "#0f0", xpos, ypos, 1 );
+        		var new_block = new block( default_block_width, default_block_height, default_block_image, xpos, ypos, 1, "image" );
         		blocks.push( new_block );
         		//new_block.draw();
         	}
         }
 	}
 
-	function backTrace( ball, block ) {
+	function slopeTrace( ball, block ) {
 		var new_x = Math.round( ball.center.x );
 		var new_y = Math.round( ball.center.y );
 		var cont = false;
@@ -396,70 +771,97 @@
 		for ( var i = 0; i < 10; ++i ) {
 			//y = mx + b
 			--new_x;
-			new_y = ball.equation.slope * new_x + ball.equation.y_intercept;
+			new_y = ( ball.equation.slope * new_x ) + ball.equation.y_intercept;
 			// console.log( "slope " + ball.slope );
 			// console.log( "x " + new_x );
 			// console.log( "y " + ball.equation.y_intercept );
 
-			if ( new_x <= block.x - range ) {
+			if ( new_x <= block.x || new_x >= block.x + block.width ) {
 				//bounced off left
-				//dbgr.add("LEFT");
 				ball.spdX *= -1;
 				cont = true;
-				message = "LEFT";
-			} else if ( new_x >= block.x + block.width + range ) {
-				//bounced off right
-				//dbgr.add("RIGHT");
-				ball.spdX *= -1;
-				cont = true;
-				message = "RIGHT";
-			} else if ( new_y <= block.y + range ) {
+				message = "LEFT/RIGHT";
+			} else if ( new_y <= block.y || new_y >= block.y + block.height ) {
 				//bounced off top
-				//dbgr.add("TOP");
 				ball.spdY *= -1;
 				cont = true;
-				message = "TOP";
-			} else if ( new_y >= block.y + block.height + range ) {
-				//bounced off bottom
-				//dbgr.add("BOTTOM");
+				message = "TOP/BOTTOM";
+			} else {
 				ball.spdY *= -1;
 				cont = true;
-				message = "BOTTOM";
 			}
 
 			if ( cont == true ) {
-				myGameArea.context.globalCompositeOperation='destination-over';
-				myGameArea.context.beginPath();
-				myGameArea.context.arc(new_x, new_y, 2, 0, 2 * Math.PI, false);
-				myGameArea.context.fillStyle = '#f00';
-				myGameArea.context.fill();
+				// myGameArea.context.globalCompositeOperation='destination-over';
+				// myGameArea.context.beginPath();
+				// myGameArea.context.arc(new_x, new_y, 2, 0, 2 * Math.PI, false);
+				// myGameArea.context.fillStyle = '#f00';
+				// myGameArea.context.fill();
 
-				myGameArea.context.font = "15px Arial";
-				myGameArea.context.fillStyle = "#000";
-				myGameArea.context.textAlign = "center";
-				myGameArea.context.fillText( message, new_x + 50, new_y + 50);
+				// myGameArea.context.font = "15px Arial";
+				// myGameArea.context.fillStyle = "#000";
+				// myGameArea.context.textAlign = "center";
+				// myGameArea.context.fillText( message, new_x + 50, new_y + 50);
 
-				myGameArea.context.font = "15px Arial";
-				myGameArea.context.fillStyle = "#000";
-				myGameArea.context.textAlign = "center";
-				myGameArea.context.fillText( "X: " + new_x.toFixed(2), 100, height - 5 );
+				// myGameArea.context.font = "15px Arial";
+				// myGameArea.context.fillStyle = "#000";
+				// myGameArea.context.textAlign = "center";
+				// myGameArea.context.fillText( "X: " + new_x.toFixed(2), 100, height - 5 );
 
-				myGameArea.context.font = "15px Arial";
-				myGameArea.context.fillStyle = "#000";
-				myGameArea.context.textAlign = "center";
-				myGameArea.context.fillText( "Y: " + new_y.toFixed(2), 200, height - 5 );
+				// myGameArea.context.font = "15px Arial";
+				// myGameArea.context.fillStyle = "#000";
+				// myGameArea.context.textAlign = "center";
+				// myGameArea.context.fillText( "Y: " + new_y.toFixed(2), 200, height - 5 );
 
-				myGameArea.context.font = "15px Arial";
-				myGameArea.context.fillStyle = "#8e44ad";
-				myGameArea.context.textAlign = "center";
-				myGameArea.context.fillText( "Old X: " + Math.round( ball.center.x ).toFixed(2), 300, height - 5 );
+				// myGameArea.context.font = "15px Arial";
+				// myGameArea.context.fillStyle = "#8e44ad";
+				// myGameArea.context.textAlign = "center";
+				// myGameArea.context.fillText( "Old X: " + Math.round( ball.center.x ).toFixed(2), 300, height - 5 );
 
-				myGameArea.context.font = "15px Arial";
-				myGameArea.context.fillStyle = "#8e44ad";
-				myGameArea.context.textAlign = "center";
-				myGameArea.context.fillText( "Old Y: " + Math.round( ball.center.y ).toFixed(2), 400, height - 5 );
+				// myGameArea.context.font = "15px Arial";
+				// myGameArea.context.fillStyle = "#8e44ad";
+				// myGameArea.context.textAlign = "center";
+				// myGameArea.context.fillText( "Old Y: " + Math.round( ball.center.y ).toFixed(2), 400, height - 5 );
 
 				//isPaused = true;
+				break;
+			} else {
+				// message = "IDK WHY ARE YYOU ASKING ME?";
+
+				// myGameArea.context.globalCompositeOperation='destination-over';
+				// myGameArea.context.beginPath();
+				// myGameArea.context.arc(new_x, new_y, 2, 0, 2 * Math.PI, false);
+				// myGameArea.context.fillStyle = '#f00';
+				// myGameArea.context.fill();
+
+				// myGameArea.context.font = "15px Arial";
+				// myGameArea.context.fillStyle = "#000";
+				// myGameArea.context.textAlign = "center";
+				// myGameArea.context.fillText( message, new_x + 50, new_y + 50);
+
+				// myGameArea.context.font = "15px Arial";
+				// myGameArea.context.fillStyle = "#000";
+				// myGameArea.context.textAlign = "center";
+				// myGameArea.context.fillText( "X: " + new_x.toFixed(2), 100, height - 5 );
+
+				// myGameArea.context.font = "15px Arial";
+				// myGameArea.context.fillStyle = "#000";
+				// myGameArea.context.textAlign = "center";
+				// myGameArea.context.fillText( "Y: " + new_y.toFixed(2), 200, height - 5 );
+
+				// myGameArea.context.font = "15px Arial";
+				// myGameArea.context.fillStyle = "#8e44ad";
+				// myGameArea.context.textAlign = "center";
+				// myGameArea.context.fillText( "Old X: " + Math.round( ball.center.x ).toFixed(2), 300, height - 5 );
+
+				// myGameArea.context.font = "15px Arial";
+				// myGameArea.context.fillStyle = "#8e44ad";
+				// myGameArea.context.textAlign = "center";
+				// myGameArea.context.fillText( "Old Y: " + Math.round( ball.center.y ).toFixed(2), 400, height - 5 );
+
+				// console.log( distanceBetweenPoints( ball.center.x, ball.center.y, new_x, new_y ) );
+
+				// isPaused = true;
 				break;
 			}
 		}
