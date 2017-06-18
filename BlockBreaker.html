@@ -126,6 +126,10 @@
 <p>
 	<p id="log"></p>
 </p>
+<script src="calculations.js"></script>
+<script src="gamePieces.js"></script>
+<script src="levelClearScene.js"></script>
+<script src="gameScene.js"></script>
 <script>
 
 	//global values
@@ -151,13 +155,45 @@
 
 	var balls = [];
 	var blocks = [];
+	var levels = [ level1_layout, level2_layout ];
+
+	var SCENES = {
+		//MENU_SCENE : menuScene,
+		GAME_SCENE : gameScene,
+		LEVEL_CLEAR_SCENE: levelClearScene
+	}
 
 	//game states
-	var isPaused = false;
-	var won = false;
-	var life_lost = false;
-	var ball_ready = false;
-	var stop_time = false;
+	var GAME_STATE = {
+		IS_PAUSED : false,
+		WON : false,
+		LIFE_LOST : false,
+		BALL_READY : false,
+		STOP_TIME : false,
+		LEVEL : 0,
+		PREVIOUS_SCENE : null,
+		ACTIVE_SCENE : SCENES.GAME_SCENE,
+		reset : function() {
+			this.IS_PAUSED = false;
+			this.WON = false;
+			this.LIFE_LOST = false;
+			this.BALL_READY = false;
+			this.STOP_TIME = false;
+		}, 
+		change_scene : function( next_scene ) {
+			var swap = function (x){return x};
+			this.PREVIOUS_SCENE = swap(this.ACTIVE_SCENE, this.ACTIVE_SCENE = next_scene);
+			// this.PREVIOUS_SCENE = this.ACTIVE_SCENE;
+			// this.ACTIVE_SCENE = next_scene;
+		}
+	}
+
+	// var isPaused = false;
+	// var won = false;
+	// var life_lost = false;
+	// var ball_ready = false;
+	// var stop_time = false;
+	// var level = 0;
 
 	//gameplay variables
 	var timer = 0;
@@ -168,217 +204,14 @@
 		myPaddle = new paddle();
 		myBlock = new block( 100, 50, "", 100, 100, "image" );
 		balls.push( new ball( 15, 15, default_ball_image, 0, 0, "image" ) );
-		ball_ready = true;
+		GAME_STATE.BALL_READY = true;
 
 		//setup the block layout
         level1_layout( );
+        ++GAME_STATE.LEVEL;
         //document.getElementById("lives").innerHTML = player.lives;
 
 		myGameArea.start( );
-	}
-
-	function Player() {
-		this.score = 0;
-		this.lives = 3;
-	}
-
-	function ball( width, height, color, x, y, type = "color" ) {
-		this.width = width;
-		this.height = height;
-		this.spdX = 0;
-		this.spdY = 0;
-		this.x = x;
-		this.y = y;
-		this.free = false;
-		if ( type == "image" ) {
-			this.image = new Image();
-			this.image.src = color;
-		}
-		this.center = {
-			x : this.x + (this.width / 2),
-			y : this.y + ( this.height / 2 )
-		};
-		this.equation = {
-			slope : this.x / this.y,
-			y_intercept : null,
-			//debug values
-			// point_in_distance : {
-			// 	x : null,
-			// 	y : null
-			// }
-		};
-
-		//empty edges, initialized in update function
-		this.top_edge, this.bottom_edge, this.left_edge, this.right_edge;
-
-		this.update = function() {
-			if ( !this.free ) {
-				this.x = ( myPaddle.x + ( myPaddle.width / 2 ) ) - (this.width / 2);
-			 	this.y = myPaddle.y - this.height;
-			}
-
-			ctx = myGameArea.context;
-			ctx.globalCompositeOperation='destination-over';
-			if ( type == "color" ) {
-				ctx.fillStyle = color;
-				ctx.fillRect( this.x, this.y, this.width, this.height );
-			} else if ( type == "image" ) {
-				ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-			}
-
-			// ctx.beginPath();
-			// ctx.moveTo( 0, this.equation.y_intercept );
-			// ctx.lineTo( this.equation.point_in_distance.x, this.equation.point_in_distance.y );
-			// ctx.stroke();
-		}
-
-		this.newPos = function() {
-			//only do this if the ball is free
-			if ( this.free ) {
-				this.x += this.spdX;
-				this.y += this.spdY;
-				//edges
-				this.top_edge = this.y;
-				this.bottom_edge = this.top_edge + this.height;
-				this.left_edge = this.x;
-				this.right_edge = this.left_edge + this.width;
-				this.center.x = this.x + (this.width / 2);
-				this.center.y = this.y + ( this.height / 2 );
-
-				//calculating the slope of the ball
-				this.equation.slope = this.spdY / this.spdX;
-
-				//b = y - mx
-				this.equation.y_intercept = this.center.y - ( this.equation.slope * this.center.x );
-
-				//debug information
-				// if ( this.equation.slope >= 0 ) {
-				// 	this.equation.point_in_distance.x = this.center.x + Math.abs(this.spdX) * 100;
-				// 	this.equation.point_in_distance.y = this.center.y + Math.abs(this.spdY) * 100;
-				// } else {
-				// 	this.equation.point_in_distance.x = this.center.x + Math.abs(this.spdX) * 100;
-				// 	this.equation.point_in_distance.y = this.center.y + Math.abs(this.spdY) * -100;
-				// }
-
-			} //else {
-			// 	this.x = ( paddle.x + ( paddle.width / 2 ) ) - (this.width / 2);
-			// 	this.y = paddle.y - this.height;
-			// }
-		}
-	}
-
-	function block( width, height, color, x, y, health = 1, type = "color" ) {
-		this.width = width;
-		this.height = height;
-		this.spdX = 0;
-		this.spdY = 0;
-		this.x = x;
-		this.y = y;
-		this.health = health;
-		this.center = {
-			x : this.x + (this.width / 2),
-			y : this.y + ( this.height / 2 )
-		};
-		if ( type == "image" ) {
-			this.image = new Image();
-			this.image.src = color;
-		}
-
-		//edges
-		this.top_edge = this.y;
-		this.bottom_edge = this.top_edge + this.height;
-		this.left_edge = this.x;
-		this.right_edge = this.left_edge + this.width;
-
-		this.update = function() {
-			ctx = myGameArea.context;
-			if ( type == "color" ) {
-				ctx.fillStyle = color;
-				ctx.fillRect( this.x, this.y, this.width, this.height );
-			}
-			else if ( type == "image" ) {
-				ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-			}
-		}
-
-		this.newPos = function() {
-			this.x += this.spdX;
-			this.y += this.spdY;
-		}
-
-		this.collision = function( ball ) {
-			var block = this;
-			if (ball.x < block.x + block.width &&
-				ball.x + ball.width > block.x &&
-				ball.y < block.y + block.height &&
-				ball.height + ball.y > block.y ) 
-			{
-				if ( isFinite( ball.equation.slope )  ) {
-					slopeTrace( ball, block );
-				} else {
-					ball.spdY *= -1;
-				}
-
-    			return true;
-			}
-		}
-	}
-
-	function paddle() {
-		this.width = 100;
-		this.height = 7;
-		this.x = width / 2 - 50;
-		this.y = height - 35;
-		this.numberHits = 0;
-		this.update = function() {
-			ctx = myGameArea.context;
-			ctx.fillStyle = "#000";
-			ctx.fillRect( this.x, this.y, this.width, this.height );
-		}
-
-		//move the paddle as the mouse moves within the bounds of the canvas
-		this.newPos = function( x, y ) {
-			if ( x <= myGameArea.canvas.width - 100 && x >= 0 )
-				this.x = x;
-		}
-
-		//check if there was a collision with the paddle
-		this.collision = function( obj ) {
-			//if the left most side is less than the width of the paddle or the right most side is greater than the x position
-			//and the bottom side is less that the top of the paddle
-			if ( ( obj.x <= this.x + this.width && obj.x + obj.width >= this.x ) && ( obj.y + obj.height >= this.y && obj.y <= this.y + this.height ) ) {
-				this.bounceBack(obj);
-				//dbgr.add( this.numberHits + " PADDLE HIT");
-				if ( obj.free ) {
-					++this.numberHits;
-				}
-			}
-		}
-
-		this.bounceBack = function( obj ) {
-			//first, get the location of the ball in relation to the length of the paddle and turn it into a percentage
-			var total_paddle_width = this.width;
-			var xpos = obj.x + (obj.width / 2);
-			var xpercentage = (xpos - this.x) / total_paddle_width;
-			//console.log( xpos + " - " + this.x + " / " + total_paddle_width + " = " + xpercentage + "%" );
-
-			//now, find where the ball is along the length of the paddle
-			//and determine how the ball will bound
-			if ( xpercentage < .40 ) {
-				//if the ball hits the left 40% of the paddle, multiply by the negative max speed by the location of the ball on the left 50% of the paddle
-				var left_percentage = (.50 - xpercentage) / .50;
-				obj.spdX = ( maxBallSpeed * left_percentage ) * -1;
-				obj.spdY *= -1;
-			} else if ( xpercentage >= .40 && xpercentage <= .60 ) {
-				//if the ball hits the middle 20% of the paddle, 40%-60%, the ball just changes it's Y speed
-				obj.spdY *= -1;
-			} else if ( xpercentage > .60 ) {
-				//if the ball hits the right 40% of the paddle, multiple by the max speed and the location of the ball of the right 50% of the paddle
-				var right_percentage = (xpercentage - .50) / .50;
-				obj.spdX = (maxBallSpeed * right_percentage);
-				obj.spdY *= -1;
-			}
-		}
 	}
 
 	var bonuses = [
@@ -425,10 +258,10 @@
 	        	// myGameArea.keys = (myGameArea.keys || []);
 	        	// myGameArea.keys[e.keyCode] = true;
 	        	dbgr.add("KEYCODE: " + e.keyCode);
-	        	if ( e.keyCode == 27 && isPaused == false ) {
-	        		isPaused = true;
-	        	} else if ( e.keyCode == 27 && isPaused == true ) {
-	        		isPaused = false;
+	        	if ( e.keyCode == 27 && GAME_STATE.IS_PAUSED == false ) {
+	        		GAME_STATE.IS_PAUSED = true;
+	        	} else if ( e.keyCode == 27 && GAME_STATE.IS_PAUSED == true ) {
+	        		GAME_STATE.IS_PAUSED = false;
 	        	}
 	        })
 
@@ -438,10 +271,10 @@
 
 	        window.addEventListener('click', function(e) {
 	        	//balls.push( new ball( 15, 15, default_ball_image, (width / 2) - 7, 100, "image" ) );
-	        	if ( won ) {
-	        		won = false;
-	        	} else if ( ball_ready && !isPaused ) {
-        			ball_ready = false;
+	        	if ( GAME_STATE.WON ) {
+	        		GAME_STATE.WON = false;
+	        	} else if ( GAME_STATE.BALL_READY && !GAME_STATE.IS_PAUSED ) {
+        			GAME_STATE.BALL_READY = false; 
 
         			for ( var i = 0; i < balls.length; ++i ) {
     					if ( !balls[i].free ) {
@@ -458,22 +291,30 @@
 	    	this.context.clearRect( 0, 0, this.canvas.width, this.canvas.height );
 	    },
 
-	    collision : function( obj ) {
-	    	var coll; //true if obj hit left, top, or right wall, false if bottom
-
-    		if ( obj.x + obj.width >= this.canvas.width ) {
-    			obj.spdX *= -1;
-    		}
-    		else if ( obj.x <= 0 ) {
-    			obj.spdX *= -1;
-    		}
-    		else if ( obj.y + obj.height >= this.canvas.height ) {
-    			life_lost = true;
-    			this.bottom_hit = true;
-    		}
-    		else if ( obj.y <= 0 ) {
+	    collision : function( obj ) {  	
+	    	//left and right
+	    	if ( obj.center.x >= this.canvas.width || obj.center.x <= 0 ) {
+	    		obj.spdX *= -1;
+	    	} else if ( obj.center.y <= 0 ) {
     			obj.spdY *= -1;
-    		}
+	    	} else if ( obj.center.y >= this.canvas.height ) {
+	    		GAME_STATE.LIFE_LOST = true;
+    			this.bottom_hit = true;
+	    	}
+
+    		// if ( obj.x + obj.width >= this.canvas.width ) {
+    		// 	obj.spdX *= -1;
+    		// }
+    		// else if ( obj.x <= 0 ) {
+    		// 	obj.spdX *= -1;
+    		// }
+    		// else if ( obj.y + obj.height >= this.canvas.height ) {
+    		// 	life_lost = true;
+    		// 	this.bottom_hit = true;
+    		// }
+    		// else if ( obj.y <= 0 ) {
+    		// 	obj.spdY *= -1;
+    		// }
 	    }
 	}
 
@@ -482,190 +323,8 @@
 	var pulse_text_time = 0;
 
 	function updateGameArea() {
-		if ( !isPaused && !won && !life_lost ) 
-		{
-			myGameArea.clear();
-
-			//logic
-			myPaddle.update();
-
-			if ( block_to_delete != -1 ) {
-				blocks.splice( block_to_delete, 1 );
-				block_to_delete = -1;
-			}
-
-			for ( var i = 0; i < balls.length; ++i ) {
-
-				myGameArea.collision( balls[i] );
-
-				//check if the ball went past the bottom of the canvas
-				if ( myGameArea.bottom_hit ) {
-					//if it did, remove the ball and deal with the player data
-					--player.lives;
-					stop_time = true;
-					balls.splice( i, 1 );
-					life_lost = true;
-					myGameArea.bottom_hit = false;
-					return;
-				}
-			
-
-				myPaddle.collision( balls[i] );
-
-				for ( var j = 0; j < blocks.length; ++j ) {
-					if ( blocks[j].collision( balls[i] ) ) {
-						block_to_delete = j;
-						//blocks.splice( j, 1 );
-						player.score += 100;
-						document.getElementById("score").innerHTML = player.score;
-						//break;
-					}
-					blocks[j].update();
-				}
-
-				balls[i].newPos();
-				balls[i].update();
-			}
-
-			if ( blocks.length == 0 ) {
-				won = true;
-				// console.log( bonuses[0]( player.lives ) );
-				// console.log( bonuses[1]( total_time ) );
-				// console.log( bonuses[2]( player.lives ) );
-				// console.log( bonuses[3]( myPaddle.numberHits ) );
-				// console.log( myPaddle.numberHits );
-
-				player.score += bonuses[0]( player.lives );
-				player.score += bonuses[1]( total_time );
-				if ( player.lives == 3 ) {
-					player.score += bonuses[2]( );
-				}
-				player.score += bonuses[3]( myPaddle.numberHits );
-			}
-
-		} 
-
-		//handle pausing
-		else if ( isPaused && !won ) 
-		{
-			myGameArea.context.font = "50px Arial";
-			myGameArea.context.fillStyle = "#8e44ad";
-			myGameArea.context.textAlign = "center";
-			myGameArea.context.fillText( "Paused", width/2, height/2 );
-		} 
-
-		//handle a win
-		else if ( !isPaused && won ) 
-		{
-			myGameArea.clear();
-			// player.score += bonuses[0]( player.lives );
-			// player.score += bonuses[1]( total_time );
-			// player.score += bonuses[2]( );
-			// player.score += bonuses[3]( myPaddle.numberHits );
-
-			//var main_text_size = ( (pulse_text_time / 100) + 50 );
-			myGameArea.context.font = "50px Arial";
-			myGameArea.context.fillStyle = "#8e44ad";
-			myGameArea.context.textAlign = "center";
-			myGameArea.context.fillText( "Level Cleared!", width/2, height/2 - 100 );
-
-			myGameArea.context.font = "30px Arial";
-			myGameArea.context.fillStyle = "#000";
-			myGameArea.context.textAlign = "center";
-			myGameArea.context.fillText( "Time: " + minutes + ":" + time_spacer + seconds, width/2 - 100, height/2 - 50 );
-
-			myGameArea.context.font = "30px Arial";
-			myGameArea.context.fillStyle = "#000";
-			myGameArea.context.textAlign = "center";
-			myGameArea.context.fillText( "Score: " + player.score, width/2 + 100, height/2 - 50 );
-
-			//---------------------------------------------------------------------------------------------------------
-			//bonuses
-
-			myGameArea.context.font = "25px Arial";
-			myGameArea.context.fillStyle = "#f00";
-			myGameArea.context.textAlign = "center";
-			myGameArea.context.fillText( "Bonuses", width/2, height/2 );
-
-			//holds the current line of bonuses
-			var next_line = 1;
-
-			if ( player.lives > 0 ) {
-				//player.score += bonuses[0]( player.lives );
-				myGameArea.context.font = "18px Arial";
-				myGameArea.context.fillStyle = "#000";
-				myGameArea.context.textAlign = "center";
-				myGameArea.context.fillText( "Lives: +" + bonuses[0](player.lives), width/2, height/2  + 40 );
-				++next_line;
-			}
-
-			if ( total_time < 60 ) {
-				//player.score += bonuses[1]( total_time );
-				myGameArea.context.font = "18px Arial";
-				myGameArea.context.fillStyle = "#000";
-				myGameArea.context.textAlign = "center";
-				myGameArea.context.fillText( "Time: +" + bonuses[1](total_time), width/2, (height/2) + (40 * next_line) );
-				++next_line;
-			}
-
-			if ( player.lives == 3 ) {
-				//player.score += bonuses[2]( );
-				myGameArea.context.font = "18px Arial";
-				myGameArea.context.fillStyle = "#000";
-				myGameArea.context.textAlign = "center";
-				myGameArea.context.fillText( "Flawless: +" + bonuses[2](), width/2, (height/2) + (40 * next_line) );
-				++next_line;
-			}
-
-			if ( myPaddle.numberHits <= 20 ) {
-				//player.score += bonuses[3]( myPaddle.numberHits );
-				myGameArea.context.font = "18px Arial";
-				myGameArea.context.fillStyle = "#000";
-				myGameArea.context.textAlign = "center";
-				myGameArea.context.fillText( "Paddle Hits: +" + bonuses[3]( myPaddle.numberHits ), width/2, (height/2) + (40 * next_line) );
-				++next_line;
-			}
-
-		} 
-
-		//handle a life lost
-		else if ( life_lost && !isPaused && !won ) 
-		{
-			//Lost a life
-			if ( player.lives >= 0 ) {
-				if ( balls.length == 0 ) {
-					//make a new ball
-					balls.push( new ball( 15, 15, default_ball_image, 0, 0, "image" ) );
-					ball_ready = true;
-				}
-
-				life_lost = false; 
-				stop_time = false;
-
-				document.getElementById( "b" + ( player.lives + 1 ) ).className = "ball_deactivated";
-				//document.getElementById("lives").innerHTML = player.lives;
-				//setInterval( function(){ life_lost = false; stop_time = false; }, 1000 );
-			} 
-
-			//Lost the game
-			else {
-				//( (pulse_text_time / 100) + 50 )
-				myGameArea.context.font = "50px Arial";
-				myGameArea.context.fillStyle = "#8e44ad";
-				myGameArea.context.textAlign = "center";
-				myGameArea.context.fillText( "Game Over, loser", width/2, height/2 - 100 );
-			}
-		}
-
-		// if ( pulse_text_time < 1000 ) {
-		// 	++pulse_text_time;
-		// } else if ( pulse_text_time > -1000 ) {
-		// 	++pulse_text_time;
-		// }
-
-		else if ( life_lost && isPaused && !won ) {
-
-		}
+		myGameArea.clear();
+		GAME_STATE.ACTIVE_SCENE.run();
 	}
 
 	var seconds = 0;
@@ -673,7 +332,7 @@
 	var total_time = 0;
 	var time_spacer = "0";
 	function countTime(  ) {
-		if ( !isPaused && !won && !stop_time ) {
+		if ( !GAME_STATE.IS_PAUSED && !GAME_STATE.WON && !GAME_STATE.stop_time ) {
 			++seconds;
 			++total_time;
 
@@ -700,42 +359,6 @@
 		}
 	}
 
-	//http://www.html5canvastutorials.com/advanced/html5-canvas-mouse-coordinates/
-	//tracking the mouse coordinates
-	//------------------------------------------------------------------------------------------------------------
-	function getMousePos(canvas, e) {
-        var rect = document.getElementById("game").getBoundingClientRect();
-        return {
-        	x: e.clientX - rect.left,
-        	y: e.clientY - rect.top
-    	};
-	}
-
-	document.getElementById("game").addEventListener('mousemove', function(e) {
-		var mousePos = getMousePos(document.getElementById("game"), e);
-        myPaddle.newPos( mousePos.x, mousePos.y );
-    }, false);
-    //------------------------------------------------------------------------------------------------------------
-
-    function distanceBetweenPoints( x1, y1, x2, y2 ) {
-    	//  B
-    	//	|\
-    	//	| \
-    	//	|  \
-    	//	|   \
-    	//a |    \ c
-    	//	|     \
-    	//	|      \
-    	//	|_______\
-    	//		b    A
-    	//Pythagorean Theorem
-    	//Point A, B
-
-    	var a = Math.abs( x1 - x2 );
-    	var b = Math.abs( y1 - y2 );
-    	return Math.sqrt( (a*a) + (b*b) );
-    }
-
     //create a grid of block objects
 	//------------------------------------------------------------------------------------------------------------
 	function level1_layout( ) {
@@ -759,115 +382,25 @@
         }
 	}
 
-	function slopeTrace( ball, block ) {
-		var new_x = Math.round( ball.center.x );
-		var new_y = Math.round( ball.center.y );
-		var cont = false;
-		var range = 2;
-		var message = "";
+	function level2_layout( ) {
+		dbgr.add("BUiLD GRiD");
+        var partition_width = width * .75;
+        var partition_height = height * .40; 
+        var margin_left = ( width - partition_width ) / 2
+        var margin_top = 50;
 
-		//dbgr.add("TRACING");
+        //partition_block = new block( partition_width, partition_height, "#fff", margin_left, margin_top );
 
-		for ( var i = 0; i < 10; ++i ) {
-			//y = mx + b
-			--new_x;
-			new_y = ( ball.equation.slope * new_x ) + ball.equation.y_intercept;
-			// console.log( "slope " + ball.slope );
-			// console.log( "x " + new_x );
-			// console.log( "y " + ball.equation.y_intercept );
+        for ( var i = 0; i < 5; ++i ) {
+    		var ypos = margin_top + ( ( default_block_height * i ) /* + ( 10 * i ) */ );
+        	for ( var j = 0; j < 9; ++j ) {
+        		var xpos = margin_left + ( ( default_block_width * j ) /* + ( 10 * j ) */);
 
-			if ( new_x <= block.x || new_x >= block.x + block.width ) {
-				//bounced off left
-				ball.spdX *= -1;
-				cont = true;
-				message = "LEFT/RIGHT";
-			} else if ( new_y <= block.y || new_y >= block.y + block.height ) {
-				//bounced off top
-				ball.spdY *= -1;
-				cont = true;
-				message = "TOP/BOTTOM";
-			} else {
-				ball.spdY *= -1;
-				cont = true;
-			}
-
-			if ( cont == true ) {
-				// myGameArea.context.globalCompositeOperation='destination-over';
-				// myGameArea.context.beginPath();
-				// myGameArea.context.arc(new_x, new_y, 2, 0, 2 * Math.PI, false);
-				// myGameArea.context.fillStyle = '#f00';
-				// myGameArea.context.fill();
-
-				// myGameArea.context.font = "15px Arial";
-				// myGameArea.context.fillStyle = "#000";
-				// myGameArea.context.textAlign = "center";
-				// myGameArea.context.fillText( message, new_x + 50, new_y + 50);
-
-				// myGameArea.context.font = "15px Arial";
-				// myGameArea.context.fillStyle = "#000";
-				// myGameArea.context.textAlign = "center";
-				// myGameArea.context.fillText( "X: " + new_x.toFixed(2), 100, height - 5 );
-
-				// myGameArea.context.font = "15px Arial";
-				// myGameArea.context.fillStyle = "#000";
-				// myGameArea.context.textAlign = "center";
-				// myGameArea.context.fillText( "Y: " + new_y.toFixed(2), 200, height - 5 );
-
-				// myGameArea.context.font = "15px Arial";
-				// myGameArea.context.fillStyle = "#8e44ad";
-				// myGameArea.context.textAlign = "center";
-				// myGameArea.context.fillText( "Old X: " + Math.round( ball.center.x ).toFixed(2), 300, height - 5 );
-
-				// myGameArea.context.font = "15px Arial";
-				// myGameArea.context.fillStyle = "#8e44ad";
-				// myGameArea.context.textAlign = "center";
-				// myGameArea.context.fillText( "Old Y: " + Math.round( ball.center.y ).toFixed(2), 400, height - 5 );
-
-				//isPaused = true;
-				break;
-			} else {
-				// message = "IDK WHY ARE YYOU ASKING ME?";
-
-				// myGameArea.context.globalCompositeOperation='destination-over';
-				// myGameArea.context.beginPath();
-				// myGameArea.context.arc(new_x, new_y, 2, 0, 2 * Math.PI, false);
-				// myGameArea.context.fillStyle = '#f00';
-				// myGameArea.context.fill();
-
-				// myGameArea.context.font = "15px Arial";
-				// myGameArea.context.fillStyle = "#000";
-				// myGameArea.context.textAlign = "center";
-				// myGameArea.context.fillText( message, new_x + 50, new_y + 50);
-
-				// myGameArea.context.font = "15px Arial";
-				// myGameArea.context.fillStyle = "#000";
-				// myGameArea.context.textAlign = "center";
-				// myGameArea.context.fillText( "X: " + new_x.toFixed(2), 100, height - 5 );
-
-				// myGameArea.context.font = "15px Arial";
-				// myGameArea.context.fillStyle = "#000";
-				// myGameArea.context.textAlign = "center";
-				// myGameArea.context.fillText( "Y: " + new_y.toFixed(2), 200, height - 5 );
-
-				// myGameArea.context.font = "15px Arial";
-				// myGameArea.context.fillStyle = "#8e44ad";
-				// myGameArea.context.textAlign = "center";
-				// myGameArea.context.fillText( "Old X: " + Math.round( ball.center.x ).toFixed(2), 300, height - 5 );
-
-				// myGameArea.context.font = "15px Arial";
-				// myGameArea.context.fillStyle = "#8e44ad";
-				// myGameArea.context.textAlign = "center";
-				// myGameArea.context.fillText( "Old Y: " + Math.round( ball.center.y ).toFixed(2), 400, height - 5 );
-
-				// console.log( distanceBetweenPoints( ball.center.x, ball.center.y, new_x, new_y ) );
-
-				// isPaused = true;
-				break;
-			}
-		}
-
-		//calculate if the center is passed an edge or outside the block
-		
+        		var new_block = new block( default_block_width, default_block_height, default_block_image, xpos, ypos, 1, "image" );
+        		blocks.push( new_block );
+        		//new_block.draw();
+        	}
+        }
 	}
     //------------------------------------------------------------------------------------------------------------
 </script>
