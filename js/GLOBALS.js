@@ -25,6 +25,7 @@ var blocks = [];
 var SCENES = {
 	//MENU_SCENE : menuScene,
 	GAME_SCENE : gameScene,
+	PAUSED_SCENE : pausedScene,
 	LEVEL_CLEAR_SCENE : levelClearScene
 }
 
@@ -63,3 +64,36 @@ var GAME_STATE = {
 //gameplay variables
 var timer = 0;
 var multiplyer = 0;
+
+var bonuses = [
+		/*Lives*/
+		function( val ) {
+			return 500 * val;
+		},
+		/*Time*/ 
+		function( val ) {
+			if ( val <= 30 ) {
+				return (30 - val) * 100;
+			} else if ( val < 60 ) {
+				return ( 60 - val ) * 10;
+			} else return 0;
+		},
+		/*Flawless*/ 
+		function( ) {
+			return 2000;
+		},
+		/*Paddle Hits*/
+		function( val ) {
+			if ( val <= 30 ) {
+				return val * 100;
+			}
+			if ( val <= 40 ) {
+				return val * 10;
+			} else return 0;
+		}
+	];
+
+var KEYCODES = {
+	ESCAPE : 27,
+	ENTER : 13
+}
