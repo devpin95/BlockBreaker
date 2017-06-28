@@ -1,4 +1,25 @@
 var gameScene = {
+	setup : function() {
+		var partition_width = width * .75;
+        var partition_height = height * .40; 
+        var margin_left = ( width - partition_width ) / 2
+        var margin_top = 50;        
+
+        for ( var i = 0; i < 5; ++i ) {
+    		var ypos = margin_top + ( ( default_block_height * i ) /* + ( 10 * i ) */ );
+        	for ( var j = 0; j < 9; ++j ) {
+        		var xpos = margin_left + ( ( default_block_width * j ) /* + ( 10 * j ) */);
+
+        		var new_block = new block( default_block_width, default_block_height, default_block_image, xpos, ypos, 1, "image" );
+        		blocks.push( new_block );
+        	}
+        }
+
+        this.scene_ready = true;
+	},
+
+	scene_ready : false,
+
 	run : function() {
 		if ( !GAME_STATE.IS_PAUSED && !GAME_STATE.WON && !GAME_STATE.LIFE_LOST ) 
 		{
@@ -79,42 +100,19 @@ var gameScene = {
 		} 
 
 		//handle pausing
-		else if ( GAME_STATE.IS_PAUSED && !GAME_STATE.WON ) 
-		{
-			myGameArea.context.font = "50px Arial";
-			myGameArea.context.fillStyle = "#8e44ad";
-			myGameArea.context.textAlign = "center";
-			myGameArea.context.fillText( "Paused", width/2, height/2 );
-		} 
+		// else if ( GAME_STATE.IS_PAUSED && !GAME_STATE.WON ) 
+		// {
+		// 	myGameArea.context.font = "50px Arial";
+		// 	myGameArea.context.fillStyle = "#8e44ad";
+		// 	myGameArea.context.textAlign = "center";
+		// 	myGameArea.context.fillText( "Paused", width/2, height/2 );
+		// } 
 
 		//handle a win
 		else if ( !GAME_STATE.IS_PAUSED && GAME_STATE.WON ) 
 		{
 			
-			GAME_STATE.ACTIVE_SCENE = SCENES.levelClearScene;
-			// setTimeout( function() {
-
-			// 	myGameArea.clear();
-
-			// 	//var main_text_size = ( (pulse_text_time / 100) + 50 );
-			// 	// myGameArea.context.font = "50px Arial";
-			// 	// myGameArea.context.fillStyle = "#8e44ad";
-			// 	// myGameArea.context.textAlign = "center";
-			// 	// myGameArea.context.fillText( "Level " + (level + 1), width/2, height/2 - 100 );
-
-			// 	levels[level]( );
-			// 	GAME_STATE.reset();
-			// 	player.reset( 2 );
-			// 	document.getElementById( "b1").className = "";
-			// 	document.getElementById( "b2").className = "";
-			// 	document.getElementById( "b3").className = "";
-			// 	document.getElementById("timer").innerHTML = "0:00"
-			// 	document.getElementById("score").innerHTML = 0;
-
-			// 	balls = [];
-			// 	blocks = [];
-
-			// }, 4000);
+			GAME_STATE.ACTIVE_SCENE = SCENES.LEVEL_CLEAR_SCENE;
 
 		} 
 
@@ -170,6 +168,8 @@ var gameScene = {
     	}
 	},
 	button_press : function( e ) {
-
+		if ( e.keyCode = KEYCODES.ESCAPE ) {
+			GAME_STATE.change_scene( SCENES.PAUSED_SCENE );
+		}
 	}
 }
