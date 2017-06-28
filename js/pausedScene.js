@@ -16,7 +16,9 @@ var pausedScene = {
 
 	},
 
-	button_press : function() {
-		GAME_STATE.change_scene( SCENES.GAME_SCENE );
+	button_press : function( e ) {
+		if ( e.keyCode == KEYCODES.ESCAPE ) {
+			GAME_STATE.change_scene( SCENES.GAME_SCENE );
+		}
 	}
 }
