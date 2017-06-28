@@ -93,60 +93,60 @@ function ball( width, height, color, x, y, type = "color" ) {
 }
 
 function block( width, height, color, x, y, health = 1, type = "color" ) {
-this.width = width;
-this.height = height;
-this.spdX = 0;
-this.spdY = 0;
-this.x = x;
-this.y = y;
-this.health = health;
-this.center = {
-	x : this.x + (this.width / 2),
-	y : this.y + ( this.height / 2 )
-};
-if ( type == "image" ) {
-	this.image = new Image();
-	this.image.src = color;
-}
-
-//edges
-this.top_edge = this.y;
-this.bottom_edge = this.top_edge + this.height;
-this.left_edge = this.x;
-this.right_edge = this.left_edge + this.width;
-
-this.update = function() {
-	ctx = myGameArea.context;
-	if ( type == "color" ) {
-		ctx.fillStyle = color;
-		ctx.fillRect( this.x, this.y, this.width, this.height );
+	this.width = width;
+	this.height = height;
+	this.spdX = 0;
+	this.spdY = 0;
+	this.x = x;
+	this.y = y;
+	this.health = health;
+	this.center = {
+		x : this.x + (this.width / 2),
+		y : this.y + ( this.height / 2 )
+	};
+	if ( type == "image" ) {
+		this.image = new Image();
+		this.image.src = color;
 	}
-	else if ( type == "image" ) {
-		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-	}
-}
 
-this.newPos = function() {
-	this.x += this.spdX;
-	this.y += this.spdY;
-}
+	//edges
+	this.top_edge = this.y;
+	this.bottom_edge = this.top_edge + this.height;
+	this.left_edge = this.x;
+	this.right_edge = this.left_edge + this.width;
 
-this.collision = function( ball ) {
-	var block = this;
-	if (ball.x < block.x + block.width &&
-		ball.x + ball.width > block.x &&
-		ball.y < block.y + block.height &&
-		ball.height + ball.y > block.y ) 
-	{
-		if ( isFinite( ball.equation.slope )  ) {
-			slopeTrace( ball, block );
-		} else {
-			ball.spdY *= -1;
+	this.update = function() {
+		ctx = myGameArea.context;
+		if ( type == "color" ) {
+			ctx.fillStyle = color;
+			ctx.fillRect( this.x, this.y, this.width, this.height );
 		}
-
-		return true;
+		else if ( type == "image" ) {
+			ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+		}
 	}
-}
+
+	this.newPos = function() {
+		this.x += this.spdX;
+		this.y += this.spdY;
+	}
+
+	this.collision = function( ball ) {
+		var block = this;
+		if (ball.x < block.x + block.width &&
+			ball.x + ball.width > block.x &&
+			ball.y < block.y + block.height &&
+			ball.height + ball.y > block.y ) 
+		{
+			if ( isFinite( ball.equation.slope )  ) {
+				slopeTrace( ball, block );
+			} else {
+				ball.spdY *= -1;
+			}
+
+			return true;
+		}
+	}
 }
 
 function paddle() {
