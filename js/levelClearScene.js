@@ -10,6 +10,12 @@ var level_info = {
 };
 
 var levelClearScene = {
+	setup : function() {
+		this.scene_ready = true;
+	},
+
+	scene_ready : false,
+
 	run : function() {
 		//myGameArea.clear();
 		// player.score += bonuses[0]( player.lives );
