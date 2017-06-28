@@ -9,8 +9,12 @@ var level_info = {
 	score_bonus : 0
 };
 
+var bonuses_image;
+var bonuses_image_path = "assets/bonuses.png";
+
 var levelClearScene = {
 	setup : function() {
+		bonuses_image = new block( 375, 94, bonuses_image_path, width/2 - 188, height/2 - 75, 0, "image" );
 		this.scene_ready = true;
 	},
 
@@ -27,25 +31,27 @@ var levelClearScene = {
 		myGameArea.context.font = "50px Arial";
 		myGameArea.context.fillStyle = "#8e44ad";
 		myGameArea.context.textAlign = "center";
-		myGameArea.context.fillText( "Level Cleared!", width/2, height/2 - 100 );
+		myGameArea.context.fillText( "Level Cleared!", width/2, height/2 - 150 );
 
 		myGameArea.context.font = "30px Arial";
 		myGameArea.context.fillStyle = "#000";
 		myGameArea.context.textAlign = "center";
-		myGameArea.context.fillText( "Time: " + minutes + ":" + time_spacer + seconds, width/2 - 100, height/2 - 50 );
+		myGameArea.context.fillText( "Time: " + minutes + ":" + time_spacer + seconds, width/2 - 100, height/2 - 100 );
 
 		myGameArea.context.font = "30px Arial";
 		myGameArea.context.fillStyle = "#000";
 		myGameArea.context.textAlign = "center";
-		myGameArea.context.fillText( "Score: " + player.score, width/2 + 100, height/2 - 50 );
+		myGameArea.context.fillText( "Score: " + player.score, width/2 + 100, height/2 - 100 );
 
 		//---------------------------------------------------------------------------------------------------------
 		//bonuses
 
-		myGameArea.context.font = "25px Arial";
-		myGameArea.context.fillStyle = "#f00";
-		myGameArea.context.textAlign = "center";
-		myGameArea.context.fillText( "Bonuses", width/2, height/2 );
+		// myGameArea.context.font = "25px Arial";
+		// myGameArea.context.fillStyle = "#f00";
+		// myGameArea.context.textAlign = "center";
+		// myGameArea.context.fillText( "Bonuses", width/2, height/2 );
+
+		bonuses_image.update();
 
 		//holds the current line of bonuses
 		var next_line = 1;
