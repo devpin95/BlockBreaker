@@ -128,76 +128,11 @@
 </p>
 <script src="js/calculations.js"></script>
 <script src="js/gamePieces.js"></script>
-<script src="js/levelClearScene.js"></script>
+<script src="js/pausedScene.js"></script>
 <script src="js/gameScene.js"></script>
+<script src="js/levelClearScene.js"></script>
+<script src="js/GLOBALS.js"></script>
 <script>
-
-	//global values
-	var width = 960;
-	var height = 540;
-	var fps = 1000/50; //50 fps
-
-	//default object values
-	var maxBallSpeed = 7;
-	var default_block_width = 75; //50 || 75
-	var default_block_height = 35; //20 || 35
-	var default_ball_image = "ball_bg.png";
-	var default_block_image = "big_block_bg.jpg";
-
-	//helper elements
-	var partition_block;
-
-	//game pieces
-	var myGamePiece;
-	var myPaddle;
-	var myBlock;
-	var player;
-
-	var balls = [];
-	var blocks = [];
-	var levels = [ level1_layout, level2_layout ];
-
-	var SCENES = {
-		//MENU_SCENE : menuScene,
-		GAME_SCENE : gameScene,
-		LEVEL_CLEAR_SCENE: levelClearScene
-	}
-
-	//game states
-	var GAME_STATE = {
-		IS_PAUSED : false,
-		WON : false,
-		LIFE_LOST : false,
-		BALL_READY : false,
-		STOP_TIME : false,
-		LEVEL : 0,
-		PREVIOUS_SCENE : null,
-		ACTIVE_SCENE : SCENES.GAME_SCENE,
-		reset : function() {
-			this.IS_PAUSED = false;
-			this.WON = false;
-			this.LIFE_LOST = false;
-			this.BALL_READY = false;
-			this.STOP_TIME = false;
-		}, 
-		change_scene : function( next_scene ) {
-			var swap = function (x){return x};
-			this.PREVIOUS_SCENE = swap(this.ACTIVE_SCENE, this.ACTIVE_SCENE = next_scene);
-			// this.PREVIOUS_SCENE = this.ACTIVE_SCENE;
-			// this.ACTIVE_SCENE = next_scene;
-		}
-	}
-
-	// var isPaused = false;
-	// var won = false;
-	// var life_lost = false;
-	// var ball_ready = false;
-	// var stop_time = false;
-	// var level = 0;
-
-	//gameplay variables
-	var timer = 0;
-	var multiplyer = 0;
 
 	function startGame() {
 		player = new Player();
@@ -209,38 +144,11 @@
 		//setup the block layout
         level1_layout( );
         ++GAME_STATE.LEVEL;
-        //document.getElementById("lives").innerHTML = player.lives;
+
+        GAME_STATE.change_scene( SCENES.GAME_SCENE );
 
 		myGameArea.start( );
 	}
-
-	var bonuses = [
-		/*Lives*/
-		function( val ) {
-			return 500 * val;
-		},
-		/*Time*/ 
-		function( val ) {
-			if ( val <= 30 ) {
-				return (30 - val) * 100;
-			} else if ( val < 60 ) {
-				return ( 60 - val ) * 10;
-			} else return 0;
-		},
-		/*Flawless*/ 
-		function( ) {
-			return 2000;
-		},
-		/*Paddle Hits*/
-		function( val ) {
-			if ( val <= 30 ) {
-				return val * 100;
-			}
-			if ( val <= 40 ) {
-				return val * 10;
-			} else return 0;
-		}
-	]
 
 	var myGameArea = {
 	    canvas : document.getElementById("game"),
@@ -254,36 +162,41 @@
 	        this.bottom_hit = false;
 
         	//canvas event listeners
-	        window.addEventListener('keydown', function(e) {	        	
+	        window.addEventListener('keydown', function(e) {
+	        	//send the keyup event to the active scene
+	        	GAME_STATE.ACTIVE_SCENE.button_press( e );	        	
 	        	// myGameArea.keys = (myGameArea.keys || []);
 	        	// myGameArea.keys[e.keyCode] = true;
-	        	dbgr.add("KEYCODE: " + e.keyCode);
-	        	if ( e.keyCode == 27 && GAME_STATE.IS_PAUSED == false ) {
-	        		GAME_STATE.IS_PAUSED = true;
-	        	} else if ( e.keyCode == 27 && GAME_STATE.IS_PAUSED == true ) {
-	        		GAME_STATE.IS_PAUSED = false;
-	        	}
+	        	// dbgr.add("KEYCODE: " + e.keyCode);
+	        	// if ( e.keyCode == 27 && GAME_STATE.IS_PAUSED == false ) {
+	        	// 	GAME_STATE.IS_PAUSED = true;
+	        	// } else if ( e.keyCode == 27 && GAME_STATE.IS_PAUSED == true ) {
+	        	// 	GAME_STATE.IS_PAUSED = false;
+	        	// }
 	        })
 
-	        window.addEventListener('keyup', function(e){
-	        	// myGameArea.keys[e.keyCode] = false;
+	        window.addEventListener('keyup', function( e ){
+	        	//send the keyup event to the active scene
+	        	//GAME_STATE.ACTIVE_SCENE.button_press( e );
 	        })
 
-	        window.addEventListener('click', function(e) {
-	        	//balls.push( new ball( 15, 15, default_ball_image, (width / 2) - 7, 100, "image" ) );
-	        	if ( GAME_STATE.WON ) {
-	        		GAME_STATE.WON = false;
-	        	} else if ( GAME_STATE.BALL_READY && !GAME_STATE.IS_PAUSED ) {
-        			GAME_STATE.BALL_READY = false; 
+	        window.addEventListener('click', function( e ) {
+	        	//send the click event to the active scene
+	        	GAME_STATE.ACTIVE_SCENE.clicked( e );
+	        // 	//balls.push( new ball( 15, 15, default_ball_image, (width / 2) - 7, 100, "image" ) );
+	        // 	if ( GAME_STATE.WON ) {
+	        // 		GAME_STATE.WON = false;
+	        // 	} else if ( GAME_STATE.BALL_READY && !GAME_STATE.IS_PAUSED ) {
+        	// 		GAME_STATE.BALL_READY = false; 
 
-        			for ( var i = 0; i < balls.length; ++i ) {
-    					if ( !balls[i].free ) {
-    						balls[i].free = true;
-    						balls[i].spdY = maxBallSpeed;
-    						break;
-    					}
-        			}
-	        	}
+        	// 		for ( var i = 0; i < balls.length; ++i ) {
+    					// if ( !balls[i].free ) {
+    					// 	balls[i].free = true;
+    					// 	balls[i].spdY = maxBallSpeed;
+    					// 	break;
+    					// }
+        	// 		}
+	        // 	}
 	        })
 	    },
 
@@ -324,6 +237,11 @@
 
 	function updateGameArea() {
 		myGameArea.clear();
+
+		if ( !GAME_STATE.ACTIVE_SCENE.scene_ready ) {
+			GAME_STATE.ACTIVE_SCENE.setup();
+		}
+
 		GAME_STATE.ACTIVE_SCENE.run();
 	}
 
@@ -382,26 +300,26 @@
         }
 	}
 
-	function level2_layout( ) {
-		dbgr.add("BUiLD GRiD");
-        var partition_width = width * .75;
-        var partition_height = height * .40; 
-        var margin_left = ( width - partition_width ) / 2
-        var margin_top = 50;
+	// function level2_layout( ) {
+	// 	dbgr.add("BUiLD GRiD");
+ //        var partition_width = width * .75;
+ //        var partition_height = height * .40; 
+ //        var margin_left = ( width - partition_width ) / 2
+ //        var margin_top = 50;
 
-        //partition_block = new block( partition_width, partition_height, "#fff", margin_left, margin_top );
+ //        //partition_block = new block( partition_width, partition_height, "#fff", margin_left, margin_top );
 
-        for ( var i = 0; i < 5; ++i ) {
-    		var ypos = margin_top + ( ( default_block_height * i ) /* + ( 10 * i ) */ );
-        	for ( var j = 0; j < 9; ++j ) {
-        		var xpos = margin_left + ( ( default_block_width * j ) /* + ( 10 * j ) */);
+ //        for ( var i = 0; i < 5; ++i ) {
+ //    		var ypos = margin_top + ( ( default_block_height * i ) /* + ( 10 * i ) */ );
+ //        	for ( var j = 0; j < 9; ++j ) {
+ //        		var xpos = margin_left + ( ( default_block_width * j ) /* + ( 10 * j ) */);
 
-        		var new_block = new block( default_block_width, default_block_height, default_block_image, xpos, ypos, 1, "image" );
-        		blocks.push( new_block );
-        		//new_block.draw();
-        	}
-        }
-	}
+ //        		var new_block = new block( default_block_width, default_block_height, default_block_image, xpos, ypos, 1, "image" );
+ //        		blocks.push( new_block );
+ //        		//new_block.draw();
+ //        	}
+ //        }
+	// }
     //------------------------------------------------------------------------------------------------------------
 </script>
 </body>
