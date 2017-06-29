@@ -1,3 +1,6 @@
+var width = 960;
+var height = 540;
+
 function Player() {
 	this.score = 0;
 	this.lives = 3;
