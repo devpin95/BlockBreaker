@@ -131,16 +131,14 @@
 <script src="js/pausedScene.js"></script>
 <script src="js/gameScene.js"></script>
 <script src="js/levelClearScene.js"></script>
-<script src="js/levels.js"></script>
 <script src="js/GLOBALS.js"></script>
+<script src="js/levels.js"></script>
 <script>
 
 	function startGame() {
 		player = new Player();
 		myPaddle = new paddle();
 		myBlock = new block( 100, 50, "", 100, 100, "image" );
-		balls.push( new ball( 15, 15, default_ball_image, 0, 0, "image" ) );
-		GAME_STATE.BALL_READY = true;
 
 		//setup the block layout
         //level1_layout( );
@@ -158,7 +156,7 @@
 	    	this.canvas.height = height;
 	        this.context = this.canvas.getContext("2d");
 	        this.interval = setInterval( updateGameArea, fps );
-	        this.timer = setInterval( countTime, 1000 );
+	        // this.timer = setInterval( countTime, 1000 );
 	        this.bottom_hit = false;
 
         	//canvas event listeners
@@ -219,29 +217,29 @@
 		GAME_STATE.ACTIVE_SCENE.run();
 	}
 
-	var seconds = 0;
-	var minutes = 0;
-	var total_time = 0;
-	var time_spacer = "0";
-	function countTime(  ) {
-		if ( !GAME_STATE.IS_PAUSED && !GAME_STATE.WON && !GAME_STATE.stop_time ) {
-			++seconds;
-			++total_time;
+	// var seconds = 0;
+	// var minutes = 0;
+	// var total_time = 0;
+	// var time_spacer = "0";
+	// function countTime(  ) {
+	// 	if ( !GAME_STATE.IS_PAUSED && !GAME_STATE.WON && !GAME_STATE.stop_time ) {
+	// 		++seconds;
+	// 		++total_time;
 
-			if ( seconds < 10 ) {
-				time_spacer = "0";
-			} else {
-				time_spacer = "";
-			}
+	// 		if ( seconds < 10 ) {
+	// 			time_spacer = "0";
+	// 		} else {
+	// 			time_spacer = "";
+	// 		}
 
-			if ( seconds == 59 ) {
-				++minutes;
-				seconds = 0; 
-			}
+	// 		if ( seconds == 59 ) {
+	// 			++minutes;
+	// 			seconds = 0; 
+	// 		}
 
-			document.getElementById("timer").innerHTML = minutes + ":" + time_spacer + seconds;
-		}
-	}
+	// 		document.getElementById("timer").innerHTML = minutes + ":" + time_spacer + seconds;
+	// 	}
+	// }
 
 	var dbgr = {
 		ele : document.getElementById("log"),
