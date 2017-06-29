@@ -108,8 +108,8 @@ function getMousePos(canvas, e) {
 }
 
 document.getElementById("game").addEventListener('mousemove', function(e) {
-	var mousePos = getMousePos(document.getElementById("game"), e);
-    myPaddle.newPos( mousePos.x, mousePos.y );
+	mousePos = getMousePos(document.getElementById("game"), e);
+    //myPaddle.newPos( mousePos.x, mousePos.y );
 }, false);
 //------------------------------------------------------------------------------------------------------------
 
