@@ -21,7 +21,6 @@ function level_one() {
 }
 
 function level_two() {
-	dbgr.add("@");
 	var partition_width = width * .75;
     var partition_height = height * .40; 
     var margin_left = ( width - partition_width ) / 2
