@@ -50,11 +50,6 @@ function ball( width, height, color, x, y, type = "color" ) {
 		} else if ( type == "image" ) {
 			ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
 		}
-
-		// ctx.beginPath();
-		// ctx.moveTo( 0, this.equation.y_intercept );
-		// ctx.lineTo( this.equation.point_in_distance.x, this.equation.point_in_distance.y );
-		// ctx.stroke();
 	}
 
 	this.newPos = function() {
@@ -75,20 +70,7 @@ function ball( width, height, color, x, y, type = "color" ) {
 
 			//b = y - mx
 			this.equation.y_intercept = this.center.y - ( this.equation.slope * this.center.x );
-
-			//debug information
-			// if ( this.equation.slope >= 0 ) {
-			// 	this.equation.point_in_distance.x = this.center.x + Math.abs(this.spdX) * 100;
-			// 	this.equation.point_in_distance.y = this.center.y + Math.abs(this.spdY) * 100;
-			// } else {
-			// 	this.equation.point_in_distance.x = this.center.x + Math.abs(this.spdX) * 100;
-			// 	this.equation.point_in_distance.y = this.center.y + Math.abs(this.spdY) * -100;
-			// }
-
-		} //else {
-		// 	this.x = ( paddle.x + ( paddle.width / 2 ) ) - (this.width / 2);
-		// 	this.y = paddle.y - this.height;
-		// }
+		}
 	}
 }
 
@@ -202,6 +184,139 @@ function paddle() {
 			var right_percentage = (xpercentage - .50) / .50;
 			obj.spdX = (maxBallSpeed * right_percentage);
 			obj.spdY *= -1;
+		}
+	}
+}
+
+function wall( x, y ) {
+	this.width = 75;
+	this.height = 13;
+	this.spdX = 0;
+	this.spdY = 0;
+	this.x = x;
+	this.y = y;
+	this.is_edge_piece = false;
+	this.center = {
+		x : this.x + (this.width / 2),
+		y : this.y + ( this.height / 2 )
+	};
+	this.image = new Image();
+	this.image.src = default_wall_image;
+
+	//edges
+	this.top_edge = this.y;
+	this.bottom_edge = this.top_edge + this.height;
+	this.left_edge = this.x;
+	this.right_edge = this.left_edge + this.width;
+
+	this.update = function() {
+		ctx = myGameArea.context;
+		var ptrn = ctx.createPattern(this.image, 'repeat'); // Create a pattern with this image, and set it to "repeat".
+		ctx.fillStyle = ptrn;
+		//ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+		ctx.fillRect(this.x, this.y, this.width, this.height)
+	}
+
+	this.newPos = function() {
+		this.x += this.spdX;
+		this.y += this.spdY;
+	}
+
+	this.collision = function( ball ) {
+		var block = this;
+		if (ball.x < block.x + block.width &&
+			ball.x + ball.width > block.x &&
+			ball.y < block.y + block.height &&
+			ball.height + ball.y > block.y ) 
+		{
+			if ( isFinite( ball.equation.slope )  ) {
+				slopeTrace( ball, block );
+			} else {
+				ball.spdY *= -1;
+			}
+
+			// dbgr.add("WALL");
+
+			// var new_x = Math.round( ball.center.x );
+			// var new_y = Math.round( ball.center.y );
+
+			// for ( var i = 0; i < 10; ++i ) {
+			// 	--new_x;
+			// 	new_y = ( ball.equation.slope * new_x ) + ball.equation.y_intercept;
+
+			// 	//ball has a positive slope and is moving to the right
+			// 	if ( ball.equation.slope >= 0 && ball.spdX >= 0 ) {
+			// 		//ball can only hit bottom or left
+			// 		if ( new_x <= block.x && block.is_edge_piece ) {
+			// 			//left
+			// 			ball.spdX *= -1;
+			// 			ball.x = block.x - ball.width;
+			// 			cont = true;
+			// 		} 
+			// 		else/* if ( new_y >= block.y + block.height )*/ {
+			// 			//bottom
+			// 			ball.spdY *= -1;
+			// 			ball.y = block.y + block.height;
+			// 			cont = true;
+			// 		}
+			// 	}
+			// 	//ball has a positive slope and is moving to the left
+			// 	else if ( ball.equation.slope >= 0 && ball.spdX <= 0 ) {
+			// 		//ball can only hit top or right
+			// 		if ( new_x >= block.x + block.width && block.is_edge_piece ) {
+			// 			//right
+			// 			ball.spdX *= -1;
+			// 			ball.x = block.x + block.width;
+			// 			cont = true;
+			// 		} 
+			// 		else/* if ( new_y <= block.y )*/ {
+			// 			//top
+			// 			ball.spdY *= -1;
+			// 			ball.y = block.y + ball.height;
+			// 			cont = true;
+			// 		}
+			// 	}
+			// 	//ball has a negative slope and is moving to the right
+			// 	else if ( ball.equation.slope <= 0 && ball.spdX >= 0 ) {
+			// 		//ball can only hit top or left
+			// 		if ( new_x <= block.x && block.is_edge_piece ) {
+			// 			//left
+			// 			ball.spdX *= -1;
+			// 			ball.x = block.x + ball.width;
+			// 			cont = true;
+			// 		} 
+			// 		else/* if ( new_y <= block.y )*/ {
+			// 			//top
+			// 			ball.spdY *= -1;
+			// 			ball.y = block.y + ball.height;
+			// 			cont = true;
+			// 		}
+			// 	}//ball has a negative slope and is moving to the left
+			// 	else if ( ball.equation.slope <= 0 && ball.spdX <= 0 ) {
+			// 		//ball can only hit bottom or right
+			// 		if ( new_x >= block.x + block.width && block.is_edge_piece ) {
+			// 			//right
+			// 			ball.spdX *= -1;
+			// 			ball.x = block.x + block.width;
+			// 			cont = true;
+			// 		} 
+			// 		else /*if ( new_y >= block.y + block.height )*/ {
+			// 			//bottom
+			// 			ball.spdY *= -1;
+			// 			ball.y = block.y + block.height;
+			// 			cont = true;
+			// 		}
+			// 	} else if ( ball.equation.slope == Number.POSITIVE_INFINITY ) {
+			// 		ball.spdY *= -1;
+			// 	 	cont = true;
+			// 	}
+
+			// 	if ( cont == true ) {
+			// 		break;
+			// 	} else {
+			// 		break;
+			// 	}
+			// }
 		}
 	}
 }
