@@ -11,13 +11,9 @@ function slopeTrace( ball, block ) {
 		//y = mx + b
 		--new_x;
 		new_y = ( ball.equation.slope * new_x ) + ball.equation.y_intercept;
-		// console.log( "slope " + ball.slope );
-		// console.log( "x " + new_x );
-		// console.log( "y " + ball.equation.y_intercept );
 
 		//ball has a positive slope and is moving to the right
 		if ( ball.equation.slope >= 0 && ball.spdX >= 0 ) {
-			dbgr.add("1");
 			//ball can only hit bottom or left
 			if ( new_x <= block.x ) {
 				//left
@@ -32,7 +28,6 @@ function slopeTrace( ball, block ) {
 		}
 		//ball has a positive slope and is moving to the left
 		else if ( ball.equation.slope >= 0 && ball.spdX <= 0 ) {
-			dbgr.add("2");
 			//ball can only hit top or right
 			if ( new_x >= block.x + block.width ) {
 				//right
@@ -47,7 +42,6 @@ function slopeTrace( ball, block ) {
 		}
 		//ball has a negative slope and is moving to the right
 		else if ( ball.equation.slope <= 0 && ball.spdX >= 0 ) {
-			dbgr.add("3");
 			//ball can only hit top or left
 			if ( new_x <= block.x ) {
 				//left
@@ -61,7 +55,6 @@ function slopeTrace( ball, block ) {
 			}
 		}//ball has a negative slope and is moving to the left
 		else if ( ball.equation.slope <= 0 && ball.spdX <= 0 ) {
-			dbgr.add("4");
 			//ball can only hit bottom or right
 			if ( new_x >= block.x + block.width ) {
 				//right
@@ -74,7 +67,6 @@ function slopeTrace( ball, block ) {
 				cont = true;
 			}
 		} else if ( ball.equation.slope == Number.POSITIVE_INFINITY ) {
-			dbgr.add("5");
 			ball.spdY *= -1;
 		 	cont = true;
 		}
