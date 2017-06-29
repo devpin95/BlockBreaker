@@ -7,8 +7,10 @@ var fps = 1000/50; //50 fps
 var maxBallSpeed = 7;
 var default_block_width = 75; //50 || 75
 var default_block_height = 35; //20 || 35
+
 var default_ball_image = "assets/ball_bg.png";
 var default_block_image = "assets/big_block_bg.jpg";
+var default_wall_image = "assets/wall_bg.png";
 
 //helper elements
 var partition_block;
@@ -21,6 +23,7 @@ var player;
 
 var balls = [];
 var blocks = [];
+var walls = [];
 
 var SCENES = {
 	//MENU_SCENE : menuScene,
@@ -36,7 +39,7 @@ var GAME_STATE = {
 	LIFE_LOST : false,
 	BALL_READY : false,
 	STOP_TIME : false,
-	LEVEL : 0,
+	LEVEL : 1,
 	PREVIOUS_SCENE : null,
 	ACTIVE_SCENE : SCENES.GAME_SCENE,
 	reset : function() {
