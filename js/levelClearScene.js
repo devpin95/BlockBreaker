@@ -95,7 +95,7 @@ var levelClearScene = {
 	},
 
 	clicked : function() {
-
+		++GAME_STATE.LEVEL;
 	},
 
 	button_press : function( e ) {
