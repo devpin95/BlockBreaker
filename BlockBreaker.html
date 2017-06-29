@@ -131,6 +131,7 @@
 <script src="js/pausedScene.js"></script>
 <script src="js/gameScene.js"></script>
 <script src="js/levelClearScene.js"></script>
+<script src="js/levels.js"></script>
 <script src="js/GLOBALS.js"></script>
 <script>
 
@@ -143,7 +144,6 @@
 
 		//setup the block layout
         //level1_layout( );
-        ++GAME_STATE.LEVEL;
 
         GAME_STATE.change_scene( SCENES.GAME_SCENE );
 
@@ -253,26 +253,26 @@
 
     //create a grid of block objects
 	//------------------------------------------------------------------------------------------------------------
-	function level1_layout( ) {
-		dbgr.add("BUiLD GRiD");
-        var partition_width = width * .75;
-        var partition_height = height * .40; 
-        var margin_left = ( width - partition_width ) / 2
-        var margin_top = 50;
+	// function level1_layout( ) {
+	// 	dbgr.add("BUiLD GRiD");
+ //        var partition_width = width * .75;
+ //        var partition_height = height * .40; 
+ //        var margin_left = ( width - partition_width ) / 2
+ //        var margin_top = 50;
 
-        //partition_block = new block( partition_width, partition_height, "#fff", margin_left, margin_top );
+ //        //partition_block = new block( partition_width, partition_height, "#fff", margin_left, margin_top );
 
-        for ( var i = 0; i < 5; ++i ) {
-    		var ypos = margin_top + ( ( default_block_height * i ) /* + ( 10 * i ) */ );
-        	for ( var j = 0; j < 9; ++j ) {
-        		var xpos = margin_left + ( ( default_block_width * j ) /* + ( 10 * j ) */);
+ //        for ( var i = 0; i < 5; ++i ) {
+ //    		var ypos = margin_top + ( ( default_block_height * i ) /* + ( 10 * i ) */ );
+ //        	for ( var j = 0; j < 9; ++j ) {
+ //        		var xpos = margin_left + ( ( default_block_width * j ) /* + ( 10 * j ) */);
 
-        		var new_block = new block( default_block_width, default_block_height, default_block_image, xpos, ypos, 1, "image" );
-        		blocks.push( new_block );
-        		//new_block.draw();
-        	}
-        }
-	}
+ //        		var new_block = new block( default_block_width, default_block_height, default_block_image, xpos, ypos, 1, "image" );
+ //        		blocks.push( new_block );
+ //        		//new_block.draw();
+ //        	}
+ //        }
+	// }
 
 	// function level2_layout( ) {
 	// 	dbgr.add("BUiLD GRiD");
