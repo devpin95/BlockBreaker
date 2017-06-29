@@ -15,92 +15,87 @@ function slopeTrace( ball, block ) {
 		// console.log( "x " + new_x );
 		// console.log( "y " + ball.equation.y_intercept );
 
-		if ( new_x <= block.x || new_x >= block.x + block.width ) {
-			//bounced off left
-			ball.spdX *= -1;
-			cont = true;
-			message = "LEFT/RIGHT";
-		} else if ( new_y <= block.y || new_y >= block.y + block.height ) {
-			//bounced off top
+		//ball has a positive slope and is moving to the right
+		if ( ball.equation.slope >= 0 && ball.spdX >= 0 ) {
+			dbgr.add("1");
+			//ball can only hit bottom or left
+			if ( new_x <= block.x ) {
+				//left
+				ball.spdX *= -1;
+				cont = true;
+			} 
+			else/* if ( new_y >= block.y + block.height )*/ {
+				//bottom
+				ball.spdY *= -1;
+				cont = true;
+			}
+		}
+		//ball has a positive slope and is moving to the left
+		else if ( ball.equation.slope >= 0 && ball.spdX <= 0 ) {
+			dbgr.add("2");
+			//ball can only hit top or right
+			if ( new_x >= block.x + block.width ) {
+				//right
+				ball.spdX *= -1;
+				cont = true;
+			} 
+			else/* if ( new_y <= block.y )*/ {
+				//top
+				ball.spdY *= -1;
+				cont = true;
+			}
+		}
+		//ball has a negative slope and is moving to the right
+		else if ( ball.equation.slope <= 0 && ball.spdX >= 0 ) {
+			dbgr.add("3");
+			//ball can only hit top or left
+			if ( new_x <= block.x ) {
+				//left
+				ball.spdX *= -1;
+				cont = true;
+			} 
+			else/* if ( new_y <= block.y )*/ {
+				//top
+				ball.spdY *= -1;
+				cont = true;
+			}
+		}//ball has a negative slope and is moving to the left
+		else if ( ball.equation.slope <= 0 && ball.spdX <= 0 ) {
+			dbgr.add("4");
+			//ball can only hit bottom or right
+			if ( new_x >= block.x + block.width ) {
+				//right
+				ball.spdX *= -1;
+				cont = true;
+			} 
+			else /*if ( new_y >= block.y + block.height )*/ {
+				//bottom
+				ball.spdY *= -1;
+				cont = true;
+			}
+		} else if ( ball.equation.slope == Number.POSITIVE_INFINITY ) {
+			dbgr.add("5");
 			ball.spdY *= -1;
-			cont = true;
-			message = "TOP/BOTTOM";
-		} else {
-			ball.spdY *= -1;
-			cont = true;
+		 	cont = true;
 		}
 
+
+		// if ( new_x <= block.x || new_x >= block.x + block.width ) {
+		// 	//bounced off left
+		// 	ball.spdX *= -1;
+		// 	cont = true;
+		// } else if ( new_y <= block.y || new_y >= block.y + block.height ) {
+		// 	//bounced off top
+		// 	ball.spdY *= -1;
+		// 	cont = true;
+		// } else {
+		// 	ball.spdY *= -1;
+		// 	cont = true;
+		// }
+
 		if ( cont == true ) {
-			// myGameArea.context.globalCompositeOperation='destination-over';
-			// myGameArea.context.beginPath();
-			// myGameArea.context.arc(new_x, new_y, 2, 0, 2 * Math.PI, false);
-			// myGameArea.context.fillStyle = '#f00';
-			// myGameArea.context.fill();
-
-			// myGameArea.context.font = "15px Arial";
-			// myGameArea.context.fillStyle = "#000";
-			// myGameArea.context.textAlign = "center";
-			// myGameArea.context.fillText( message, new_x + 50, new_y + 50);
-
-			// myGameArea.context.font = "15px Arial";
-			// myGameArea.context.fillStyle = "#000";
-			// myGameArea.context.textAlign = "center";
-			// myGameArea.context.fillText( "X: " + new_x.toFixed(2), 100, height - 5 );
-
-			// myGameArea.context.font = "15px Arial";
-			// myGameArea.context.fillStyle = "#000";
-			// myGameArea.context.textAlign = "center";
-			// myGameArea.context.fillText( "Y: " + new_y.toFixed(2), 200, height - 5 );
-
-			// myGameArea.context.font = "15px Arial";
-			// myGameArea.context.fillStyle = "#8e44ad";
-			// myGameArea.context.textAlign = "center";
-			// myGameArea.context.fillText( "Old X: " + Math.round( ball.center.x ).toFixed(2), 300, height - 5 );
-
-			// myGameArea.context.font = "15px Arial";
-			// myGameArea.context.fillStyle = "#8e44ad";
-			// myGameArea.context.textAlign = "center";
-			// myGameArea.context.fillText( "Old Y: " + Math.round( ball.center.y ).toFixed(2), 400, height - 5 );
-
-			//isPaused = true;
 			break;
 		} else {
-			// message = "IDK WHY ARE YYOU ASKING ME?";
-
-			// myGameArea.context.globalCompositeOperation='destination-over';
-			// myGameArea.context.beginPath();
-			// myGameArea.context.arc(new_x, new_y, 2, 0, 2 * Math.PI, false);
-			// myGameArea.context.fillStyle = '#f00';
-			// myGameArea.context.fill();
-
-			// myGameArea.context.font = "15px Arial";
-			// myGameArea.context.fillStyle = "#000";
-			// myGameArea.context.textAlign = "center";
-			// myGameArea.context.fillText( message, new_x + 50, new_y + 50);
-
-			// myGameArea.context.font = "15px Arial";
-			// myGameArea.context.fillStyle = "#000";
-			// myGameArea.context.textAlign = "center";
-			// myGameArea.context.fillText( "X: " + new_x.toFixed(2), 100, height - 5 );
-
-			// myGameArea.context.font = "15px Arial";
-			// myGameArea.context.fillStyle = "#000";
-			// myGameArea.context.textAlign = "center";
-			// myGameArea.context.fillText( "Y: " + new_y.toFixed(2), 200, height - 5 );
-
-			// myGameArea.context.font = "15px Arial";
-			// myGameArea.context.fillStyle = "#8e44ad";
-			// myGameArea.context.textAlign = "center";
-			// myGameArea.context.fillText( "Old X: " + Math.round( ball.center.x ).toFixed(2), 300, height - 5 );
-
-			// myGameArea.context.font = "15px Arial";
-			// myGameArea.context.fillStyle = "#8e44ad";
-			// myGameArea.context.textAlign = "center";
-			// myGameArea.context.fillText( "Old Y: " + Math.round( ball.center.y ).toFixed(2), 400, height - 5 );
-
-			// console.log( distanceBetweenPoints( ball.center.x, ball.center.y, new_x, new_y ) );
-
-			// isPaused = true;
 			break;
 		}
 	}
