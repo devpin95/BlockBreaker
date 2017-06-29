@@ -1,19 +1,7 @@
 var gameScene = {
 	setup : function() {
-		var partition_width = width * .75;
-        var partition_height = height * .40; 
-        var margin_left = ( width - partition_width ) / 2
-        var margin_top = 50;        
 
-        for ( var i = 0; i < 5; ++i ) {
-    		var ypos = margin_top + ( ( default_block_height * i ) /* + ( 10 * i ) */ );
-        	for ( var j = 0; j < 9; ++j ) {
-        		var xpos = margin_left + ( ( default_block_width * j ) /* + ( 10 * j ) */);
-
-        		var new_block = new block( default_block_width, default_block_height, default_block_image, xpos, ypos, 1, "image" );
-        		blocks.push( new_block );
-        	}
-        }
+  		levels[GAME_STATE.LEVEL]();
 
         this.scene_ready = true;
 	},
@@ -68,19 +56,18 @@ var gameScene = {
 
 				for ( var j = 0; j < blocks.length; ++j ) {
 					if ( blocks[j].collision( balls[i] ) ) {
-						block_to_delete = j;
-						//blocks.splice( j, 1 );
+						block_to_delete = j; //prepare block to be deleted on next frame
 						player.score += 100;
 						document.getElementById("score").innerHTML = player.score;
-
-						// if ( blocks.length == 40 ) {
-						// 	GAME_STATE.BALL_READY = true;
-						// 	balls.push( new ball( 15, 15, default_ball_image, 0, 0, "image" ) );
-						// }
-
-						//break;
 					}
+
 					blocks[j].update();
+				}
+
+				//check for collisions with walls
+				for ( var k = 0; k < walls.length; ++k ) {
+					walls[k].collision( balls[i] );
+					walls[k].update();
 				}
 
 				balls[i].newPos();
@@ -168,7 +155,7 @@ var gameScene = {
     	}
 	},
 	button_press : function( e ) {
-		if ( e.keyCode = KEYCODES.ESCAPE ) {
+		if ( e.keyCode == KEYCODES.ESCAPE ) {
 			GAME_STATE.change_scene( SCENES.PAUSED_SCENE );
 		}
 	}
