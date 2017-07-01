@@ -126,9 +126,11 @@
 <p>
 	<p id="log"></p>
 </p>
+<script src="js/UI.js"></script>
 <script src="js/calculations.js"></script>
 <script src="js/gamePieces.js"></script>
 <script src="js/pausedScene.js"></script>
+<script src="js/settingsScene.js"></script>
 <script src="js/gameScene.js"></script>
 <script src="js/levelClearScene.js"></script>
 <script src="js/GLOBALS.js"></script>
@@ -216,30 +218,6 @@
 
 		GAME_STATE.ACTIVE_SCENE.run();
 	}
-
-	// var seconds = 0;
-	// var minutes = 0;
-	// var total_time = 0;
-	// var time_spacer = "0";
-	// function countTime(  ) {
-	// 	if ( !GAME_STATE.IS_PAUSED && !GAME_STATE.WON && !GAME_STATE.stop_time ) {
-	// 		++seconds;
-	// 		++total_time;
-
-	// 		if ( seconds < 10 ) {
-	// 			time_spacer = "0";
-	// 		} else {
-	// 			time_spacer = "";
-	// 		}
-
-	// 		if ( seconds == 59 ) {
-	// 			++minutes;
-	// 			seconds = 0; 
-	// 		}
-
-	// 		document.getElementById("timer").innerHTML = minutes + ":" + time_spacer + seconds;
-	// 	}
-	// }
 
 	var dbgr = {
 		ele : document.getElementById("log"),
