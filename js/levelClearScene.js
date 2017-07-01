@@ -120,7 +120,7 @@ var levelClearScene = {
 			++next_line;
 		}
 
-		if ( total_time < 60 ) {
+		if ( UI.timer.total_time < 60 ) {
 			//player.score += bonuses[1]( total_time );
 			myGameArea.context.font = "18px Arial";
 			myGameArea.context.fillStyle = "#000";
@@ -159,6 +159,8 @@ var levelClearScene = {
 			mousePos.y > RETRY.y ) 
 		{
 			GAME_STATE.change_scene( SCENES.GAME_SCENE );
+			player.reset();
+			UI.reset();
 		} 
 
 		else if (
@@ -170,6 +172,8 @@ var levelClearScene = {
 			if ( GAME_STATE.LEVEL != GAME_STATE.HIGHEST_LEVEL ) {
 				++GAME_STATE.LEVEL;
 				GAME_STATE.change_scene( SCENES.GAME_SCENE );
+				player.reset();
+				UI.reset();
 			}
 		}
 	},
