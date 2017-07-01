@@ -14,10 +14,12 @@ var gameScene = {
   		levels[GAME_STATE.LEVEL]();
 
         this.scene_ready = true;
-        var int = setInterval( this.UI.timer.countTime, 1000 );
+        this.timer_interval = setInterval( UI.timer.countTime, 1000 );
 	},
 
 	scene_ready : false,
+
+	timer_interval : null,
 
 	run : function() {
 		if ( !GAME_STATE.IS_PAUSED && !GAME_STATE.WON && !GAME_STATE.LIFE_LOST ) 
@@ -36,8 +38,7 @@ var gameScene = {
 				blocks.splice( block_to_delete, 1 );
 				block_to_delete = -1;
 				player.score += 100;
-				this.UI.score.add( 100 );
-				//document.getElementById("score").innerHTML = player.score;
+				UI.score.add( 100 );
 			}
 
 			for ( var i = 0; i < balls.length; ++i ) 
@@ -91,7 +92,7 @@ var gameScene = {
 				GAME_STATE.WON = true;
 
 				player.score += bonuses[0]( player.lives );
-				player.score += bonuses[1]( total_time );
+				player.score += bonuses[1]( UI.timer.total_time );
 				if ( player.lives == 3 ) {
 					player.score += bonuses[2]( );
 				}
@@ -114,7 +115,7 @@ var gameScene = {
 			this.scene_ready = false;
 			GAME_STATE.ACTIVE_SCENE = SCENES.LEVEL_CLEAR_SCENE;
 			GAME_STATE.reset();
-
+			clearInterval(this.timer_interval);
 		} 
 
 		//handle a life lost
@@ -132,9 +133,6 @@ var gameScene = {
 				GAME_STATE.STOP_TIME = false;
 
 				document.getElementById( "b" + ( player.lives + 1 ) ).className = "ball_deactivated";
-				console.log( player.lives + 1  );
-				//document.getElementById("lives").innerHTML = player.lives;
-				//setInterval( function(){ life_lost = false; stop_time = false; }, 1000 );
 			} 
 
 			//Lost the game
@@ -146,19 +144,16 @@ var gameScene = {
 				myGameArea.context.fillText( "Game Over, loser", width/2, height/2 - 100 );
 			}
 		}
-
-		// if ( pulse_text_time < 1000 ) {
-		// 	++pulse_text_time;
-		// } else if ( pulse_text_time > -1000 ) {
-		// 	++pulse_text_time;
-		// }
 	},
+
 	clicked : function( e ) {
 		if ( GAME_STATE.WON ) {
     		GAME_STATE.WON = false;
     	} else if ( GAME_STATE.BALL_READY && !GAME_STATE.IS_PAUSED ) {
+    		//there is a ball ready to be launched
 			GAME_STATE.BALL_READY = false; 
 
+			//go through the balls array and find the first one that is not free
 			for ( var i = 0; i < balls.length; ++i ) {
 				if ( !balls[i].free ) {
 					balls[i].free = true;
@@ -168,49 +163,11 @@ var gameScene = {
 			}
     	}
 	},
+
 	button_press : function( e ) {
 		if ( e.keyCode == KEYCODES.ESCAPE ) {
+			GAME_STATE.STOP_TIME = true;
 			GAME_STATE.change_scene( SCENES.PAUSED_SCENE );
-		}
-	},
-
-	UI : {
-		elements : {
-			timer_element : document.getElementById("timer"),
-			score_element : document.getElementById("score")
-		},
-		timer : {
-			second : 0,
-			minutes : 0,
-			total_time : 0,
-			time_spacer: "",
-			countTimer : function() {
-				if ( !GAME_STATE.IS_PAUSED && !GAME_STATE.WON && !GAME_STATE.STOP_TIME ) {
-					++this.UI.seconds;
-					++this.UI.total_time;
-
-					if ( this.UI.seconds < 10 ) {
-						this.UI.time_spacer = "0";
-					} else {
-						this.UI.time_spacer = "";
-					}
-
-					if ( this.UI.seconds == 60 ) {
-						++this.UI.minutes;
-						this.UI.seconds = 0;
-						this.UI.time_spacer = "0"; 
-					}
-
-					this.UI.elements.timer_element.innerHTML = this.UI.minutes + ":" + this.UI.time_spacer + this.UI.seconds;
-				}
-			}
-		},
-		score : {
-			total : 0,
-			add : function( amnt ) {
-				this.total += amnt;
-				elements.score_element.innerHTML = this.UI.score.total;
-			}
 		}
 	}
 }
