@@ -28,7 +28,8 @@ var SCENES = {
 	//MENU_SCENE : menuScene,
 	GAME_SCENE : gameScene,
 	PAUSED_SCENE : pausedScene,
-	LEVEL_CLEAR_SCENE : levelClearScene
+	LEVEL_CLEAR_SCENE : levelClearScene,
+	SETTINGS_SCENE : settingsScene
 }
 
 //game states
@@ -96,3 +97,9 @@ var mousePos = {
 	x : width / 2,
 	y : height / 2
 };
+
+var GAME_SETTINGS = {
+	ball : {
+		flight_path : true
+	}
+}
