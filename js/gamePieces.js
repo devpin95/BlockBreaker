@@ -6,7 +6,7 @@ function Player() {
 	this.lives = 3;
 	this.reset = function( num_lives ) {
 		this.score = 0;
-		this.lives = num_lives;
+		this.lives = 3;
 	};
 }
 
@@ -30,10 +30,10 @@ function ball( width, height, color, x, y, type = "color" ) {
 		slope : this.x / this.y,
 		y_intercept : null,
 		//debug values
-		// point_in_distance : {
-		// 	x : null,
-		// 	y : null
-		// }
+		point_in_distance : {
+			x : null,
+			y : null
+		}
 	};
 
 	//empty edges, initialized in update function
@@ -52,6 +52,14 @@ function ball( width, height, color, x, y, type = "color" ) {
 			ctx.fillRect( this.x, this.y, this.width, this.height );
 		} else if ( type == "image" ) {
 			ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+		}
+
+		//draw the flight path line
+		if ( GAME_SETTINGS.ball.flight_path == true && this.free ) {
+			ctx.beginPath();
+			ctx.moveTo( this.center.x, this.center.y );
+			ctx.lineTo( this.equation.point_in_distance.x , this.equation.point_in_distance.y );
+			ctx.stroke();
 		}
 	}
 
@@ -73,6 +81,13 @@ function ball( width, height, color, x, y, type = "color" ) {
 
 			//b = y - mx
 			this.equation.y_intercept = this.center.y - ( this.equation.slope * this.center.x );
+
+			//only calculate this if the setting is active
+			if ( GAME_SETTINGS.ball.flight_path == true ) 
+			{
+				this.equation.point_in_distance.x = this.spdX * 10000;
+				this.equation.point_in_distance.y = this.spdY * 10000;
+			}
 		}
 	}
 }
@@ -140,10 +155,13 @@ function paddle() {
 	this.x = width / 2 - 50;
 	this.y = height - 35;
 	this.numberHits = 0;
+	this.image = new Image();
+	this.image.src = "assets/paddle.png";
 	this.update = function() {
 		ctx = myGameArea.context;
-		ctx.fillStyle = "#000";
-		ctx.fillRect( this.x, this.y, this.width, this.height );
+		//ctx.fillStyle = "#000";
+		//ctx.fillRect( this.x, this.y, this.width, this.height );
+		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
 	}
 
 	//move the paddle as the mouse moves within the bounds of the canvas
