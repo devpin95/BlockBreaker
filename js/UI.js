@@ -41,6 +41,7 @@ var UI = {
 	reset : function( num_lives ) {
 		UI.timer.seconds = 0;
 		UI.timer.minutes = 0;
+		//UI.timer.total_time = 0;
 		UI.timer.time_spacer = "";
 		UI.elements.timer_element.innerHTML = "0:00";
 
