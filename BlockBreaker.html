@@ -115,7 +115,7 @@
 		<div class="dashboard_label">SCORE</div>
 		<div id="score">000</div>
 	</div>
-	<div class="logo"><img src="logo.png" /></div>
+	<div class="logo"><img style="margin-top:10px;" src="assets/logo.png" /></div>
 	<div style="clear:all;">&nbsp;</div>
 </div>
 
@@ -123,14 +123,15 @@
 
 <p id="slope"></p>
 <p id="y"></p>
-<p>
-	<p id="log"></p>
-</p>
+<p id="log"></p>
+
 <script src="js/UI.js"></script>
 <script src="js/calculations.js"></script>
 <script src="js/gamePieces.js"></script>
+<script src="js/mainMenuScene.js"></script>
 <script src="js/pausedScene.js"></script>
 <script src="js/settingsScene.js"></script>
+<script src="js/retryPromptScene.js"></script>
 <script src="js/gameScene.js"></script>
 <script src="js/levelClearScene.js"></script>
 <script src="js/GLOBALS.js"></script>
@@ -145,7 +146,7 @@
 		//setup the block layout
         //level1_layout( );
 
-        GAME_STATE.change_scene( SCENES.GAME_SCENE );
+        GAME_STATE.change_scene( SCENES.MAIN_MENU_SCENE );
 
 		myGameArea.start( );
 	}
@@ -227,50 +228,6 @@
 		}
 	}
 
-    //create a grid of block objects
-	//------------------------------------------------------------------------------------------------------------
-	// function level1_layout( ) {
-	// 	dbgr.add("BUiLD GRiD");
- //        var partition_width = width * .75;
- //        var partition_height = height * .40; 
- //        var margin_left = ( width - partition_width ) / 2
- //        var margin_top = 50;
-
- //        //partition_block = new block( partition_width, partition_height, "#fff", margin_left, margin_top );
-
- //        for ( var i = 0; i < 5; ++i ) {
- //    		var ypos = margin_top + ( ( default_block_height * i ) /* + ( 10 * i ) */ );
- //        	for ( var j = 0; j < 9; ++j ) {
- //        		var xpos = margin_left + ( ( default_block_width * j ) /* + ( 10 * j ) */);
-
- //        		var new_block = new block( default_block_width, default_block_height, default_block_image, xpos, ypos, 1, "image" );
- //        		blocks.push( new_block );
- //        		//new_block.draw();
- //        	}
- //        }
-	// }
-
-	// function level2_layout( ) {
-	// 	dbgr.add("BUiLD GRiD");
- //        var partition_width = width * .75;
- //        var partition_height = height * .40; 
- //        var margin_left = ( width - partition_width ) / 2
- //        var margin_top = 50;
-
- //        //partition_block = new block( partition_width, partition_height, "#fff", margin_left, margin_top );
-
- //        for ( var i = 0; i < 5; ++i ) {
- //    		var ypos = margin_top + ( ( default_block_height * i ) /* + ( 10 * i ) */ );
- //        	for ( var j = 0; j < 9; ++j ) {
- //        		var xpos = margin_left + ( ( default_block_width * j ) /* + ( 10 * j ) */);
-
- //        		var new_block = new block( default_block_width, default_block_height, default_block_image, xpos, ypos, 1, "image" );
- //        		blocks.push( new_block );
- //        		//new_block.draw();
- //        	}
- //        }
-	// }
-    //------------------------------------------------------------------------------------------------------------
 </script>
 </body>
 </html>
