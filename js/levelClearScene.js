@@ -31,35 +31,6 @@ var levelClearScene = {
 	scene_ready : false,
 
 	run : function() {
-		//myGameArea.clear();
-		// player.score += bonuses[0]( player.lives );
-		// player.score += bonuses[1]( total_time );
-		// player.score += bonuses[2]( );
-		// player.score += bonuses[3]( myPaddle.numberHits );
-
-		//var main_text_size = ( (pulse_text_time / 100) + 50 );
-		// myGameArea.context.font = "50px Arial";
-		// myGameArea.context.fillStyle = "#8e44ad";
-		// myGameArea.context.textAlign = "center";
-		// myGameArea.context.fillText( "Level Cleared!", width/2, height/2 - 150 );
-
-		// myGameArea.context.font = "30px Arial";
-		// myGameArea.context.fillStyle = "#000";
-		// myGameArea.context.textAlign = "center";
-		// myGameArea.context.fillText( "Time: " + minutes + ":" + time_spacer + seconds, width/2 - 100, height/2 - 100 );
-
-		// myGameArea.context.font = "30px Arial";
-		// myGameArea.context.fillStyle = "#000";
-		// myGameArea.context.textAlign = "center";
-		// myGameArea.context.fillText( "Score: " + player.score, width/2 + 100, height/2 - 100 );
-
-		//---------------------------------------------------------------------------------------------------------
-		//bonuses
-
-		// myGameArea.context.font = "25px Arial";
-		// myGameArea.context.fillStyle = "#f00";
-		// myGameArea.context.textAlign = "center";
-		// myGameArea.context.fillText( "Bonuses", width/2, height/2 );
 
 		if (mousePos.x < RETRY.x + RETRY.width &&
 			mousePos.x > RETRY.x &&
@@ -158,9 +129,10 @@ var levelClearScene = {
 			mousePos.y < RETRY.y + RETRY.height &&
 			mousePos.y > RETRY.y ) 
 		{
-			GAME_STATE.change_scene( SCENES.GAME_SCENE );
 			player.reset();
 			UI.reset();
+			SCENES.GAME_SCENE.reset_level();
+			GAME_STATE.change_scene( SCENES.GAME_SCENE );
 		} 
 
 		else if (
@@ -171,9 +143,10 @@ var levelClearScene = {
 		{
 			if ( GAME_STATE.LEVEL != GAME_STATE.HIGHEST_LEVEL ) {
 				++GAME_STATE.LEVEL;
-				GAME_STATE.change_scene( SCENES.GAME_SCENE );
 				player.reset();
 				UI.reset();
+				SCENES.GAME_SCENE.reset_level();
+				GAME_STATE.change_scene( SCENES.GAME_SCENE );
 			}
 		}
 	},
