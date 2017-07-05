@@ -25,12 +25,13 @@ var blocks = [];
 var walls = [];
 
 var SCENES = {
-	//MENU_SCENE : menuScene,
-	GAME_SCENE : gameScene,
-	PAUSED_SCENE : pausedScene,
-	LEVEL_CLEAR_SCENE : levelClearScene,
-	SETTINGS_SCENE : settingsScene
-}
+	MAIN_MENU_SCENE : mainMenuScene,			//main menu
+	GAME_SCENE : gameScene,						//game logic
+	PAUSED_SCENE : pausedScene,					//pause screen
+	RETRY_LEVEL_PROMPT : retryPromptScene,		// |-> retry level prompt screen
+	SETTINGS_SCENE : settingsScene,				// |-> settings screen
+	LEVEL_CLEAR_SCENE : levelClearScene			//level cleared screen
+};
 
 //game states
 var GAME_STATE = {
@@ -100,6 +101,6 @@ var mousePos = {
 
 var GAME_SETTINGS = {
 	ball : {
-		flight_path : true
+		flight_path : false
 	}
 }
