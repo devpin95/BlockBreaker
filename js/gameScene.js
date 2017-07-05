@@ -3,6 +3,7 @@ myPaddle = new paddle();
 
 var gameScene = {
 	setup : function() {
+		GAME_STATE.reset();
 		player.reset();
 		balls = [];
 		blocks = [];
