@@ -117,7 +117,7 @@ var mainMenuScene = {
 			var spd_x = (Math.random() * maxBallSpeed) + 1;
 			spd_x *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
 			this.menu_balls[this.menu_balls.length - 1].spdX = spd_x;
-			this.menu_balls[this.menu_balls.length -1].spdY = maxBallSpeed;
+			this.menu_balls[this.menu_balls.length -1].spdY = Math.floor(Math.random()*2) == 1 ? maxBallSpeed : -maxBallSpeed;
 			this.menu_balls[this.menu_balls.length - 1].free = true;
 		}
 	},
