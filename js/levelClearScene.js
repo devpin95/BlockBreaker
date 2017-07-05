@@ -13,8 +13,9 @@ var retry_image = "assets/retry_button.png";
 var retry_image_hover = "assets/retry_button_hover.png";
 var next_image = "assets/next_button.png";
 var next_image_hover = "assets/next_button_hover.png";
-var RETRY;
-var NEXT;
+var menu_image = "assets/menu_button.png";
+var menu_image_hover = "assets/menu_button_hover.png";
+var RETRY, NEXT, MENU;
 
 var bonuses_image;
 var bonuses_image_path = "assets/level_cleared.png";
@@ -24,6 +25,7 @@ var levelClearScene = {
 		bonuses_image = new block( 437, 139, bonuses_image_path, width/2 - 219, 25, 0, "image" );
 		RETRY = new block( 60, 30, retry_image, ( myGameArea.canvas.width / 2 ) - 30, 400, 0, "image" );
 		NEXT = new block( 143, 40, next_image, ( myGameArea.canvas.width / 2 ) - 71, 440, 0, "image" );
+		MENU = new block( 60, 30, next_image, ( myGameArea.canvas.width / 2 ) - 71, 480, 0, "image" );
 
 		this.scene_ready = true;
 	},
@@ -42,7 +44,7 @@ var levelClearScene = {
 			RETRY.height = 40;
 			RETRY.width = 80;
 			RETRY.x = ( myGameArea.canvas.width / 2 ) - 40;
-			RETRY.y = 395;
+			RETRY.y = 345;
 
 		}
 		else
@@ -51,7 +53,7 @@ var levelClearScene = {
 			RETRY.height = 30;
 			RETRY.width = 60;
 			RETRY.x = ( myGameArea.canvas.width / 2 ) - 30;
-			RETRY.y = 400;
+			RETRY.y = 350;
 		}
 
 		if (mousePos.x < NEXT.x + NEXT.width &&
@@ -64,7 +66,7 @@ var levelClearScene = {
 			NEXT.height = 50;
 			NEXT.width = 179;
 			NEXT.x = ( myGameArea.canvas.width / 2 ) - 90;
-			NEXT.y = 435;
+			NEXT.y = 385;
 
 		}
 		else
@@ -73,7 +75,29 @@ var levelClearScene = {
 			NEXT.height = 40;
 			NEXT.width = 143;
 			NEXT.x = ( myGameArea.canvas.width / 2 ) - 71;
-			NEXT.y = 440;
+			NEXT.y = 390;
+		}
+
+		if (mousePos.x < MENU.x + MENU.width &&
+			mousePos.x > MENU.x &&
+			mousePos.y < MENU.y + MENU.height &&
+			mousePos.y > MENU.y ) 
+		{
+			//hovering
+			MENU.image.src = menu_image_hover;
+			MENU.height = 40;
+			MENU.width = 80;
+			MENU.x = ( myGameArea.canvas.width / 2 ) - 40;
+			MENU.y = 435;
+
+		}
+		else
+		{
+			MENU.image.src = menu_image;
+			MENU.height = 30;
+			MENU.width = 60;
+			MENU.x = ( myGameArea.canvas.width / 2 ) - 30;
+			MENU.y = 440;
 		}
 
 		bonuses_image.update();
@@ -96,7 +120,7 @@ var levelClearScene = {
 			myGameArea.context.font = "18px Arial";
 			myGameArea.context.fillStyle = "#000";
 			myGameArea.context.textAlign = "center";
-			myGameArea.context.fillText( "Time: +" + bonuses[1](total_time), width/2, starting_y + (40 * next_line) );
+			myGameArea.context.fillText( "Time: +" + bonuses[1](UI.timer.total_time), width/2, starting_y + (40 * next_line) );
 			++next_line;
 		}
 
@@ -120,6 +144,7 @@ var levelClearScene = {
 
 		RETRY.update();
 		NEXT.update();
+		MENU.update();
 	},
 
 	clicked : function() {
@@ -148,6 +173,14 @@ var levelClearScene = {
 				SCENES.GAME_SCENE.reset_level();
 				GAME_STATE.change_scene( SCENES.GAME_SCENE );
 			}
+		} else if (
+			mousePos.x < MENU.x + MENU.width &&
+			mousePos.x > MENU.x &&
+			mousePos.y < MENU.y + MENU.height &&
+			mousePos.y > MENU.y ) 
+		{
+			SCENES.GAME_SCENE.reset_level();
+			GAME_STATE.change_scene( SCENES.MAIN_MENU_SCENE );
 		}
 	},
 
