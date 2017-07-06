@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Level Creater</title>
+	<style>
+		canvas {
+			display: block;
+			margin: 0 auto;
+			background-color: #ecf0f1;
+			border: 1px solid #000;
+			width: 960px;
+			height: 540px;
+		}
+		#selections {
+			width: 960px;
+			display:block;
+			margin:0 auto;
+			margin-bottom:20px;
+			margin-top:20px;
+		}
+		#selections div {
+			float:left;
+		}
+		#selections #actions {
+			margin-right: 20px;
+		}
+	</style>
+</head>
+
+<body onload="startGame()">
+
+<div id="selections">
+	<!-- <img src="../assets/big_block_bg.jpg">
+	<img src="../assets/small_block_bg.jpg">
+	<img src="../assets/wall_bg.png"> -->
+	<form name="placement_form">
+		<div id="actions">
+			<input type="radio" name="action" value="Big Block"> Place Blocks <br/>
+			<input type="radio" name="action" value="Small Block"> Erase <br/>
+		</div>
+		<div id="block_types">
+			<input type="radio" name="types" value="big"> Big Block <br/>
+			<input type="radio" name="types" value="small"> Small Block <br/>
+			<input type="radio" name="types" value="wall"> Wall
+		</div>
+	</form>
+	<div style="clear:both;"></div>
+</div>
+
+<div style="clear:both;"></div>
+
+<canvas id="game"></canvas>
+<p id="code"></p>
+<!-- <script src="../js/GLOBALS.js"></script> -->
+<!-- <script src="js/creater.js"></script> -->
+<!-- <script src="../js/gamePieces.js"></script> -->
+<script>
+	
+var mousePos = {
+	x : 0,
+	y : 0
+};
+
+var width = 960;
+var height = 540;
+var bottom_bound = height - 35;
+
+//helps control placing the current block based on all of the other blocks
+//centering vertically and horizontally based on the center point of other blocks
+var placement_guides = {
+	forced_placement : {
+		x : null,
+		y : null
+	},
+	vertical_centering : false,
+	horizontal_centering : false,
+}
+
+//placement objects that hint to the user what kind of block they are placing
+var BIG_BLOCK_DIMENSIONS = { width : 76, height : 36 };
+var SMALL_BLOCK_DIMENSIONS = { width : 76, height : 21 };
+var BIG_BLOCK_IMAGE = "assets/big_block_bg.jpg";
+var SMALL_BLOCK_IMAGE = "assets/small_block_bg.jpg";
+var PLACEMENT_BIG_BLOCK, PLACEMENT_SMALL_BLOCK;
+
+//holds all of the assets for each type of block that can be placed
+var block_assets = {
+	big : {
+		"green" : "assets/big_block_bg.jpg"
+	},
+
+	small : {
+		"green" : "assets/small_block_bg.jpg"
+	}
+}
+
+//an array to display all of the blocks that have been placed
+var test_blocks = [];
+
+//holds information about the block that is to be placed
+var selection = {
+	blocks : {
+		big : true,
+		small : false,
+		wall : false
+	},
+	color : "green"
+}
+
+var active_block; //keeps track of the block that is currently being placed
+
+//holds all of the level data entered by the user
+var level_object = {
+	bonuses : {
+		time_lower_bound : 60,
+		timer_upper_bound : 90,
+		paddle_lower_bound : 20,
+		paddle_upper_bound : 40
+	},
+
+	blocks : []
+}
+
+function startGame() {
+	PLACEMENT_BIG_BLOCK = new block( BIG_BLOCK_DIMENSIONS.width, BIG_BLOCK_DIMENSIONS.height, BIG_BLOCK_IMAGE, -BIG_BLOCK_DIMENSIONS.width, -BIG_BLOCK_DIMENSIONS.height, 1, "image" );
+	PLACEMENT_SMALL_BLOCK = new block( SMALL_BLOCK_DIMENSIONS.width, SMALL_BLOCK_DIMENSIONS.height, SMALL_BLOCK_IMAGE, 100, -SMALL_BLOCK_DIMENSIONS.height, 1, "image" );
+	active_block = PLACEMENT_BIG_BLOCK;
+	myGameArea.start( );
+}
+
+function block(  ) {
+
+}
+
+var myGameArea = {
+    canvas : document.getElementById("game"),
+
+    start : function() {
+    	this.canvas.width = width;
+    	this.canvas.height = height;
+        this.context = this.canvas.getContext("2d");
+        this.interval = setInterval( updateGameArea, 20 );
+
+    	//canvas event listeners
+        this.canvas.addEventListener('keydown', function(e) {
+        	//send the keyup event to the active scene        	
+        })
+
+        this.canvas.addEventListener('keyup', function( e ){
+        	//send the keyup event to the active scene
+        })
+
+        this.canvas.addEventListener('mousedown', function( e ) {
+        	//send the click event to the active scene
+        	alert( JSON.stringify( placement_guides, undefined, 4 ) );
+        	var xpos, ypos;
+        	if ( placement_guides.vertical_centering == true || placement_guides.horizontal_centering == true ) {
+        		xpos = placement_guides.forced_placement.x;
+        		ypos = placement_guides.forced_placement.y;
+        	} else {
+        		xpos = mousePos.x;
+        		ypos = mousePos.y
+        	}
+
+        	if ( selection.blocks.big ) {
+        		//width, height, src, x, y, type, health = 1 
+        		level_object.blocks.push( new placement_code(
+        			BIG_BLOCK_DIMENSIONS.width,
+        			BIG_BLOCK_DIMENSIONS.height,
+        			block_assets["big"][selection.color],
+        			xpos - ( BIG_BLOCK_DIMENSIONS.width / 2 ), //x
+        			ypos - ( BIG_BLOCK_DIMENSIONS.height / 2 ), //y
+        			"big_block"
+        			) );
+        		console.log( JSON.stringify( level_object, undefined, 4 ) );
+
+        		//width, height, color, x, y, health = 1, type = "color"
+        		test_blocks.push( new block( 
+					BIG_BLOCK_DIMENSIONS.width,
+        			BIG_BLOCK_DIMENSIONS.height,
+        			block_assets["big"][selection.color],
+        			xpos - ( BIG_BLOCK_DIMENSIONS.width / 2 ), //x
+        			ypos - ( BIG_BLOCK_DIMENSIONS.height / 2 ), //y
+        			1,
+        			"image" 
+        			) );
+        	} 
+        	else if ( selection.blocks.small ) {
+        		//width, height, src, x, y, type, health = 1 
+        		level_object.blocks.push( new placement_code(
+        			SMALL_BLOCK_DIMENSIONS.width,
+        			SMALL_BLOCK_DIMENSIONS.height,
+        			block_assets["small"][selection.color],
+        			xpos - ( SMALL_BLOCK_DIMENSIONS.width / 2 ), //x
+        			ypos - ( SMALL_BLOCK_DIMENSIONS.height / 2 ), //y
+        			"small_block"
+        			) );
+        		console.log( JSON.stringify( level_object, undefined, 4 ) );
+
+        		//width, height, color, x, y, health = 1, type = "color"
+        		test_blocks.push( new block( 
+					SMALL_BLOCK_DIMENSIONS.width,
+        			SMALL_BLOCK_DIMENSIONS.height,
+        			block_assets["small"][selection.color],
+        			xpos - ( SMALL_BLOCK_DIMENSIONS.width / 2 ), //x
+        			ypos - ( SMALL_BLOCK_DIMENSIONS.height / 2 ), //y
+        			1,
+        			"image" 
+        			) );
+        	}
+        })
+
+        this.canvas.addEventListener('mouseup', function( e ) {
+        	//send the click event to the active scene
+        })
+    },
+
+    clear : function() {
+    	this.context.clearRect( 0, 0, this.canvas.width, this.canvas.height );
+    }
+}
+
+function updateGameArea() {
+	myGameArea.clear();
+	var ctx = myGameArea.canvas.getContext("2d");
+
+	if ( selection.blocks.big ) {
+		PLACEMENT_BIG_BLOCK.x = mousePos.x - (BIG_BLOCK_DIMENSIONS.width / 2);
+		PLACEMENT_BIG_BLOCK.y = mousePos.y - (BIG_BLOCK_DIMENSIONS.height / 2);
+	}
+
+	else if ( selection.blocks.small ) {
+		PLACEMENT_SMALL_BLOCK.x = mousePos.x - (SMALL_BLOCK_DIMENSIONS.width / 2);
+		PLACEMENT_SMALL_BLOCK.y = mousePos.y - (SMALL_BLOCK_DIMENSIONS.height / 2);
+	}
+
+	for ( var i = 0; i < test_blocks.length; ++i ) {
+		//check if the block is centered vertically with another block
+		if ( ( mousePos.x <= test_blocks[i].center.x + 5 && mousePos.x >= test_blocks[i].center.x - 5 ) && !placement_guides.vertical_centering ) {
+
+			active_block.x = test_blocks[i].x;
+
+			//force the x and y coordinated
+			//if the block is currently being centered horizontally, dont change the forced_placement y
+			placement_guides.forced_placement.x = test_blocks[i].x + ( test_blocks[i].width / 2 ) ;
+			( placement_guides.horizontal_centering ) ? null : placement_guides.forced_placement.y = mousePos.y;
+
+			ctx.globalCompositeOperation='destination-over';
+			ctx.setLineDash([5, 3]);/*dashes are 5px and spaces are 3px*/
+			ctx.beginPath();
+			ctx.moveTo( test_blocks[i].center.x, 0 );
+			ctx.lineTo( test_blocks[i].center.x, height );
+			ctx.strokeStyle = '#00f';
+			ctx.stroke();
+
+			placement_guides.vertical_centering = true;
+
+		} else {
+			//it is not centered with it
+			placement_guides.vertical_centering = false;
+		}
+
+		//check if the block is centered horizontally with another block
+		if ( ( mousePos.y <= test_blocks[i].center.y + 5 && mousePos.y >= test_blocks[i].center.y - 5 ) && !placement_guides.horizontal_centering ) {
+			active_block.y = test_blocks[i].y;
+
+			//force the x and y coordinated
+			//if the block is currently being centered vertically, dont change the forced_placement x
+			( placement_guides.vertical_centering ) ? null : placement_guides.forced_placement.x = mousePos.x;
+			placement_guides.forced_placement.y = test_blocks[i].y + ( test_blocks[i].height / 2 );
+
+			ctx.globalCompositeOperation='destination-over';
+			ctx.setLineDash([5, 3]);/*dashes are 5px and spaces are 3px*/
+			ctx.beginPath();
+			ctx.moveTo( 0, test_blocks[i].center.y );
+			ctx.lineTo( width, test_blocks[i].center.y );
+			ctx.strokeStyle = '#00f';
+			ctx.stroke();
+
+			placement_guides.horizontal_centering = true;
+		} else {
+			placement_guides.horizontal_centering = false;
+		}
+	}
+
+	myGameArea.context.save();
+	myGameArea.context.globalAlpha = 0.4;
+	PLACEMENT_BIG_BLOCK.update();
+	PLACEMENT_SMALL_BLOCK.update();
+	myGameArea.context.restore();
+
+	for ( var i = 0; i < test_blocks.length; ++i ) {
+		test_blocks[i].update();
+	}
+
+	//Bottom bound
+	ctx.setLineDash([5, 3]);/*dashes are 5px and spaces are 3px*/
+	ctx.beginPath();
+	ctx.moveTo(0,height - 75);
+	ctx.lineTo(width, height - 75);
+	ctx.strokeStyle = '#ff0000';
+	ctx.stroke();
+
+}
+
+function getMousePos(canvas, e) {
+    var rect = document.getElementById("game").getBoundingClientRect();
+    return {
+    	x: e.clientX - rect.left,
+    	y: e.clientY - rect.top
+	};
+}
+
+document.getElementById("game").addEventListener('mousemove', function(e) {
+	mousePos = getMousePos(document.getElementById("game"), e);
+    //myPaddle.newPos( mousePos.x, mousePos.y );
+}, false);
+
+function block( width, height, color, x, y, health = 1, type = "color" ) {
+	this.width = width;
+	this.height = height;
+	this.spdX = 0;
+	this.spdY = 0;
+	this.x = x;
+	this.y = y;
+	this.health = health;
+	if ( type == "image" ) {
+		this.image = new Image();
+		this.image.src = color;
+	}
+
+	this.center = {
+		x : this.x + ( this.width / 2 ),
+		y : this.y + ( this.height / 2 )
+	}
+
+	this.update = function() {
+		ctx = myGameArea.context;
+		if ( type == "color" ) {
+			ctx.fillStyle = color;
+			ctx.fillRect( this.x, this.y, this.width, this.height );
+		}
+		else if ( type == "image" ) {
+			ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+		}
+	}
+}
+
+function placement_code( width, height, src, x, y, type, health = 1 ){
+	this.type = type; //big_block, small_block, wall
+	this.x = x,
+	this.y = y,
+	this.width = width,
+	this.height = height,
+	this.src = src,
+	this.health = health
+}
+
+var rad = document.placement_form.types;
+var prev = null;
+for(var i = 0; i < rad.length; i++) {
+    rad[i].onclick = function() {
+        (prev)? selection.blocks[prev.value] = false : null;
+        //console.log( this.value );
+        //selection.blocks[prev.value] = false;
+        if(this !== prev) {
+            prev = this;
+        }
+        selection.blocks[prev.value] = true;
+        ///console.log( prev.value );
+
+        if ( prev.value == "big" ) {
+        	active_block == PLACEMENT_BIG_BLOCK;
+        } else if ( prev.value == "small" ) {
+        	active_block = PLACEMENT_SMALL_BLOCK;
+        }
+
+        PLACEMENT_BIG_BLOCK.x = -100;
+        PLACEMENT_BIG_BLOCK.y = -100;
+        PLACEMENT_SMALL_BLOCK.x = -100;
+        PLACEMENT_SMALL_BLOCK.y = -100;
+    };
+}
+</script>
+
+</body>
+</html>
