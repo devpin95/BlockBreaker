@@ -74,7 +74,8 @@ var placement_guides = {
 	},
 	vertical_centering : false,
 	horizontal_centering : false,
-	hugging : false
+	hugging_tb : false,
+	hugging_lr : false
 }
 
 //placement objects that hint to the user what kind of block they are placing
@@ -178,7 +179,7 @@ var myGameArea = {
         	//send the click event to the active scene
         	//alert( JSON.stringify( placement_guides, undefined, 4 ) );
         	var xpos, ypos;
-        	if ( placement_guides.vertical_centering || placement_guides.horizontal_centering || placement_guides.hugging ) {
+        	if ( placement_guides.vertical_centering || placement_guides.horizontal_centering || placement_guides.hugging_tb || placement_guides.hugging_lr ) {
         		xpos = placement_guides.forced_placement.x;
         		ypos = placement_guides.forced_placement.y;
         	} else {
@@ -275,7 +276,7 @@ function updateGameArea() {
 			( placement_guides.horizontal_centering ) ? null : placement_guides.forced_placement.y = mousePos.y - ( active_block.height / 2 );
 
 			ctx.globalCompositeOperation='destination-over';
-			ctx.setLineDash([5, 3]);/*dashes are 5px and spaces are 3px*/
+			ctx.setLineDash([2, 2]);/*dashes are 5px and spaces are 3px*/
 			ctx.beginPath();
 			ctx.moveTo( test_blocks[i].center.x, 0 );
 			ctx.lineTo( test_blocks[i].center.x, height );
@@ -292,7 +293,7 @@ function updateGameArea() {
 
 	for ( var i = 0; i < test_blocks.length; ++i ) {
 		//check if the block is centered horizontally with another block
-		if ( ( mousePos.y <= test_blocks[i].center.y + 5 && mousePos.y >= test_blocks[i].center.y - 5 ) && placement_guides.horizontal_centering != true ) {
+		if ( ( mousePos.y <= test_blocks[i].center.y + 10 && mousePos.y >= test_blocks[i].center.y - 10 ) && placement_guides.horizontal_centering != true ) {
 			
 			//alert("CENTERING H");
 
@@ -304,7 +305,7 @@ function updateGameArea() {
 			placement_guides.forced_placement.y = test_blocks[i].y;
 
 			ctx.globalCompositeOperation='destination-over';
-			ctx.setLineDash([5, 3]);/*dashes are 5px and spaces are 3px*/
+			ctx.setLineDash([2, 2]);/*dashes are 5px and spaces are 3px*/
 			ctx.beginPath();
 			ctx.moveTo( 0, test_blocks[i].center.y );
 			ctx.lineTo( width, test_blocks[i].center.y );
@@ -320,31 +321,84 @@ function updateGameArea() {
 
 	for ( var i = 0; i < test_blocks.length; ++i ) {
 		//check if the block is locked against the top edge of other blocks
-		if ( mousePos.y + ( active_block.height / 2 ) >= test_blocks[i].top_edge - 5 && mousePos.y <= test_blocks[i].center.y ) {
+		if ( mousePos.y + ( active_block.height / 2 ) >= test_blocks[i].top_edge - 5 && mousePos.y <= test_blocks[i].center.y ) 
+		{
 			//alert("HERE!");
-			active_block.y = test_blocks[i].y - test_blocks[i].height;
+			active_block.y = test_blocks[i].y - active_block.height;
 
 			//force the x and y coordinated
 			//if the block is currently being centered vertically, dont change the forced_placement x
 			// ( placement_guides.vertical_centering ) ? null : placement_guides.forced_placement.x = mousePos.x  - ( active_block.width / 2 );
 			// placement_guides.forced_placement.y = test_blocks[i].y;
 
-			placement_guides.forced_placement.y = test_blocks[i].y - test_blocks[i].height;
+			placement_guides.forced_placement.y = test_blocks[i].y - active_block.height;
 			( placement_guides.vertical_centering ) ? mousePos.x : placement_guides.forced_placement.x = mousePos.x  - ( active_block.width / 2 );
 
 
 			ctx.globalCompositeOperation='destination-over';
-			ctx.setLineDash([5, 3]);/*dashes are 5px and spaces are 3px*/
+			ctx.setLineDash([2, 2]);/*dashes are 5px and spaces are 3px*/
 			ctx.beginPath();
 			ctx.moveTo( 0, test_blocks[i].y );
 			ctx.lineTo( width, test_blocks[i].y );
 			ctx.strokeStyle = '#00f';
 			ctx.stroke();
 
-			placement_guides.hugging = true;
+			placement_guides.hugging_tb = true;
 			break;
-		} else {
-			placement_guides.hugging = false;
+		} 
+
+		else if ( mousePos.y - ( active_block.height / 2 ) <= test_blocks[i].bottom_edge + 5 && mousePos.y >= test_blocks[i].center.y )
+	 	{
+	 		//check if the block is locked against the bottom edge of other blocks
+			active_block.y = test_blocks[i].y + active_block.height;
+
+			//force the x and y coordinated
+			//if the block is currently being centered vertically, dont change the forced_placement x
+			// ( placement_guides.vertical_centering ) ? null : placement_guides.forced_placement.x = mousePos.x  - ( active_block.width / 2 );
+			// placement_guides.forced_placement.y = test_blocks[i].y;
+
+			placement_guides.forced_placement.y = test_blocks[i].y + test_blocks[i].height;
+			( placement_guides.vertical_centering ) ? mousePos.x : placement_guides.forced_placement.x = mousePos.x  - ( active_block.width / 2 );
+
+
+			ctx.globalCompositeOperation='destination-over';
+			ctx.setLineDash([2, 2]);/*dashes are 5px and spaces are 3px*/
+			ctx.beginPath();
+			ctx.moveTo( 0, test_blocks[i].bottom_edge );
+			ctx.lineTo( width, test_blocks[i].bottom_edge );
+			ctx.strokeStyle = '#00f';
+			ctx.stroke();
+
+			placement_guides.hugging_tb = true;
+		}
+
+		else {
+			placement_guides.hugging_tb = false;
+		}
+	}
+
+	for ( var i = 0; i < test_blocks.length; ++i ) {
+		if ( mousePos.x <= test_blocks[i].right_edge + ( active_block.width / 2 ) + 5 && mousePos.x >= test_blocks[i].right_edge + ( active_block.width / 2 ) - 5 ) {
+			//check if the block is locked against the right edge of other blocks
+			active_block.x = test_blocks[i].x + active_block.width;
+
+			placement_guides.forced_placement.x = test_blocks[i].x + test_blocks[i].width;
+			( placement_guides.hugging_tb ) ? null : placement_guides.forced_placement.y = mousePos.y;
+
+
+			ctx.globalCompositeOperation='destination-over';
+			ctx.setLineDash([2, 2]);/*dashes are 5px and spaces are 3px*/
+			ctx.beginPath();
+			ctx.moveTo( test_blocks[i].right_edge, 0 );
+			ctx.lineTo( test_blocks[i].right_edge, height );
+			ctx.strokeStyle = '#00f';
+			ctx.stroke();
+
+			placement_guides.hugging_lr = true;
+		}
+
+		else {
+			placement_guides.hugging_lr = false;
 		}
 	}
 
