@@ -1,3 +1,12 @@
+<!--     
+										    __                        __     ______                         __                      
+										   / /   ___  _   __  ___    / /    / ____/   _____  ___   ____ _  / /_  ___    _____       
+										  / /   / _ \| | / / / _ \  / /    / /       / ___/ / _ \ / __ `/ / __/ / _ \  / ___/       
+										 / /___/  __/| |/ / /  __/ / /    / /___    / /    /  __// /_/ / / /_  /  __/ / /           
+										/_____/\___/ |___/  \___/ /_/     \____/   /_/     \___/ \__,_/  \__/  \___/ /_/           
+
+-->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,8 +44,9 @@
 	<img src="../assets/wall_bg.png"> -->
 	<form name="placement_form">
 		<div id="actions">
-			<input type="radio" name="action" value="Big Block"> Place Blocks <br/>
-			<input type="radio" name="action" value="Small Block"> Erase <br/>
+			<input type="radio" name="action" value="place" checked> Place Blocks <br/>
+			<input type="radio" name="action" value="erase"> Erase <br/>
+			<input type="button" value="Clear" onclick="clearCanvas()">
 		</div>
 		<div id="block_types">
 			<input type="radio" name="types" value="big"> Big Block <br/>
@@ -54,11 +64,14 @@
 <!-- <script src="../js/GLOBALS.js"></script> -->
 <!-- <script src="js/creater.js"></script> -->
 <!-- <script src="../js/gamePieces.js"></script> -->
+<script src="js/lc_blockPlacement.js"></script>
+<script src="js/lc_eraseBlocks.js"></script>
 <script>
 	
 var mousePos = {
 	x : 0,
-	y : 0
+	y : 0,
+	down : false
 };
 
 var width = 960;
@@ -72,15 +85,17 @@ var placement_guides = {
 		x : null,
 		y : null
 	},
-	vertical_centering : false,
-	horizontal_centering : false,
-	hugging_tb : false,
-	hugging_lr : false
+	vertical_centering : false,		//vertically align with another block
+	horizontal_centering : false,	//horizontally align with another block
+	c_vertical_centering : false,	//vertically align with the canvas
+	c_horizontal_centering: false,	//horizontally align with the canvas
+	hugging_tb : false,				//align with the top/bottom edge of another block
+	hugging_lr : false 				//align with the left/right edge of another block
 }
 
 //placement objects that hint to the user what kind of block they are placing
-var BIG_BLOCK_DIMENSIONS = { width : 76, height : 36 };
-var SMALL_BLOCK_DIMENSIONS = { width : 76, height : 21 };
+var BIG_BLOCK_DIMENSIONS = { width : 75, height : 35 };
+var SMALL_BLOCK_DIMENSIONS = { width : 75, height : 35 / 2 };
 var BIG_BLOCK_IMAGE = "assets/big_block_bg.jpg";
 var SMALL_BLOCK_IMAGE = "assets/small_block_bg.jpg";
 var PLACEMENT_BIG_BLOCK, PLACEMENT_SMALL_BLOCK;
@@ -105,6 +120,8 @@ var deleted_blocks = [];
 
 //holds information about the block that is to be placed
 var selection = {
+	place : true,
+	erase : false,
 	blocks : {
 		big : true,
 		small : false,
@@ -113,7 +130,13 @@ var selection = {
 	color : "green"
 }
 
+var SCENES = {
+	place : blockPlacementScene,
+	erase : eraseBlocks
+}
+
 var active_block; //keeps track of the block that is currently being placed
+var ACTIVE_SCENE = SCENES.place;
 
 //holds all of the level data entered by the user
 var level_object = {
@@ -178,61 +201,7 @@ var myGameArea = {
         this.canvas.addEventListener('mousedown', function( e ) {
         	//send the click event to the active scene
         	//alert( JSON.stringify( placement_guides, undefined, 4 ) );
-        	var xpos, ypos;
-        	if ( placement_guides.vertical_centering || placement_guides.horizontal_centering || placement_guides.hugging_tb || placement_guides.hugging_lr ) {
-        		xpos = placement_guides.forced_placement.x;
-        		ypos = placement_guides.forced_placement.y;
-        	} else {
-        		xpos = mousePos.x - ( active_block.width / 2 );
-        		ypos = mousePos.y - ( active_block.height / 2 )
-        	}
-
-        	if ( selection.blocks.big ) {
-        		//width, height, src, x, y, type, health = 1 
-        		level_object.blocks.push( new placement_code(
-        			BIG_BLOCK_DIMENSIONS.width,
-        			BIG_BLOCK_DIMENSIONS.height,
-        			block_assets["big"][selection.color],
-        			xpos, // - ( BIG_BLOCK_DIMENSIONS.width / 2 ), //x
-        			ypos, // - ( BIG_BLOCK_DIMENSIONS.height / 2 ), //y
-        			"big_block"
-        			) );
-        		console.log( JSON.stringify( level_object, undefined, 4 ) );
-
-        		//width, height, color, x, y, health = 1, type = "color"
-        		test_blocks.push( new block( 
-					BIG_BLOCK_DIMENSIONS.width,
-        			BIG_BLOCK_DIMENSIONS.height,
-        			block_assets["big"][selection.color],
-        			xpos,// - ( BIG_BLOCK_DIMENSIONS.width / 2 ), //x
-        			ypos, // - ( BIG_BLOCK_DIMENSIONS.height / 2 ), //y
-        			1,
-        			"image" 
-        			) );
-        	} 
-        	else if ( selection.blocks.small ) {
-        		//width, height, src, x, y, type, health = 1 
-        		level_object.blocks.push( new placement_code(
-        			SMALL_BLOCK_DIMENSIONS.width,
-        			SMALL_BLOCK_DIMENSIONS.height,
-        			block_assets["small"][selection.color],
-        			xpos, // - ( SMALL_BLOCK_DIMENSIONS.width / 2 ), //x
-        			ypos, // - ( SMALL_BLOCK_DIMENSIONS.height / 2 ), //y
-        			"small_block"
-        			) );
-        		console.log( JSON.stringify( level_object, undefined, 4 ) );
-
-        		//width, height, color, x, y, health = 1, type = "color"
-        		test_blocks.push( new block( 
-					SMALL_BLOCK_DIMENSIONS.width,
-        			SMALL_BLOCK_DIMENSIONS.height,
-        			block_assets["small"][selection.color],
-        			xpos, // - ( SMALL_BLOCK_DIMENSIONS.width / 2 ), //x
-        			ypos, // - ( SMALL_BLOCK_DIMENSIONS.height / 2 ), //y
-        			1,
-        			"image" 
-        			) );
-        	}
+        	ACTIVE_SCENE.click_down( e );
         })
 
         this.canvas.addEventListener('mouseup', function( e ) {
@@ -249,158 +218,7 @@ function updateGameArea() {
 	myGameArea.clear();
 	var ctx = myGameArea.canvas.getContext("2d");
 
-	// if ( selection.blocks.big ) {
-	// 	PLACEMENT_BIG_BLOCK.x = mousePos.x - (BIG_BLOCK_DIMENSIONS.width / 2);
-	// 	PLACEMENT_BIG_BLOCK.y = mousePos.y - (BIG_BLOCK_DIMENSIONS.height / 2);
-	// }
-
-	// else if ( selection.blocks.small ) {
-	// 	PLACEMENT_SMALL_BLOCK.x = mousePos.x - (SMALL_BLOCK_DIMENSIONS.width / 2);
-	// 	PLACEMENT_SMALL_BLOCK.y = mousePos.y - (SMALL_BLOCK_DIMENSIONS.height / 2);
-	// }
-
-	active_block.x = mousePos.x - ( active_block.width / 2);
-	active_block.y = mousePos.y - ( active_block.height / 2);
-
-	for ( var i = 0; i < test_blocks.length; ++i ) {
-		//check if the block is centered vertically with another block
-		if ( ( mousePos.x <= test_blocks[i].center.x + 5 && mousePos.x >= test_blocks[i].center.x - 5 )  && placement_guides.vertical_centering != true ) {
-
-			//alert("CENTERING V");
-
-			active_block.x = test_blocks[i].x;
-
-			//force the x and y coordinated
-			//if the block is currently being centered horizontally, dont change the forced_placement y
-			placement_guides.forced_placement.x = test_blocks[i].x;
-			( placement_guides.horizontal_centering ) ? null : placement_guides.forced_placement.y = mousePos.y - ( active_block.height / 2 );
-
-			ctx.globalCompositeOperation='destination-over';
-			ctx.setLineDash([2, 2]);/*dashes are 5px and spaces are 3px*/
-			ctx.beginPath();
-			ctx.moveTo( test_blocks[i].center.x, 0 );
-			ctx.lineTo( test_blocks[i].center.x, height );
-			ctx.strokeStyle = '#00f';
-			ctx.stroke();
-
-			placement_guides.vertical_centering = true;
-			break;
-		} else {
-			//it is not centered with it
-			placement_guides.vertical_centering = false;
-		}
-	}
-
-	for ( var i = 0; i < test_blocks.length; ++i ) {
-		//check if the block is centered horizontally with another block
-		if ( ( mousePos.y <= test_blocks[i].center.y + 10 && mousePos.y >= test_blocks[i].center.y - 10 ) && placement_guides.horizontal_centering != true ) {
-			
-			//alert("CENTERING H");
-
-			active_block.y = test_blocks[i].y;
-
-			//force the x and y coordinated
-			//if the block is currently being centered vertically, dont change the forced_placement x
-			( placement_guides.vertical_centering ) ? null : placement_guides.forced_placement.x = mousePos.x  - ( active_block.width / 2 );
-			placement_guides.forced_placement.y = test_blocks[i].y;
-
-			ctx.globalCompositeOperation='destination-over';
-			ctx.setLineDash([2, 2]);/*dashes are 5px and spaces are 3px*/
-			ctx.beginPath();
-			ctx.moveTo( 0, test_blocks[i].center.y );
-			ctx.lineTo( width, test_blocks[i].center.y );
-			ctx.strokeStyle = '#00f';
-			ctx.stroke();
-
-			placement_guides.horizontal_centering = true;
-			break;
-		} else {
-			placement_guides.horizontal_centering = false;
-		}
-	}
-
-	for ( var i = 0; i < test_blocks.length; ++i ) {
-		//check if the block is locked against the top edge of other blocks
-		if ( mousePos.y + ( active_block.height / 2 ) >= test_blocks[i].top_edge - 5 && mousePos.y <= test_blocks[i].center.y ) 
-		{
-			//alert("HERE!");
-			active_block.y = test_blocks[i].y - active_block.height;
-
-			//force the x and y coordinated
-			//if the block is currently being centered vertically, dont change the forced_placement x
-			// ( placement_guides.vertical_centering ) ? null : placement_guides.forced_placement.x = mousePos.x  - ( active_block.width / 2 );
-			// placement_guides.forced_placement.y = test_blocks[i].y;
-
-			placement_guides.forced_placement.y = test_blocks[i].y - active_block.height;
-			( placement_guides.vertical_centering ) ? mousePos.x : placement_guides.forced_placement.x = mousePos.x  - ( active_block.width / 2 );
-
-
-			ctx.globalCompositeOperation='destination-over';
-			ctx.setLineDash([2, 2]);/*dashes are 5px and spaces are 3px*/
-			ctx.beginPath();
-			ctx.moveTo( 0, test_blocks[i].y );
-			ctx.lineTo( width, test_blocks[i].y );
-			ctx.strokeStyle = '#00f';
-			ctx.stroke();
-
-			placement_guides.hugging_tb = true;
-			break;
-		} 
-
-		else if ( mousePos.y - ( active_block.height / 2 ) <= test_blocks[i].bottom_edge + 5 && mousePos.y >= test_blocks[i].center.y )
-	 	{
-	 		//check if the block is locked against the bottom edge of other blocks
-			active_block.y = test_blocks[i].y + active_block.height;
-
-			//force the x and y coordinated
-			//if the block is currently being centered vertically, dont change the forced_placement x
-			// ( placement_guides.vertical_centering ) ? null : placement_guides.forced_placement.x = mousePos.x  - ( active_block.width / 2 );
-			// placement_guides.forced_placement.y = test_blocks[i].y;
-
-			placement_guides.forced_placement.y = test_blocks[i].y + test_blocks[i].height;
-			( placement_guides.vertical_centering ) ? mousePos.x : placement_guides.forced_placement.x = mousePos.x  - ( active_block.width / 2 );
-
-
-			ctx.globalCompositeOperation='destination-over';
-			ctx.setLineDash([2, 2]);/*dashes are 5px and spaces are 3px*/
-			ctx.beginPath();
-			ctx.moveTo( 0, test_blocks[i].bottom_edge );
-			ctx.lineTo( width, test_blocks[i].bottom_edge );
-			ctx.strokeStyle = '#00f';
-			ctx.stroke();
-
-			placement_guides.hugging_tb = true;
-		}
-
-		else {
-			placement_guides.hugging_tb = false;
-		}
-	}
-
-	for ( var i = 0; i < test_blocks.length; ++i ) {
-		if ( mousePos.x <= test_blocks[i].right_edge + ( active_block.width / 2 ) + 5 && mousePos.x >= test_blocks[i].right_edge + ( active_block.width / 2 ) - 5 ) {
-			//check if the block is locked against the right edge of other blocks
-			active_block.x = test_blocks[i].x + active_block.width;
-
-			placement_guides.forced_placement.x = test_blocks[i].x + test_blocks[i].width;
-			( placement_guides.hugging_tb ) ? null : placement_guides.forced_placement.y = mousePos.y;
-
-
-			ctx.globalCompositeOperation='destination-over';
-			ctx.setLineDash([2, 2]);/*dashes are 5px and spaces are 3px*/
-			ctx.beginPath();
-			ctx.moveTo( test_blocks[i].right_edge, 0 );
-			ctx.lineTo( test_blocks[i].right_edge, height );
-			ctx.strokeStyle = '#00f';
-			ctx.stroke();
-
-			placement_guides.hugging_lr = true;
-		}
-
-		else {
-			placement_guides.hugging_lr = false;
-		}
-	}
+	ACTIVE_SCENE.run();
 
 	myGameArea.context.save();
 	myGameArea.context.globalAlpha = 0.4;
@@ -510,6 +328,37 @@ for(var i = 0; i < rad.length; i++) {
         PLACEMENT_SMALL_BLOCK.x = -100;
         PLACEMENT_SMALL_BLOCK.y = -100;
     };
+}
+
+//actions
+var act_rad = document.placement_form.action;
+var act_prev = null;
+for(var i = 0; i < act_rad.length; i++) {
+    act_rad[i].onclick = function() {
+        (act_prev)? selection[act_prev.value] = false : null;
+        //console.log( this.value );
+        //selection.blocks[act_prev.value] = false;
+        if(this !== act_prev) {
+            act_prev = this;
+        }
+        selection[act_prev.value] = true;
+        ACTIVE_SCENE.blur();
+        ACTIVE_SCENE = SCENES[act_prev.value];
+        ///console.log( act_prev.value );
+    };
+}
+
+function validPlacement( blk ) {
+	if ( blk.right_edge > width || blk.left_edge < 0 || blk.top_edge < 0 || blk.bottom_edge > height ) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+function clearCanvas( ) {
+	test_blocks = [];
+	level_object.blocks = [];
 }
 </script>
 
