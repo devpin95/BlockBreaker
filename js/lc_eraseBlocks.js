@@ -1,4 +1,4 @@
-var eraseBlocks = {
+var eraseBlocksScene = {
 	run : function() {
 		if ( mousePos.down ) {
 			for ( var i = test_blocks.length - 1; i >= 0; --i ) {
