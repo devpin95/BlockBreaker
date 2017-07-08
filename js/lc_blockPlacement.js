@@ -289,68 +289,121 @@ var blockPlacementScene = {
 	},
 
 	click_down : function(e) {
+	   	var xpos, ypos;
+    	if ( placement_guides.vertical_centering || placement_guides.horizontal_centering || placement_guides.hugging_tb || placement_guides.hugging_lr || placement_guides.c_vertical_centering || placement_guides.c_horizontal_centering ) {
+    		xpos = placement_guides.forced_placement.x;
+    		ypos = placement_guides.forced_placement.y;
+    	} else {
+    		xpos = mousePos.x - ( active_block.width / 2 );
+    		ypos = mousePos.y - ( active_block.height / 2 )
+    	}
+
+		if ( selection.blocks.wall ) {
+			//alert("LAY A AWALL");
+			//width, height, src, x, y, type, health = 1 
+    		level_object.blocks.push( new placement_code(
+    			PLACEMENT_WALL.width,
+    			PLACEMENT_WALL.height,
+    			block_assets["wall"],
+    			xpos, // - ( SMALL_BLOCK_DIMENSIONS.width / 2 ), //https://open.spotify.com/track/1hlSU2dSXytehUIWL16kaox
+    			ypos, // - ( SMALL_BLOCK_DIMENSIONS.height / 2 ), //y
+    			"wall"
+			) );
+    		//console.log( JSON.stringify( level_object, undefined, 4 ) );
+
+    		//width, height, color, x, y, health = 1, type = "color"
+    		test_blocks.push( new block( 
+				PLACEMENT_WALL.width,
+    			PLACEMENT_WALL.height,
+    			block_assets["wall"],
+    			xpos, // - ( SMALL_BLOCK_DIMENSIONS.width / 2 ), //x
+    			ypos, // - ( SMALL_BLOCK_DIMENSIONS.height / 2 ), //y
+    			1,
+    			"image" 
+			) );
+			test_blocks[ test_blocks.length - 1 ].is_wall = true;
+		}
+
+		//do not allow blocks to be placed in invalid areas
 		if ( !validPlacement( active_block ) ) {
-        		return;
-        	}
-        	var xpos, ypos;
-        	if ( placement_guides.vertical_centering || placement_guides.horizontal_centering || placement_guides.hugging_tb || placement_guides.hugging_lr || placement_guides.c_vertical_centering || placement_guides.c_horizontal_centering ) {
-        		xpos = placement_guides.forced_placement.x;
-        		ypos = placement_guides.forced_placement.y;
-        	} else {
-        		xpos = mousePos.x - ( active_block.width / 2 );
-        		ypos = mousePos.y - ( active_block.height / 2 )
-        	}
+    		return;
+    	}
 
-        	if ( selection.blocks.big ) {
-        		//width, height, src, x, y, type, health = 1 
-        		level_object.blocks.push( new placement_code(
-        			BIG_BLOCK_DIMENSIONS.width,
-        			BIG_BLOCK_DIMENSIONS.height,
-        			block_assets["big"][selection.color],
-        			xpos, // - ( BIG_BLOCK_DIMENSIONS.width / 2 ), //x
-        			ypos, // - ( BIG_BLOCK_DIMENSIONS.height / 2 ), //y
-        			"big_block"
-        			) );
-        		//console.log( JSON.stringify( level_object, undefined, 4 ) );
+    	if ( selection.blocks.big ) {
+    		//width, height, src, x, y, type, health = 1 
+    		level_object.blocks.push( new placement_code(
+    			BIG_BLOCK_DIMENSIONS.width,
+    			BIG_BLOCK_DIMENSIONS.height,
+    			block_assets["big"][selection.color],
+    			xpos,
+    			ypos,
+    			"big_block"
+			) );
 
-        		//width, height, color, x, y, health = 1, type = "color"
-        		test_blocks.push( new block( 
-					BIG_BLOCK_DIMENSIONS.width,
-        			BIG_BLOCK_DIMENSIONS.height,
-        			block_assets["big"][selection.color],
-        			xpos,// - ( BIG_BLOCK_DIMENSIONS.width / 2 ), //x
-        			ypos, // - ( BIG_BLOCK_DIMENSIONS.height / 2 ), //y
-        			1,
-        			"image" 
-        			) );
-        	} 
-        	else if ( selection.blocks.small ) {
-        		//width, height, src, x, y, type, health = 1 
-        		level_object.blocks.push( new placement_code(
-        			SMALL_BLOCK_DIMENSIONS.width,
-        			SMALL_BLOCK_DIMENSIONS.height,
-        			block_assets["small"][selection.color],
-        			xpos, // - ( SMALL_BLOCK_DIMENSIONS.width / 2 ), //https://open.spotify.com/track/1hlSU2dSXytehUIWL16kaox
-        			ypos, // - ( SMALL_BLOCK_DIMENSIONS.height / 2 ), //y
-        			"small_block"
-        			) );
-        		//console.log( JSON.stringify( level_object, undefined, 4 ) );
+    		test_blocks.push( new block( 
+				BIG_BLOCK_DIMENSIONS.width,
+    			BIG_BLOCK_DIMENSIONS.height,
+    			block_assets["big"][selection.color],
+    			xpos,
+    			ypos, 
+    			1,
+    			"image" 
+			) );
+    	} 
+    	else if ( selection.blocks.small ) {
+    		//width, height, src, x, y, type, health = 1 
+    		level_object.blocks.push( new placement_code(
+    			SMALL_BLOCK_DIMENSIONS.width,
+    			SMALL_BLOCK_DIMENSIONS.height,
+    			block_assets["small"][selection.color],
+    			xpos, // - ( SMALL_BLOCK_DIMENSIONS.width / 2 ), //https://open.spotify.com/track/1hlSU2dSXytehUIWL16kaox
+    			ypos, // - ( SMALL_BLOCK_DIMENSIONS.height / 2 ), //y
+    			"small_block"
+			) );
+    		//console.log( JSON.stringify( level_object, undefined, 4 ) );
 
-        		//width, height, color, x, y, health = 1, type = "color"
-        		test_blocks.push( new block( 
-					SMALL_BLOCK_DIMENSIONS.width,
-        			SMALL_BLOCK_DIMENSIONS.height,
-        			block_assets["small"][selection.color],
-        			xpos, // - ( SMALL_BLOCK_DIMENSIONS.width / 2 ), //x
-        			ypos, // - ( SMALL_BLOCK_DIMENSIONS.height / 2 ), //y
-        			1,
-        			"image" 
-        			) );
-        	}
+    		//width, height, color, x, y, health = 1, type = "color"
+    		test_blocks.push( new block( 
+				SMALL_BLOCK_DIMENSIONS.width,
+    			SMALL_BLOCK_DIMENSIONS.height,
+    			block_assets["small"][selection.color],
+    			xpos, // - ( SMALL_BLOCK_DIMENSIONS.width / 2 ), //x
+    			ypos, // - ( SMALL_BLOCK_DIMENSIONS.height / 2 ), //y
+    			1,
+    			"image" 
+			) );
+		}
 	},
 
 	click_up : function(e) {
 
+	},
+
+	buttonPress : function(e) {
+		//ctrl-z == 17 && 90
+    	if ( pressed_buttons[17] && pressed_buttons[90] )  {
+    		if ( test_blocks.length >= 0 ) {
+        		test_blocks.pop();
+        		deleted_blocks.push( level_object.blocks[ level_object.blocks.length - 1 ] );
+        		level_object.blocks.pop();
+        	}
+    	}     	
+    	//ctrl-y == 17 && 90
+    	else if ( pressed_buttons[17] && pressed_buttons[89] ) {
+    		if ( deleted_blocks.length >= 0 ) {
+        		var blk = deleted_blocks.pop();
+        		level_object.blocks.push( blk );
+        		//width, height, color, x, y, health = 1, type = "color"
+        		test_blocks.push( new block( blk.width, blk.height, blk.src, blk.x, blk.y, blk.health, "image" ) );
+        	}
+    	}
+
+    	else if ( e.keyCode == 27 && SCENES.wall.laying ) {
+    		PLACEMENT_WALL.x = -100;
+    		PLACEMENT_WALL.y = -100;
+ 			SCENES.wall.laying = false;
+    		ACTIVE_SCENE = SCENES.wall;
+    	}
 	},
 
 	blur : function() {
