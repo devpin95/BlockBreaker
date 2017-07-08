@@ -209,20 +209,19 @@ function paddle() {
 	}
 }
 
-function wall( x, y ) {
-	this.width = 75;
-	this.height = 13;
+function wall( width, height, src, x, y ) {
+	this.width = width;
+	this.height = height;
 	this.spdX = 0;
 	this.spdY = 0;
 	this.x = x;
 	this.y = y;
-	this.is_edge_piece = false;
 	this.center = {
 		x : this.x + (this.width / 2),
 		y : this.y + ( this.height / 2 )
 	};
 	this.image = new Image();
-	this.image.src = default_wall_image;
+	this.image.src = src;
 
 	//edges
 	this.top_edge = this.y;
@@ -231,11 +230,14 @@ function wall( x, y ) {
 	this.right_edge = this.left_edge + this.width;
 
 	this.update = function() {
-		ctx = myGameArea.context;
-		var ptrn = ctx.createPattern(this.image, 'repeat'); // Create a pattern with this image, and set it to "repeat".
-		ctx.fillStyle = ptrn;
-		//ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-		ctx.fillRect(this.x, this.y, this.width, this.height)
+		var ctx = myGameArea.context;
+		var img = document.getElementById("wall_bg")
+	    var pat = ctx.createPattern(img, "repeat-x");
+	    ctx.fillStyle = pat;
+	    ctx.save();
+	    ctx.translate( this.x, this.y );
+	    ctx.fillRect(0, 0, this.width, this.height);
+	    ctx.restore();
 	}
 
 	this.newPos = function() {
