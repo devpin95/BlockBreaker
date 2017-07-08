@@ -20,17 +20,17 @@
 			width: 960px;
 			height: 540px;
 		}
-		#selections {
+		.selections {
 			width: 960px;
 			display:block;
 			margin:0 auto;
 			margin-bottom:20px;
 			margin-top:20px;
 		}
-		#selections div {
+		.selections div {
 			float:left;
 		}
-		#selections #actions {
+		.selections #actions {
 			margin-right: 20px;
 		}
 	</style>
@@ -38,7 +38,7 @@
 
 <body onload="startGame()">
 
-<div id="selections">
+<div class="selections">
 	<!-- <img src="../assets/big_block_bg.jpg">
 	<img src="../assets/small_block_bg.jpg">
 	<img src="../assets/wall_bg.png"> -->
@@ -59,12 +59,19 @@
 
 <div style="clear:both;"></div>
 
-<canvas id="game"></canvas>
-<p id="code"></p>
+<canvas id="game" width="960px" height="540px"></canvas>
+	<div class="selections">
+	<input type="button" name="generate" value="generate" onclick="printCode()">
+	<pre id="code"></pre>
+</div>
+
+<img src="assets/wall_bg.png" id="wall_bg" style="display:none;" >
+
 <!-- <script src="../js/GLOBALS.js"></script> -->
 <!-- <script src="js/creater.js"></script> -->
 <!-- <script src="../js/gamePieces.js"></script> -->
 <script src="js/lc_blockPlacement.js"></script>
+<script src="js/lc_wallPlacement.js"></script>
 <script src="js/lc_eraseBlocks.js"></script>
 <script>
 	
@@ -98,7 +105,7 @@ var BIG_BLOCK_DIMENSIONS = { width : 75, height : 35 };
 var SMALL_BLOCK_DIMENSIONS = { width : 75, height : 35 / 2 };
 var BIG_BLOCK_IMAGE = "assets/big_block_bg.jpg";
 var SMALL_BLOCK_IMAGE = "assets/small_block_bg.jpg";
-var PLACEMENT_BIG_BLOCK, PLACEMENT_SMALL_BLOCK;
+var PLACEMENT_BIG_BLOCK, PLACEMENT_SMALL_BLOCK, PLACEMENT_WALL;
 
 //holds all of the assets for each type of block that can be placed
 var block_assets = {
@@ -108,7 +115,9 @@ var block_assets = {
 
 	small : {
 		"green" : "assets/small_block_bg.jpg"
-	}
+	},
+
+	wall : "assets/wall_bg.png"
 }
 
 //an array to display all of the blocks that have been placed
@@ -123,7 +132,7 @@ var selection = {
 	place : true,
 	erase : false,
 	blocks : {
-		big : true,
+		big : false,
 		small : false,
 		wall : false
 	},
@@ -132,7 +141,8 @@ var selection = {
 
 var SCENES = {
 	place : blockPlacementScene,
-	erase : eraseBlocks
+	erase : eraseBlocksScene,
+	wall : wallPlacementScene
 }
 
 var active_block; //keeps track of the block that is currently being placed
@@ -153,7 +163,11 @@ var level_object = {
 function startGame() {
 	PLACEMENT_BIG_BLOCK = new block( BIG_BLOCK_DIMENSIONS.width, BIG_BLOCK_DIMENSIONS.height, BIG_BLOCK_IMAGE, -BIG_BLOCK_DIMENSIONS.width, -BIG_BLOCK_DIMENSIONS.height, 1, "image" );
 	PLACEMENT_SMALL_BLOCK = new block( SMALL_BLOCK_DIMENSIONS.width, SMALL_BLOCK_DIMENSIONS.height, SMALL_BLOCK_IMAGE, 100, -SMALL_BLOCK_DIMENSIONS.height, 1, "image" );
-	active_block = PLACEMENT_BIG_BLOCK;
+	PLACEMENT_WALL = new block( SMALL_BLOCK_DIMENSIONS.width, SMALL_BLOCK_DIMENSIONS.height, SMALL_BLOCK_IMAGE, 100, -SMALL_BLOCK_DIMENSIONS.height, 1, "image" );
+	active_block = new block( 0, 0, "rgba(0,0,0,0)", 100, 0, 0, "color" );
+
+	SCENES.wall.setup();
+
 	myGameArea.start( );
 }
 
@@ -174,23 +188,24 @@ var myGameArea = {
         window.addEventListener('keydown', function(e) {
         	//send the keyup event to the active scene 
         	pressed_buttons[ e.keyCode ] = true;
-        	//ctrl-z == 17 && 90
-        	if ( pressed_buttons[17] && pressed_buttons[90] )  {
-        		if ( test_blocks.length >= 0 ) {
-	        		test_blocks.pop();
-	        		deleted_blocks.push( level_object.blocks[ level_object.blocks.length - 1 ] );
-	        		level_object.blocks.pop();
-	        	}
-        	}     	
-        	//ctrl-y == 17 && 90
-        	else if ( pressed_buttons[17] && pressed_buttons[89] ) {
-        		if ( deleted_blocks.length >= 0 ) {
-	        		var blk = deleted_blocks.pop();
-	        		level_object.blocks.push( blk );
-	        		//width, height, color, x, y, health = 1, type = "color"
-	        		test_blocks.push( new block( blk.width, blk.height, blk.src, blk.x, blk.y, blk.health, "image" ) );
-	        	}
-        	}
+        	ACTIVE_SCENE.buttonPress( e );
+        	// //ctrl-z == 17 && 90
+        	// if ( pressed_buttons[17] && pressed_buttons[90] )  {
+        	// 	if ( test_blocks.length >= 0 ) {
+	        // 		test_blocks.pop();
+	        // 		deleted_blocks.push( level_object.blocks[ level_object.blocks.length - 1 ] );
+	        // 		level_object.blocks.pop();
+	        // 	}
+        	// }     	
+        	// //ctrl-y == 17 && 90
+        	// else if ( pressed_buttons[17] && pressed_buttons[89] ) {
+        	// 	if ( deleted_blocks.length >= 0 ) {
+	        // 		var blk = deleted_blocks.pop();
+	        // 		level_object.blocks.push( blk );
+	        // 		//width, height, color, x, y, health = 1, type = "color"
+	        // 		test_blocks.push( new block( blk.width, blk.height, blk.src, blk.x, blk.y, blk.health, "image" ) );
+	        // 	}
+        	// }
         })
 
         window.addEventListener('keyup', function( e ){
@@ -224,6 +239,7 @@ function updateGameArea() {
 	myGameArea.context.globalAlpha = 0.4;
 	PLACEMENT_BIG_BLOCK.update();
 	PLACEMENT_SMALL_BLOCK.update();
+	PLACEMENT_WALL.update();
 	myGameArea.context.restore();
 
 	for ( var i = 0; i < test_blocks.length; ++i ) {
@@ -260,6 +276,7 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 	this.spdY = 0;
 	this.x = x;
 	this.y = y;
+	this.is_wall = false;
 	this.health = health;
 	if ( type == "image" ) {
 		this.image = new Image();
@@ -282,8 +299,20 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 		if ( type == "color" ) {
 			ctx.fillStyle = color;
 			ctx.fillRect( this.x, this.y, this.width, this.height );
+		} else if ( this.is_wall ) {
+			ctx.beginPath();
+		    //ctx.clearRect(0, 0, width, height); 
+		    var img = document.getElementById("wall_bg")
+		    var pat = ctx.createPattern(img, "repeat-x");
+		    ctx.fillStyle = pat;
+		    ctx.save();
+		    ctx.translate( this.x, this.y );
+		    ctx.fillRect(0, 0, this.width, this.height);
+		    ctx.restore();
+		    //ctx.translate( this.x, this.y );
+		    //ctx.fill();
 		}
-		else if ( type == "image" ) {
+		else /*( type == "image" )*/ {
 			ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
 		}
 		//edges
@@ -291,6 +320,8 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 		this.bottom_edge = this.top_edge + this.height;
 		this.left_edge = this.x;
 		this.right_edge = this.left_edge + this.width;
+		this.center.x = this.x + ( this.width / 2 );
+		this.center.y = this.y + ( this.height / 2 );
 	}
 }
 
@@ -317,16 +348,22 @@ for(var i = 0; i < rad.length; i++) {
         selection.blocks[prev.value] = true;
         ///console.log( prev.value );
 
-        if ( prev.value == "big" ) {
-        	active_block = PLACEMENT_BIG_BLOCK;
-        } else if ( prev.value == "small" ) {
-        	active_block = PLACEMENT_SMALL_BLOCK;
-        }
+	    if ( ACTIVE_SCENE === SCENES.place ) {
+	        if ( prev.value == "big" ) {
+	        	active_block = PLACEMENT_BIG_BLOCK;
+	        } else if ( prev.value == "small" ) {
+	        	active_block = PLACEMENT_SMALL_BLOCK;
+	        } else if ( prev.value == "wall" ) {
+	    		ACTIVE_SCENE = SCENES.wall;
+	    	}	
+	    }
 
         PLACEMENT_BIG_BLOCK.x = -100;
         PLACEMENT_BIG_BLOCK.y = -100;
         PLACEMENT_SMALL_BLOCK.x = -100;
         PLACEMENT_SMALL_BLOCK.y = -100;
+        PLACEMENT_WALL.x = -100;
+        PLACEMENT_WALL.y = -100;
     };
 }
 
@@ -359,6 +396,10 @@ function validPlacement( blk ) {
 function clearCanvas( ) {
 	test_blocks = [];
 	level_object.blocks = [];
+}
+
+function printCode() {
+	document.getElementById("code").innerHTML = JSON.stringify( level_object, null, 5 );
 }
 </script>
 
