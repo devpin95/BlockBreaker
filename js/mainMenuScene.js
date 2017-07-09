@@ -13,8 +13,18 @@ var mainMenuScene = {
 		SETTINGS = new block( 90, 30, settings_image, ( myGameArea.canvas.width / 2 ) - 45, 190, 0, "image" );
 
 		this.menu_balls.push( new ball( 15, 15, default_ball_image, width / 2, height / 2, "image" ) );
-		this.menu_balls[0].spdX = maxBallSpeed;
-		this.menu_balls[0].spdY = maxBallSpeed;
+		var spd_x = (Math.random() * maxBallSpeed) + 1;
+		spd_x *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
+		this.menu_balls[0].spdX = spd_x;
+
+		this.menu_balls[0].spdY = Math.floor(Math.random()*2) == 1 ? maxBallSpeed : -maxBallSpeed;
+
+		var pos_x = (Math.random() * ( width - 45 )) + 45;
+		this.menu_balls[0].x = pos_x;
+
+		var pos_y = (Math.random() * ( height - 45 )) + 45;
+		this.menu_balls[0].y = pos_y;
+
 		this.menu_balls[0].free = true;
 
 		this.scene_ready = true;
