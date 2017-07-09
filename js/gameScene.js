@@ -163,11 +163,11 @@ var gameScene = {
 
 			//Lost the game
 			else {
-				//( (pulse_text_time / 100) + 50 )
-				myGameArea.context.font = "50px Arial";
-				myGameArea.context.fillStyle = "#8e44ad";
-				myGameArea.context.textAlign = "center";
-				myGameArea.context.fillText( "Game Over, loser", width/2, height/2 - 100 );
+				this.scene_ready = false;
+				//this.draw_level = true;
+				GAME_STATE.ACTIVE_SCENE = SCENES.GAME_OVER_SCENE;
+				GAME_STATE.reset();
+				clearInterval(this.timer_interval);
 			}
 		}
 	},
