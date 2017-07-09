@@ -4,7 +4,7 @@
 var fps = 1000/50; //50 fps
 
 //default object values
-var maxBallSpeed = 7;
+var maxBallSpeed = 9;
 var default_block_width = 75; //50 || 75
 var default_block_height = 35; //20 || 35
 
@@ -30,7 +30,8 @@ var SCENES = {
 	PAUSED_SCENE : pausedScene,					//pause screen
 	RETRY_LEVEL_PROMPT : retryPromptScene,		// |-> retry level prompt screen
 	SETTINGS_SCENE : settingsScene,				// |-> settings screen
-	LEVEL_CLEAR_SCENE : levelClearScene			//level cleared screen
+	LEVEL_CLEAR_SCENE : levelClearScene,		//level cleared screen
+	GAME_OVER_SCENE : gameOverScene
 };
 
 //game states
@@ -40,8 +41,8 @@ var GAME_STATE = {
 	LIFE_LOST : false,
 	BALL_READY : false,
 	STOP_TIME : false,
-	LEVEL : 0,
-	HIGHEST_LEVEL : 1,
+	LEVEL : 7,
+	HIGHEST_LEVEL : 7,
 	PREVIOUS_SCENE : null,
 	ACTIVE_SCENE : SCENES.GAME_SCENE,
 	reset : function() {
