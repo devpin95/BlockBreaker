@@ -16,6 +16,8 @@ var blockPlacementScene = {
 		// Aligning the active block with the horizontal or vertical center-point axis of another block                                                               
 		//---------------------------------------------------------------------------------------------------------------------------------------------------------
 		for ( var i = 0; i < test_blocks.length; ++i ) {
+			if ( active_block.is_wall ) break;
+
 			//check if the block is centered vertically with another block
 			if ( ( mousePos.x <= test_blocks[i].center.x + 5 && mousePos.x >= test_blocks[i].center.x - 5 )  && placement_guides.vertical_centering != true ) {
 
@@ -45,6 +47,8 @@ var blockPlacementScene = {
 		}
 
 		for ( var i = 0; i < test_blocks.length; ++i ) {
+			if ( active_block.is_wall ) break;
+
 			//check if the block is centered horizontally with another block
 			//placement_guides.horizontal_centering != true
 			if ( 
@@ -97,6 +101,8 @@ var blockPlacementScene = {
 
 		if ( !placement_guides.horizontal_centering ) {
 			for ( var i = 0; i < test_blocks.length; ++i ) {
+				if ( active_block.is_wall ) break;
+
 				//check if the block is locked against the top edge of other blocks
 				if ( mousePos.y + ( active_block.height / 2 ) >= test_blocks[i].top_edge - 5 && mousePos.y <= test_blocks[i].center.y && 
 					( 
@@ -174,6 +180,8 @@ var blockPlacementScene = {
 
 		if ( !placement_guides.vertical_centering ) {
 			for ( var i = 0; i < test_blocks.length; ++i ) {
+				if ( active_block.is_wall ) break;
+
 				if ( mousePos.x <= test_blocks[i].right_edge + ( active_block.width / 2 ) + 5 && mousePos.x >= test_blocks[i].right_edge + ( active_block.width / 2 ) - 5 ) 
 				{
 					//check if the block is locked against the right edge of other blocks
@@ -384,6 +392,7 @@ var blockPlacementScene = {
 
 	buttonPress : function(e) {
 		//ctrl-z == 17 && 90
+		//undo
     	if ( pressed_buttons[17] && pressed_buttons[90] )  {
     		if ( test_blocks.length >= 0 ) {
         		test_blocks.pop();
@@ -392,6 +401,7 @@ var blockPlacementScene = {
         	}
     	}     	
     	//ctrl-y == 17 && 90
+    	//redo
     	else if ( pressed_buttons[17] && pressed_buttons[89] ) {
     		if ( deleted_blocks.length >= 0 ) {
         		var blk = deleted_blocks.pop();
@@ -401,11 +411,33 @@ var blockPlacementScene = {
         	}
     	}
 
+    	//cancel the current wall placement
     	else if ( e.keyCode == 27 && SCENES.wall.laying ) {
     		PLACEMENT_WALL.x = -100;
     		PLACEMENT_WALL.y = -100;
  			SCENES.wall.laying = false;
     		ACTIVE_SCENE = SCENES.wall;
+    	}
+
+    	//moving the block by arrow-keys
+    	else if ( e.keyCode == 40 && SCENES.wall.laying ) {
+    		//move it down
+    		document.body.style.cursor = "none";
+    		mousePos.y += 1;
+    	} else if ( e.keyCode == 39 && SCENES.wall.laying ) {
+    		//move it right
+    		document.body.style.cursor = "none";
+    		mousePos.x += 1;
+    	} else if ( e.keyCode == 38 && SCENES.wall.laying ) {
+    		//move it up
+    		document.body.style.cursor = "none";
+    		mousePos.y -= 1;
+    	} else if ( e.keyCode == 37 && SCENES.wall.laying ) {
+    		//move it lefy
+    		document.body.style.cursor = "none";
+    		mousePos.x -= 1;
+    	} else if ( e.keyCode == 13 && SCENES.wall.laying ) {
+    		this.click_down();
     	}
 	},
 
