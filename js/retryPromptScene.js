@@ -88,7 +88,7 @@ var retryPromptScene = {
 			mousePos.y > YES.y ) 
 		{
 			SCENES.GAME_SCENE.reset_level();
-			 GAME_STATE.change_scene( SCENES.GAME_SCENE );
+			GAME_STATE.change_scene( SCENES.GAME_SCENE );
 		}
 	},
 
