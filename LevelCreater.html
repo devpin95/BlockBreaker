@@ -312,6 +312,7 @@ function getMousePos(canvas, e) {
 
 document.getElementById("game").addEventListener('mousemove', function(e) {
 	mousePos = getMousePos(this, e);
+	document.body.style.cursor = ""; //make sure the cursor is showing
 }, false);
 
 function block( width, height, color, x, y, health = 1, type = "color" ) {
