@@ -5,12 +5,14 @@ var levels = [
   level_four,
   level_five,
   level_six,
-  level_seven
+  level_seven,
+  level_eight
 ];
 
 function buildLevel( level ) {
   for ( var i = 0; i < level.blocks.length; ++i ) {
     if ( level.blocks[i].type != "wall" ) {
+     //width, height, color, x, y, health = 1, type = "color"
       //width, height, color, x, y, health = 1, type = "color"
       blocks.push( new block( 
           level.blocks[i].width,
@@ -50,7 +52,7 @@ function level_one() {
                "y": 31.699996948242188,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -59,7 +61,7 @@ function level_one() {
                "y": 31.699996948242188,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -68,7 +70,7 @@ function level_one() {
                "y": 31.699996948242188,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -77,7 +79,7 @@ function level_one() {
                "y": 31.699996948242188,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -86,7 +88,7 @@ function level_one() {
                "y": 31.699996948242188,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -95,7 +97,7 @@ function level_one() {
                "y": 31.699996948242188,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -104,7 +106,7 @@ function level_one() {
                "y": 31.699996948242188,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -113,7 +115,7 @@ function level_one() {
                "y": 31.699996948242188,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -122,7 +124,7 @@ function level_one() {
                "y": 31.699996948242188,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -131,7 +133,7 @@ function level_one() {
                "y": 66.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -140,7 +142,7 @@ function level_one() {
                "y": 101.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -149,7 +151,7 @@ function level_one() {
                "y": 136.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -158,7 +160,7 @@ function level_one() {
                "y": 171.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -167,7 +169,7 @@ function level_one() {
                "y": 171.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -176,7 +178,7 @@ function level_one() {
                "y": 136.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -185,7 +187,7 @@ function level_one() {
                "y": 101.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -194,7 +196,7 @@ function level_one() {
                "y": 66.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -203,7 +205,7 @@ function level_one() {
                "y": 66.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -212,7 +214,7 @@ function level_one() {
                "y": 101.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -221,7 +223,7 @@ function level_one() {
                "y": 136.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -230,7 +232,7 @@ function level_one() {
                "y": 171.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -239,7 +241,7 @@ function level_one() {
                "y": 171.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -248,7 +250,7 @@ function level_one() {
                "y": 136.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -257,7 +259,7 @@ function level_one() {
                "y": 101.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -266,7 +268,7 @@ function level_one() {
                "y": 66.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -275,7 +277,7 @@ function level_one() {
                "y": 66.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -284,7 +286,7 @@ function level_one() {
                "y": 101.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -293,7 +295,7 @@ function level_one() {
                "y": 136.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -302,7 +304,7 @@ function level_one() {
                "y": 171.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -311,7 +313,7 @@ function level_one() {
                "y": 171.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -320,7 +322,7 @@ function level_one() {
                "y": 136.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -329,7 +331,7 @@ function level_one() {
                "y": 101.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -338,7 +340,7 @@ function level_one() {
                "y": 66.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -347,7 +349,7 @@ function level_one() {
                "y": 66.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -356,7 +358,7 @@ function level_one() {
                "y": 101.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -365,7 +367,7 @@ function level_one() {
                "y": 136.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -374,7 +376,7 @@ function level_one() {
                "y": 171.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -383,7 +385,7 @@ function level_one() {
                "y": 171.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -392,7 +394,7 @@ function level_one() {
                "y": 136.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -401,7 +403,7 @@ function level_one() {
                "y": 101.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -410,7 +412,7 @@ function level_one() {
                "y": 66.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -419,7 +421,7 @@ function level_one() {
                "y": 66.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -428,7 +430,7 @@ function level_one() {
                "y": 101.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -437,7 +439,7 @@ function level_one() {
                "y": 136.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -446,7 +448,7 @@ function level_one() {
                "y": 171.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           }
      ]
@@ -470,7 +472,7 @@ function level_two() {
                "y": 25.699996948242188,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -479,7 +481,7 @@ function level_two() {
                "y": 60.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -488,7 +490,7 @@ function level_two() {
                "y": 60.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -497,7 +499,7 @@ function level_two() {
                "y": 60.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -506,7 +508,7 @@ function level_two() {
                "y": 95.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -515,7 +517,7 @@ function level_two() {
                "y": 95.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -524,7 +526,7 @@ function level_two() {
                "y": 95.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -533,7 +535,7 @@ function level_two() {
                "y": 95.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -542,7 +544,7 @@ function level_two() {
                "y": 95.69999694824219,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -551,7 +553,7 @@ function level_two() {
                "y": 130.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -560,7 +562,7 @@ function level_two() {
                "y": 130.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -569,7 +571,7 @@ function level_two() {
                "y": 130.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -578,7 +580,7 @@ function level_two() {
                "y": 130.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -587,7 +589,7 @@ function level_two() {
                "y": 130.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -596,7 +598,7 @@ function level_two() {
                "y": 130.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -605,7 +607,7 @@ function level_two() {
                "y": 130.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -614,7 +616,7 @@ function level_two() {
                "y": 165.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -623,7 +625,7 @@ function level_two() {
                "y": 165.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -632,7 +634,7 @@ function level_two() {
                "y": 165.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -641,7 +643,7 @@ function level_two() {
                "y": 165.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -650,7 +652,7 @@ function level_two() {
                "y": 165.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -659,7 +661,7 @@ function level_two() {
                "y": 165.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -668,7 +670,7 @@ function level_two() {
                "y": 165.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -677,7 +679,7 @@ function level_two() {
                "y": 165.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -686,7 +688,7 @@ function level_two() {
                "y": 165.6999969482422,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
+               "src": "assets/big_block_green.jpg",
                "health": 1
           },
           {
@@ -695,7 +697,7 @@ function level_two() {
                "y": 200.6999969482422,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
+               "src": "assets/small_block_green.jpg",
                "health": 1
           },
           {
@@ -704,7 +706,7 @@ function level_two() {
                "y": 200.6999969482422,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
+               "src": "assets/small_block_green.jpg",
                "health": 1
           },
           {
@@ -713,7 +715,7 @@ function level_two() {
                "y": 200.6999969482422,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
+               "src": "assets/small_block_green.jpg",
                "health": 1
           },
           {
@@ -722,7 +724,7 @@ function level_two() {
                "y": 200.6999969482422,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
+               "src": "assets/small_block_green.jpg",
                "health": 1
           },
           {
@@ -731,7 +733,7 @@ function level_two() {
                "y": 200.6999969482422,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
+               "src": "assets/small_block_green.jpg",
                "health": 1
           },
           {
@@ -740,7 +742,7 @@ function level_two() {
                "y": 200.6999969482422,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
+               "src": "assets/small_block_green.jpg",
                "health": 1
           },
           {
@@ -749,7 +751,7 @@ function level_two() {
                "y": 200.6999969482422,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
+               "src": "assets/small_block_green.jpg",
                "health": 1
           },
           {
@@ -758,7 +760,7 @@ function level_two() {
                "y": 200.6999969482422,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
+               "src": "assets/small_block_green.jpg",
                "health": 1
           },
           {
@@ -767,7 +769,7 @@ function level_two() {
                "y": 200.6999969482422,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
+               "src": "assets/small_block_green.jpg",
                "health": 1
           },
           {
@@ -776,7 +778,7 @@ function level_two() {
                "y": 218.1999969482422,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
+               "src": "assets/small_block_green.jpg",
                "health": 1
           },
           {
@@ -785,7 +787,7 @@ function level_two() {
                "y": 218.1999969482422,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
+               "src": "assets/small_block_green.jpg",
                "health": 1
           },
           {
@@ -794,7 +796,7 @@ function level_two() {
                "y": 218.1999969482422,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
+               "src": "assets/small_block_green.jpg",
                "health": 1
           },
           {
@@ -803,7 +805,7 @@ function level_two() {
                "y": 218.1999969482422,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
+               "src": "assets/small_block_green.jpg",
                "health": 1
           },
           {
@@ -812,7 +814,7 @@ function level_two() {
                "y": 218.1999969482422,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
+               "src": "assets/small_block_green.jpg",
                "health": 1
           },
           {
@@ -821,7 +823,7 @@ function level_two() {
                "y": 218.1999969482422,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
+               "src": "assets/small_block_green.jpg",
                "health": 1
           },
           {
@@ -830,7 +832,7 @@ function level_two() {
                "y": 218.1999969482422,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
+               "src": "assets/small_block_green.jpg",
                "health": 1
           },
           {
@@ -839,7 +841,7 @@ function level_two() {
                "y": 218.1999969482422,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
+               "src": "assets/small_block_green.jpg",
                "health": 1
           },
           {
@@ -848,7 +850,7 @@ function level_two() {
                "y": 218.1999969482422,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
+               "src": "assets/small_block_green.jpg",
                "health": 1
           }
      ]
@@ -869,545 +871,605 @@ function level_three(){
           {
                "type": "small_block",
                "x": 442.5,
-               "y": 31.449996948242188,
+               "y": 28.25,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "small_block",
                "x": 442.5,
-               "y": 48.94999694824219,
+               "y": 46.25,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "small_block",
-               "x": 367.5,
-               "y": 66.44999694824219,
+               "x": 442.5,
+               "y": 63.75,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 442.5,
+               "y": 81.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 442.5,
+               "y": 98.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 442.5,
+               "y": 116.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "small_block",
                "x": 517.5,
-               "y": 66.44999694824219,
+               "y": 81.25,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 367.5,
-               "y": 83.94999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "small_block",
                "x": 517.5,
-               "y": 83.94999694824219,
+               "y": 63.75,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 442.5,
-               "y": 83.94999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 442.5,
-               "y": 66.44999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 442.5,
-               "y": 101.44999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 442.5,
-               "y": 118.94999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 43.899993896484375,
-               "y": 66.44999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 118.89999389648438,
-               "y": 66.44999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 193.89999389648438,
-               "y": 66.44999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 193.89999389648438,
-               "y": 83.94999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 118.89999389648438,
-               "y": 83.94999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 43.899993896484375,
-               "y": 83.94999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 118.89999389648438,
-               "y": 101.44999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 118.89999389648438,
-               "y": 118.94999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 118.89999389648438,
-               "y": 48.94999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 118.89999389648438,
-               "y": 31.449996948242188,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 839.8999938964844,
-               "y": 66.44999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 764.8999938964844,
-               "y": 66.44999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 689.8999938964844,
-               "y": 66.44999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 689.8999938964844,
-               "y": 83.94999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 764.8999938964844,
-               "y": 83.94999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 839.8999938964844,
-               "y": 83.94999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 764.8999938964844,
-               "y": 48.94999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 764.8999938964844,
-               "y": 31.449996948242188,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 764.8999938964844,
-               "y": 101.44999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 764.8999938964844,
-               "y": 118.94999694824219,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 118.89999389648438,
-               "y": 166.4499969482422,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 118.89999389648438,
-               "y": 183.9499969482422,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 118.89999389648438,
-               "y": 201.4499969482422,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 118.89999389648438,
-               "y": 218.9499969482422,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 118.89999389648438,
-               "y": 236.4499969482422,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 118.89999389648438,
-               "y": 253.9499969482422,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 193.89999389648438,
-               "y": 218.9499969482422,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 193.89999389648438,
-               "y": 201.4499969482422,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 43.899993896484375,
-               "y": 201.4499969482422,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 43.899993896484375,
-               "y": 218.9499969482422,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 442.5,
-               "y": 166.4499969482422,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 442.5,
-               "y": 183.9499969482422,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 442.5,
-               "y": 201.4499969482422,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 442.5,
-               "y": 218.9499969482422,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 442.5,
-               "y": 236.4499969482422,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
-          },
-          {
-               "type": "small_block",
-               "x": 442.5,
-               "y": 253.9499969482422,
-               "width": 75,
-               "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "small_block",
                "x": 367.5,
-               "y": 218.9499969482422,
+               "y": 63.75,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "small_block",
                "x": 367.5,
-               "y": 201.4499969482422,
+               "y": 81.25,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 442.5,
+               "y": 179.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 442.5,
+               "y": 196.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 442.5,
+               "y": 214.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 442.5,
+               "y": 231.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 442.5,
+               "y": 249.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 442.5,
+               "y": 266.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "small_block",
                "x": 517.5,
-               "y": 201.4499969482422,
+               "y": 231.75,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "small_block",
                "x": 517.5,
-               "y": 218.9499969482422,
+               "y": 214.25,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "small_block",
-               "x": 764.8999938964844,
-               "y": 166.4499969482422,
+               "x": 367.5,
+               "y": 214.25,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "small_block",
-               "x": 764.8999938964844,
-               "y": 183.9499969482422,
+               "x": 367.5,
+               "y": 231.75,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "small_block",
-               "x": 764.8999938964844,
-               "y": 201.4499969482422,
+               "x": 106.5,
+               "y": 28.25,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "small_block",
-               "x": 764.8999938964844,
-               "y": 218.9499969482422,
+               "x": 106.5,
+               "y": 46.25,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "small_block",
-               "x": 764.8999938964844,
-               "y": 236.4499969482422,
+               "x": 106.5,
+               "y": 63.75,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "small_block",
-               "x": 764.8999938964844,
-               "y": 253.9499969482422,
+               "x": 106.5,
+               "y": 81.25,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "small_block",
-               "x": 689.8999938964844,
-               "y": 218.9499969482422,
+               "x": 106.5,
+               "y": 98.75,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "small_block",
-               "x": 689.8999938964844,
-               "y": 201.4499969482422,
+               "x": 106.5,
+               "y": 116.25,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "small_block",
-               "x": 839.8999938964844,
-               "y": 201.4499969482422,
+               "x": 181.5,
+               "y": 81.25,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "small_block",
-               "x": 839.8999938964844,
-               "y": 218.9499969482422,
+               "x": 181.5,
+               "y": 63.75,
                "width": 75,
                "height": 17.5,
-               "src": "assets/small_block_bg.jpg",
-               "health": 1
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 31.5,
+               "y": 63.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 31.5,
+               "y": 81.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 106.5,
+               "y": 179.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 106.5,
+               "y": 196.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 106.5,
+               "y": 214.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 106.5,
+               "y": 231.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 106.5,
+               "y": 249.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 106.5,
+               "y": 266.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 181.5,
+               "y": 231.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 181.5,
+               "y": 214.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 31.5,
+               "y": 214.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 31.5,
+               "y": 231.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 782.5,
+               "y": 28.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 782.5,
+               "y": 46.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 782.5,
+               "y": 63.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 782.5,
+               "y": 81.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 782.5,
+               "y": 98.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 782.5,
+               "y": 116.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 857.5,
+               "y": 78.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 857.5,
+               "y": 63.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 707.5,
+               "y": 64,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 707.5,
+               "y": 81.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 782.5,
+               "y": 179.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 782.5,
+               "y": 196.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 782.5,
+               "y": 214.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 782.5,
+               "y": 231.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 782.5,
+               "y": 249.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 782.5,
+               "y": 266.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 857.5,
+               "y": 231.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 857.5,
+               "y": 214.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 707.5,
+               "y": 214.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 707.5,
+               "y": 231.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
           }
      ]
-  }
+}
 
   buildLevel( level );
 }
@@ -1423,1206 +1485,1976 @@ function level_four() {
      "blocks": [
           {
                "type": "wall",
-               "x": 94.39999389648438,
-               "y": 260,
-               "width": 718,
+               "x": 114.5,
+               "y": 317,
+               "width": 731,
                "height": 20,
-               "src": "assets/wall_bg.png",
-               "health": 1
+               "src": "file:///C:/Users/devin/Documents/Devin/projects/BlockBreaker/BlockBreaker/assets/wall_horizontal.png",
+               "health": 1,
+               "orientation": "horizontal"
           },
           {
                "type": "big_block",
-               "x": 415.8999938964844,
-               "y": 225,
+               "x": 442.5,
+               "y": 281.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 490.8999938964844,
-               "y": 225,
+               "x": 367.5,
+               "y": 281.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 565.8999938964844,
-               "y": 225,
+               "x": 292.5,
+               "y": 281.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 640.8999938964844,
-               "y": 225,
+               "x": 217.5,
+               "y": 281.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 715.8999938964844,
-               "y": 225,
+               "x": 142.5,
+               "y": 281.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 340.8999938964844,
-               "y": 225,
+               "x": 517.5,
+               "y": 281.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 265.8999938964844,
-               "y": 225,
+               "x": 592.5,
+               "y": 281.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 190.89999389648438,
-               "y": 225,
+               "x": 667.5,
+               "y": 281.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 115.89999389648438,
-               "y": 225,
+               "x": 742.5,
+               "y": 281.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 415.8999938964844,
-               "y": 190,
+               "x": 442.5,
+               "y": 246.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 490.8999938964844,
-               "y": 190,
+               "x": 367.5,
+               "y": 246.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 565.8999938964844,
-               "y": 190,
+               "x": 292.5,
+               "y": 246.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 640.8999938964844,
-               "y": 190,
+               "x": 217.5,
+               "y": 246.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 190.89999389648438,
-               "y": 190,
+               "x": 517.5,
+               "y": 246.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 265.8999938964844,
-               "y": 190,
+               "x": 592.5,
+               "y": 246.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 340.8999938964844,
-               "y": 190,
+               "x": 667.5,
+               "y": 246.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 415.8999938964844,
-               "y": 155,
+               "x": 292.5,
+               "y": 211.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 340.8999938964844,
-               "y": 155,
+               "x": 367.5,
+               "y": 211.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 265.8999938964844,
-               "y": 155,
+               "x": 442.5,
+               "y": 211.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 490.8999938964844,
-               "y": 155,
+               "x": 517.5,
+               "y": 211.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 565.8999938964844,
-               "y": 155,
+               "x": 592.5,
+               "y": 211.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 490.8999938964844,
-               "y": 120,
+               "x": 442.5,
+               "y": 176.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 415.8999938964844,
-               "y": 120,
+               "x": 367.5,
+               "y": 176.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 340.8999938964844,
-               "y": 120,
+               "x": 517.5,
+               "y": 176.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
           },
           {
                "type": "big_block",
-               "x": 415.8999938964844,
-               "y": 85,
+               "x": 442.5,
+               "y": 141.5,
                "width": 75,
                "height": 35,
-               "src": "assets/big_block_bg.jpg",
-               "health": 1
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 442.5,
+               "y": 106.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 442.5,
+               "y": 71.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 517.5,
+               "y": 71.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 367.5,
+               "y": 71.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 442.5,
+               "y": 36.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 367.5,
+               "y": 36.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 292.5,
+               "y": 36.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 517.5,
+               "y": 36.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 592.5,
+               "y": 36.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 442.5,
+               "y": 1.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 367.5,
+               "y": 1.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 292.5,
+               "y": 1.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 217.5,
+               "y": 1.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 517.5,
+               "y": 1.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 592.5,
+               "y": 1.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 667.5,
+               "y": 1.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 367.5,
+               "y": 106.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 367.5,
+               "y": 141.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 517.5,
+               "y": 141.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 517.5,
+               "y": 106.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 217.5,
+               "y": 36.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 667.5,
+               "y": 36.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 142.5,
+               "y": 1.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 742.5,
+               "y": 1.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 292.5,
+               "y": 71.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "big_block",
+               "x": 592.5,
+               "y": 71.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null
           }
      ]
-  }
+}
 
   buildLevel( level );
 }
 
 function level_five() {
   var level = {
-          "bonuses": {
-               "time_lower_bound": 60,
-               "timer_upper_bound": 90,
-               "paddle_lower_bound": 20,
-               "paddle_upper_bound": 40
+     "bonuses": {
+          "time_lower_bound": 60,
+          "timer_upper_bound": 90,
+          "paddle_lower_bound": 20,
+          "paddle_upper_bound": 40
+     },
+     "blocks": [
+          {
+               "type": "wall",
+               "x": -1,
+               "y": 123,
+               "width": 962,
+               "height": 20,
+               "src": "file:///C:/Users/devin/Documents/Devin/projects/BlockBreaker/BlockBreaker/assets/wall_horizontal.png",
+               "health": 1,
+               "orientation": "horizontal"
           },
-          "blocks": [
-               {
-                    "type": "wall",
-                    "x": -0.100006103515625,
-                    "y": 378.1999969482422,
-                    "width": 347,
-                    "height": 20,
-                    "src": "assets/wall_bg.png",
-                    "health": 1
-               },
-               {
-                    "type": "wall",
-                    "x": 612.8999938964844,
-                    "y": 378.1999969482422,
-                    "width": 347,
-                    "height": 20,
-                    "src": "assets/wall_bg.png",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 0.899993896484375,
-                    "y": 343.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 75.89999389648438,
-                    "y": 343.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 150.89999389648438,
-                    "y": 343.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 225.89999389648438,
-                    "y": 343.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 225.89999389648438,
-                    "y": 308.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 150.89999389648438,
-                    "y": 308.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 75.89999389648438,
-                    "y": 308.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 0.899993896484375,
-                    "y": 308.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 0.899993896484375,
-                    "y": 273.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 0.899993896484375,
-                    "y": 238.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 0.899993896484375,
-                    "y": 203.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 0.899993896484375,
-                    "y": 168.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 75.89999389648438,
-                    "y": 168.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 75.89999389648438,
-                    "y": 203.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 75.89999389648438,
-                    "y": 238.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 75.89999389648438,
-                    "y": 273.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 150.89999389648438,
-                    "y": 273.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 150.89999389648438,
-                    "y": 238.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 883.8999938964844,
-                    "y": 343.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 808.8999938964844,
-                    "y": 343.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 733.8999938964844,
-                    "y": 343.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 658.8999938964844,
-                    "y": 343.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 658.8999938964844,
-                    "y": 308.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 733.8999938964844,
-                    "y": 308.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 733.8999938964844,
-                    "y": 273.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 733.8999938964844,
-                    "y": 238.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 808.8999938964844,
-                    "y": 238.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 883.8999938964844,
-                    "y": 238.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 883.8999938964844,
-                    "y": 273.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 883.8999938964844,
-                    "y": 308.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 808.8999938964844,
-                    "y": 308.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 808.8999938964844,
-                    "y": 273.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 0.899993896484375,
-                    "y": 133.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 0.899993896484375,
-                    "y": 98.19999694824219,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 808.8999938964844,
-                    "y": 203.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 808.8999938964844,
-                    "y": 168.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 883.8999938964844,
-                    "y": 133.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 883.8999938964844,
-                    "y": 98.19999694824219,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 883.8999938964844,
-                    "y": 168.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 883.8999938964844,
-                    "y": 203.1999969482422,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_bg.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "wall",
-                    "x": 6,
-                    "y": 37.19999694824219,
-                    "width": 948,
-                    "height": 20,
-                    "src": "assets/wall_bg.png",
-                    "health": 1
-               },
-               {
-                    "type": "wall",
-                    "x": 0.899993896484375,
-                    "y": 17.199996948242188,
-                    "width": 80,
-                    "height": 20,
-                    "src": "assets/wall_bg.png",
-                    "health": 1
-               },
-               {
-                    "type": "wall",
-                    "x": 883.8999938964844,
-                    "y": 17.199996948242188,
-                    "width": 80,
-                    "height": 20,
-                    "src": "assets/wall_bg.png",
-                    "health": 1
-               }
-          ]
-     }
+          {
+               "type": "small_block",
+               "x": 442.5,
+               "y": 167.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 442.5,
+               "y": 184.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 442.5,
+               "y": 202.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 442.5,
+               "y": 219.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 442.5,
+               "y": 237.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 442.5,
+               "y": 254.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 442.5,
+               "y": 272.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 442.5,
+               "y": 289.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 282.5,
+               "y": 167.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 282.5,
+               "y": 184.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 282.5,
+               "y": 202.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 282.5,
+               "y": 219.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 282.5,
+               "y": 237.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 282.5,
+               "y": 254.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 282.5,
+               "y": 272.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 282.5,
+               "y": 289.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 142.5,
+               "y": 167.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 142.5,
+               "y": 184.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 142.5,
+               "y": 202.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 142.5,
+               "y": 219.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 142.5,
+               "y": 237.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 142.5,
+               "y": 254.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 142.5,
+               "y": 272.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 142.5,
+               "y": 289.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 588.5,
+               "y": 167.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 588.5,
+               "y": 184.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 588.5,
+               "y": 202.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 588.5,
+               "y": 219.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 588.5,
+               "y": 237.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 588.5,
+               "y": 254.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 588.5,
+               "y": 272.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 588.5,
+               "y": 289.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 739.5,
+               "y": 167.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 739.5,
+               "y": 184.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 739.5,
+               "y": 202.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 739.5,
+               "y": 219.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 739.5,
+               "y": 237.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 739.5,
+               "y": 254.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 739.5,
+               "y": 272.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 739.5,
+               "y": 289.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "wall",
+               "x": 120,
+               "y": 333,
+               "width": 706,
+               "height": 20,
+               "src": "file:///C:/Users/devin/Documents/Devin/projects/BlockBreaker/BlockBreaker/assets/wall_horizontal.png",
+               "health": 1,
+               "orientation": "horizontal"
+          }
+     ]
+}
 
   buildLevel( level );
 }
 
 function level_six() {
   var level = {
-          "bonuses": {
-               "time_lower_bound": 60,
-               "timer_upper_bound": 90,
-               "paddle_lower_bound": 20,
-               "paddle_upper_bound": 40
+     "bonuses": {
+          "time_lower_bound": 60,
+          "timer_upper_bound": 90,
+          "paddle_lower_bound": 20,
+          "paddle_upper_bound": 40
+     },
+     "blocks": [
+          {
+               "type": "wall",
+               "x": 140.5,
+               "y": 297,
+               "width": 679,
+               "height": 20,
+               "src": "file:///C:/Users/devin/Documents/Devin/projects/BlockBreaker/BlockBreaker/assets/wall_horizontal.png",
+               "health": 1,
+               "orientation": "horizontal"
           },
-          "blocks": [
-               {
-                    "type": "big_block",
-                    "x": 442.5,
-                    "y": 82.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_blue.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 442.5,
-                    "y": 152.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_blue.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 442.5,
-                    "y": 117.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_blue.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 442.5,
-                    "y": 187.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_blue.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 442.5,
-                    "y": 222.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_blue.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 442.5,
-                    "y": 257.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_blue.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 367.5,
-                    "y": 257.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 367.5,
-                    "y": 222.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 367.5,
-                    "y": 187.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 367.5,
-                    "y": 152.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 367.5,
-                    "y": 117.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 367.5,
-                    "y": 82.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 517.5,
-                    "y": 82.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 517.5,
-                    "y": 117.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 517.5,
-                    "y": 152.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 517.5,
-                    "y": 187.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 517.5,
-                    "y": 222.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 517.5,
-                    "y": 257.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 292.5,
-                    "y": 82.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_red.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 292.5,
-                    "y": 117.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_red.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 292.5,
-                    "y": 152.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_red.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 292.5,
-                    "y": 187.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_red.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 292.5,
-                    "y": 222.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_red.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 292.5,
-                    "y": 257.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_red.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 592.5,
-                    "y": 257.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_red.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 592.5,
-                    "y": 222.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_red.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 592.5,
-                    "y": 187.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_red.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 592.5,
-                    "y": 152.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_red.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 592.5,
-                    "y": 117.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_red.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 592.5,
-                    "y": 82.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_red.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 217.5,
-                    "y": 82.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_yellow.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 217.5,
-                    "y": 117.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_yellow.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 217.5,
-                    "y": 152.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_yellow.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 217.5,
-                    "y": 187.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_yellow.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 217.5,
-                    "y": 222.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_yellow.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 217.5,
-                    "y": 257.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_yellow.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 667.5,
-                    "y": 257.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_yellow.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 667.5,
-                    "y": 222.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_yellow.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 667.5,
-                    "y": 187.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_yellow.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 667.5,
-                    "y": 152.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_yellow.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 667.5,
-                    "y": 117.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_yellow.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 667.5,
-                    "y": 82.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_yellow.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 142.5,
-                    "y": 82.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_purple.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 142.5,
-                    "y": 117.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_purple.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 142.5,
-                    "y": 152.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_purple.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 142.5,
-                    "y": 187.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_purple.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 142.5,
-                    "y": 222.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_purple.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 142.5,
-                    "y": 257.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_purple.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 742.5,
-                    "y": 256.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_purple.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 742.5,
-                    "y": 222.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_purple.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 742.5,
-                    "y": 187.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_purple.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 742.5,
-                    "y": 152.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_purple.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 742.5,
-                    "y": 117.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_purple.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "big_block",
-                    "x": 742.5,
-                    "y": 82.5,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_purple.jpg",
-                    "health": 1
-               },
-               {
-                    "type": "wall",
-                    "x": 142.5,
-                    "y": 371,
-                    "width": 80,
-                    "height": 20,
-                    "src": "assets/wall_bg.png",
-                    "health": 1
-               },
-               {
-                    "type": "wall",
-                    "x": 442.5,
-                    "y": 371,
-                    "width": 80,
-                    "height": 20,
-                    "src": "assets/wall_bg.png",
-                    "health": 1
-               },
-               {
-                    "type": "wall",
-                    "x": 742.5,
-                    "y": 371,
-                    "width": 80,
-                    "height": 20,
-                    "src": "assets/wall_bg.png",
-                    "health": 1
-               },
-               {
-                    "type": "wall",
-                    "x": 177.39999389648438,
-                    "y": 237.5,
-                    "width": 80,
-                    "height": 20,
-                    "src": "assets/wall_bg.png",
-                    "health": 1
-               },
-               {
-                    "type": "wall",
-                    "x": 701.3999938964844,
-                    "y": 237.5,
-                    "width": 80,
-                    "height": 20,
-                    "src": "assets/wall_bg.png",
-                    "health": 1
-               }
-          ]
-     }   
+          {
+               "type": "small_block",
+               "x": 140.5,
+               "y": 279.5,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 140.5,
+               "y": 261.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 140.5,
+               "y": 243.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 140.5,
+               "y": 226.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 140.5,
+               "y": 208.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 140.5,
+               "y": 191.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 140.5,
+               "y": 173.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 140.5,
+               "y": 156.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 140.5,
+               "y": 138.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 140.5,
+               "y": 121.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 140.5,
+               "y": 103.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 215.5,
+               "y": 279.5,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 215.5,
+               "y": 261.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 215.5,
+               "y": 243.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 215.5,
+               "y": 226.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 215.5,
+               "y": 208.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 215.5,
+               "y": 191.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 215.5,
+               "y": 173.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 215.5,
+               "y": 156.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 215.5,
+               "y": 138.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 215.5,
+               "y": 121.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 215.5,
+               "y": 103.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 290.5,
+               "y": 279.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 290.5,
+               "y": 261.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 290.5,
+               "y": 243.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 290.5,
+               "y": 226.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 290.5,
+               "y": 208.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 290.5,
+               "y": 191.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 290.5,
+               "y": 173.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 290.5,
+               "y": 156.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 290.5,
+               "y": 138.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 290.5,
+               "y": 121.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 290.5,
+               "y": 103.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 365.5,
+               "y": 279.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 365.5,
+               "y": 261.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 365.5,
+               "y": 243.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 365.5,
+               "y": 226.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 365.5,
+               "y": 208.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 365.5,
+               "y": 191.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 365.5,
+               "y": 173.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 365.5,
+               "y": 156.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 365.5,
+               "y": 138.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 365.5,
+               "y": 121.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 365.5,
+               "y": 103.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 440.5,
+               "y": 279.5,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 440.5,
+               "y": 261.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 440.5,
+               "y": 243.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 440.5,
+               "y": 226.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 440.5,
+               "y": 208.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 440.5,
+               "y": 191.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 440.5,
+               "y": 173.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 440.5,
+               "y": 156.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 440.5,
+               "y": 138.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 440.5,
+               "y": 121.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 440.5,
+               "y": 103.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 515.5,
+               "y": 103.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 515.5,
+               "y": 121.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 515.5,
+               "y": 138.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 515.5,
+               "y": 156.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 515.5,
+               "y": 173.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 515.5,
+               "y": 191.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 515.5,
+               "y": 208.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 515.5,
+               "y": 226.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 515.5,
+               "y": 243.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 515.5,
+               "y": 261.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 515.5,
+               "y": 279.5,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_yellow.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 590.5,
+               "y": 103.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 590.5,
+               "y": 121.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 590.5,
+               "y": 138.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 590.5,
+               "y": 156.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 590.5,
+               "y": 173.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 590.5,
+               "y": 191.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 590.5,
+               "y": 208.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 590.5,
+               "y": 226.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 590.5,
+               "y": 243.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 590.5,
+               "y": 261.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 590.5,
+               "y": 279.5,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 665.5,
+               "y": 103.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 665.5,
+               "y": 121.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 665.5,
+               "y": 138.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 665.5,
+               "y": 156.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 665.5,
+               "y": 173.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 665.5,
+               "y": 191.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 665.5,
+               "y": 208.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 665.5,
+               "y": 226.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 665.5,
+               "y": 243.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 665.5,
+               "y": 261.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 665.5,
+               "y": 279.5,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 740.5,
+               "y": 103.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 740.5,
+               "y": 121.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 740.5,
+               "y": 138.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 740.5,
+               "y": 156.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 740.5,
+               "y": 173.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 740.5,
+               "y": 191.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 740.5,
+               "y": 208.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 740.5,
+               "y": 226.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 740.5,
+               "y": 243.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 740.5,
+               "y": 261.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 740.5,
+               "y": 279.5,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          }
+     ]
+     }
      buildLevel(level);
 }
 
@@ -3088,6 +3920,531 @@ function level_seven() {
                }
           ]
      }
+
+     buildLevel(level);
+}
+
+function level_eight() {
+     var level = {
+     "bonuses": {
+          "time_lower_bound": 60,
+          "timer_upper_bound": 90,
+          "paddle_lower_bound": 20,
+          "paddle_upper_bound": 40
+     },
+     "blocks": [
+          {
+               "type": "small_block",
+               "x": 884.5,
+               "y": 261.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 809.5,
+               "y": 261.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 734.5,
+               "y": 261,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 659.5,
+               "y": 261.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 584.5,
+               "y": 261.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 509.5,
+               "y": 261.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 884.5,
+               "y": 278.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 809.5,
+               "y": 278.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 734.5,
+               "y": 278.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 659.5,
+               "y": 278.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 584.5,
+               "y": 278.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 509.5,
+               "y": 278.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_green.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 734.5,
+               "y": 243.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 659.5,
+               "y": 243.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 584.5,
+               "y": 243.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 509.5,
+               "y": 243.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 509.5,
+               "y": 226.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 584.5,
+               "y": 226.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 659.5,
+               "y": 226.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 734.5,
+               "y": 226.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 809.5,
+               "y": 226.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 884.5,
+               "y": 226.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 884.5,
+               "y": 243.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 809.5,
+               "y": 243.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_blue.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 509.5,
+               "y": 208.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 509.5,
+               "y": 191.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 584.5,
+               "y": 208.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 659.5,
+               "y": 208.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 734.5,
+               "y": 208.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 809.5,
+               "y": 208.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 884.5,
+               "y": 208.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 884.5,
+               "y": 191.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 809.5,
+               "y": 191.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 734.5,
+               "y": 191.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 659.5,
+               "y": 191.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 584.5,
+               "y": 191.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_red.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 509.5,
+               "y": 173.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 509.5,
+               "y": 156.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 584.5,
+               "y": 173.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 659.5,
+               "y": 173.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 734.5,
+               "y": 173.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 809.5,
+               "y": 173.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 884.5,
+               "y": 173.75,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 884.5,
+               "y": 156.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 809.5,
+               "y": 156.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 734.5,
+               "y": 156.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 659.5,
+               "y": 156.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "small_block",
+               "x": 584.5,
+               "y": 156.25,
+               "width": 75,
+               "height": 17.5,
+               "src": "assets/small_block_purple.jpg",
+               "health": 1,
+               "orientation": null
+          },
+          {
+               "type": "wall",
+               "x": 509,
+               "y": 297,
+               "width": 962,
+               "height": 20,
+               "src": "file:///C:/Users/devin/Documents/Devin/projects/BlockBreaker/BlockBreaker/assets/wall_horizontal.png",
+               "health": 1,
+               "orientation": "horizontal"
+          },
+          {
+               "type": "wall",
+               "x": 508,
+               "y": 136.25,
+               "width": 962,
+               "height": 20,
+               "src": "file:///C:/Users/devin/Documents/Devin/projects/BlockBreaker/BlockBreaker/assets/wall_horizontal.png",
+               "health": 1,
+               "orientation": "horizontal"
+          },
+          {
+               "type": "wall",
+               "x": 424,
+               "y": 156.25,
+               "width": 20,
+               "height": 157,
+               "src": "file:///C:/Users/devin/Documents/Devin/projects/BlockBreaker/BlockBreaker/assets/wall_vertical.png",
+               "health": 1,
+               "orientation": "vertical"
+          }
+     ]
+}
 
      buildLevel(level);
 }
