@@ -14,6 +14,7 @@ var wallPlacementScene = {
 	},
 	clicks : 0,
 
+	orientation : "horizontal",
 	laying : false,
 	editing_mode : false,
 
@@ -26,6 +27,7 @@ var wallPlacementScene = {
 	},
 
 	run : function() {
+
 		if ( this.clicks == 0 ) {
 			this.wall_guides.tl.x = -100;
 			this.wall_guides.tl.y = -100;
@@ -44,44 +46,71 @@ var wallPlacementScene = {
 
 		else if ( this.clicks == 1 ) 
 		{
-			var dx;
-			if ( mousePos.x >= this.origin.x + (75 / 2) ) 
+			//----------------------------------------------------------------------------------------------------------------
+			// __     __        _   _           _   __        __    _ _ 
+			// \ \   / /__ _ __| |_(_) ___ __ _| |  \ \      / /_ _| | |
+			//  \ \ / / _ \ '__| __| |/ __/ _` | |   \ \ /\ / / _` | | |
+			//   \ V /  __/ |  | |_| | (_| (_| | |    \ V  V / (_| | | |
+			//    \_/ \___|_|   \__|_|\___\__,_|_|     \_/\_/ \__,_|_|_|
+			//----------------------------------------------------------------------------------------------------------------
+			if ( this.orientation == "horizontal" ) 
 			{
-				//make the wall horizontal to the right
-				dx = mousePos.x - this.origin.x;
-				//move the right edge of the wall to the right of the origin
-				this.placement_wall.width = dx;
-				this.placement_wall.height = this.wall_guides.default_size;
-			} 
+				var dx;
+				if ( mousePos.x >= this.origin.x ) 
+				{
+					//make the wall horizontal to the right
+					dx = mousePos.x - this.origin.x;
+					//move the right edge of the wall to the right of the origin
+					this.placement_wall.width = dx;
+					this.placement_wall.height = this.wall_guides.default_size;
+				} 
 
-			else if ( mousePos.x <= this.origin.x - (75 / 2) ) 
-			{
-				//the mouse is left of the origin, so make the origin the mouse x and the width the distance between 
-				//the new origin and the old origin (shift it back and make the right edge the x of the old origin)
-				dx = Math.abs( mousePos.x - this.origin.x );
-				this.origin.x = mousePos.x;
-				this.placement_wall.width = dx;
-				this.placement_wall.height = this.wall_guides.default_size;
-				this.placement_wall.x = this.origin.x;
+				else if ( mousePos.x <= this.origin.x ) 
+				{
+					//the mouse is left of the origin, so make the origin the mouse x and the width the distance between 
+					//the new origin and the old origin (shift it back and make the right edge the x of the old origin)
+					dx = Math.abs( mousePos.x - this.origin.x );
+					//this.origin.x = mousePos.x;
+					this.placement_wall.width = dx;
+					this.placement_wall.height = this.wall_guides.default_size;
+					this.placement_wall.x = mousePos.x;
+				}
 			}
 
-			// else if ( mousePos.y > 75 / 2 ) 
-			// {
-			// 	//make the wall vertical
-			// }
+			//----------------------------------------------------------------------------------------------------------------
+			//  _   _            _                _        _    __        __    _ _ 
+			// | | | | ___  _ __(_)_______  _ __ | |_ __ _| |   \ \      / /_ _| | |
+			// | |_| |/ _ \| '__| |_  / _ \| '_ \| __/ _` | |    \ \ /\ / / _` | | |
+			// |  _  | (_) | |  | |/ / (_) | | | | || (_| | |     \ V  V / (_| | | |
+			// |_| |_|\___/|_|  |_/___\___/|_| |_|\__\__,_|_|      \_/\_/ \__,_|_|_|
+			//
+			//----------------------------------------------------------------------------------------------------------------
+			else if ( this.orientation == "vertical" ) 
+			{
+				var dy;
+				if ( mousePos.y >= this.origin.y ) 
+				{
+					//make the wall vertical
+					dy = mousePos.y - this.origin.y;
+					//move the right edge of the wall to the right of the origin
+					this.placement_wall.width = this.wall_guides.default_size;
+					this.placement_wall.height = dy;
+
+				}
+			}
 
 			//now display the guides
 			//top nodes
-			this.wall_guides.tl.x = this.origin.x + ( 5 / 2 );
-			this.wall_guides.tl.y = this.origin.y + ( 5 / 2 );
-			this.wall_guides.tr.x = (this.origin.x + this.placement_wall.width) + ( 5 / 2 );
+			this.wall_guides.tl.x = this.placement_wall.x + ( 5 / 2 );
+			this.wall_guides.tl.y = this.placement_wall.y + ( 5 / 2 );
+			this.wall_guides.tr.x = (this.placement_wall.x + this.placement_wall.width) + ( 5 / 2 );
 			this.wall_guides.tr.y = this.origin.y + ( 5 / 2 );
 
 			//bottom nodes
-			this.wall_guides.bl.x = this.origin.x + ( 5 / 2 );
-			this.wall_guides.bl.y = ( this.origin.y + this.placement_wall.height ) + ( 5 / 2 );
-			this.wall_guides.br.x = (this.origin.x + this.placement_wall.width) + ( 5 / 2 );
-			this.wall_guides.br.y = ( this.origin.y + this.placement_wall.height ) + ( 5 / 2 );
+			this.wall_guides.bl.x = this.placement_wall.x + ( 5 / 2 );
+			this.wall_guides.bl.y = ( this.placement_wall.y + this.placement_wall.height ) + ( 5 / 2 );
+			this.wall_guides.br.x = (this.placement_wall.x + this.placement_wall.width) + ( 5 / 2 );
+			this.wall_guides.br.y = ( this.placement_wall.y + this.placement_wall.height ) + ( 5 / 2 );
 
 			//draw lines between nodes
 			var ctx = myGameArea.canvas.getContext("2d");
@@ -120,7 +149,26 @@ var wallPlacementScene = {
 			ctx.lineTo( this.wall_guides.tr.center.x, this.wall_guides.tr.center.y );
 			ctx.strokeStyle = '#000';
 			ctx.stroke();
+
+			ctx.font = "bold 30px Arial";
+			ctx.fillStyle = "green";
+			ctx.textAlign = "center";
+			ctx.fillText(this.orientation.toUpperCase(), width / 2, 35);
+
+			ctx.font = "12px Arial";
+			ctx.fillStyle = "black";
+			ctx.textAlign = "center";
+			ctx.fillText("Press Space Bar to Change Orientation", width / 2, 50);
+
 		} 
+
+		//----------------------------------------------------------------------------------------------------------------
+		//   ____                           _          __        __    _ _ 
+		//  / ___| ___ _ __   ___ _ __ __ _| |_ ___    \ \      / /_ _| | |
+		// | |  _ / _ \ '_ \ / _ \ '__/ _` | __/ _ \    \ \ /\ / / _` | | |
+		// | |_| |  __/ | | |  __/ | | (_| | ||  __/     \ V  V / (_| | | |
+		//  \____|\___|_| |_|\___|_|  \__,_|\__\___|      \_/\_/ \__,_|_|_|
+		//----------------------------------------------------------------------------------------------------------------
 
 		else if ( this.clicks == 2 ) 
 		{
@@ -146,13 +194,14 @@ var wallPlacementScene = {
 			PLACEMENT_WALL = new block( 
 				this.placement_wall.width,
     			this.placement_wall.height,
-    			"assets/wall_bg.png",
+    			(this.orientation == "vertical") ? "assets/wall_vertical.png" : "assets/wall_horizontal.png",
     			this.placement_wall.x,
     			this.placement_wall.y,
     			1,
     			"image"
 			);
 			PLACEMENT_WALL.is_wall = true;
+			PLACEMENT_WALL.orientation = this.orientation;
 
 			this.clicks = 0;
 			active_block = PLACEMENT_WALL;
@@ -190,8 +239,27 @@ var wallPlacementScene = {
 	},
 
 	buttonPress : function(e) {
-		if ( e.keyCode == 27 ) {
+		//27 = escape
+		if ( e.keyCode == 27 ) 
+		{
 			this.clicks = 0;
+		} 
+
+		//49 = 1
+		else if ( this.clicks == 1 && e.keyCode == 49 ) 
+		{
+			if ( this.orientation == "horizontal" ) {
+				this.placement_wall.width = width + 2;
+			} else if ( this.orientation == "vertical" ) {
+				this.placement_wall.height = height + 2;
+			}
+			++this.clicks;
+		} 
+		//32 = spacebar
+		else if ( this.clicks == 1 && e.keyCode == 32 ) 
+		{
+			if (this.orientation == "horizontal" ) this.orientation = "vertical";
+			else if ( this.orientation == "vertical" ) this.orientation = "horizontal";
 		}
 	}
 }

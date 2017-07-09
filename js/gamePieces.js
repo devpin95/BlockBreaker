@@ -209,7 +209,7 @@ function paddle() {
 	}
 }
 
-function wall( width, height, src, x, y ) {
+function wall( width, height, src, x, y, orientation ) {
 	this.width = width;
 	this.height = height;
 	this.spdX = 0;
@@ -222,6 +222,7 @@ function wall( width, height, src, x, y ) {
 	};
 	this.image = new Image();
 	this.image.src = src;
+	this.orientation = orientation;
 
 	//edges
 	this.top_edge = this.y;
@@ -231,10 +232,19 @@ function wall( width, height, src, x, y ) {
 
 	this.update = function() {
 		var ctx = myGameArea.context;
-		var img = document.getElementById("wall_bg")
-	    var pat = ctx.createPattern(img, "repeat-x");
-	    ctx.fillStyle = pat;
+		// var img = document.getElementById("wall_bg")
+	 //    var pat = ctx.createPattern(img, "repeat-x");
+	 //    ctx.fillStyle = pat;
+	 //    ctx.save();
+	 //    ctx.translate( this.x, this.y );
+	 //    ctx.fillRect(0, 0, this.width, this.height);
+	 //    ctx.restore();
+		ctx.beginPath();
+	    var img = document.getElementById("wall_" + this.orientation);
+	    //alert( img.src );
+	    var pat = ctx.createPattern( img, "repeat" );
 	    ctx.save();
+	    ctx.fillStyle = pat;
 	    ctx.translate( this.x, this.y );
 	    ctx.fillRect(0, 0, this.width, this.height);
 	    ctx.restore();

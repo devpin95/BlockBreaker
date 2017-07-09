@@ -304,24 +304,27 @@ var blockPlacementScene = {
     		level_object.blocks.push( new placement_code(
     			PLACEMENT_WALL.width,
     			PLACEMENT_WALL.height,
-    			block_assets["wall"],
+    			active_block.image.src,
     			xpos, // - ( SMALL_BLOCK_DIMENSIONS.width / 2 ), //https://open.spotify.com/track/1hlSU2dSXytehUIWL16kaox
     			ypos, // - ( SMALL_BLOCK_DIMENSIONS.height / 2 ), //y
-    			"wall"
+    			"wall",
+    			active_block.orientation
 			) );
+			//level_object.blocks[ test_blocks.length - 1 ].orientation = active_block.orientation;
     		//console.log( JSON.stringify( level_object, undefined, 4 ) );
 
     		//width, height, color, x, y, health = 1, type = "color"
     		test_blocks.push( new block( 
 				PLACEMENT_WALL.width,
     			PLACEMENT_WALL.height,
-    			block_assets["wall"],
+    			active_block.image.src,
     			xpos, // - ( SMALL_BLOCK_DIMENSIONS.width / 2 ), //x
     			ypos, // - ( SMALL_BLOCK_DIMENSIONS.height / 2 ), //y
     			1,
     			"image" 
 			) );
 			test_blocks[ test_blocks.length - 1 ].is_wall = true;
+			test_blocks[ test_blocks.length - 1 ].orientation = active_block.orientation;
 		}
 
 		//do not allow blocks to be placed in invalid areas
