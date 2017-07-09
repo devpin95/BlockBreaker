@@ -12,13 +12,23 @@
 <head>
 	<title>Level Creater</title>
 	<style>
-		canvas {
+		/*canvas {
+
+		}*/
+		.canvas_wrapper {
 			display: block;
 			margin: 0 auto;
-			background-color: #ecf0f1;
-			border: 1px solid #000;
+			position:relative;
 			width: 960px;
 			height: 540px;
+			border: 1px solid #000;
+			background-color: #ecf0f1;
+		}
+		.canvas_wrapper #horizontal_walls, .canvas_wrapper #vertical_walls {
+			position:absolute;
+			top:0;
+			left:0;
+			pointer-events: none;
 		}
 		.selections {
 			width: 960px;
@@ -31,6 +41,9 @@
 			float:left;
 		}
 		.selections #actions {
+			margin-right: 20px;
+		}
+		.selections #block_types {
 			margin-right: 20px;
 		}
 	</style>
@@ -53,19 +66,31 @@
 			<input type="radio" name="types" value="small"> Small Block <br/>
 			<input type="radio" name="types" value="wall"> Wall
 		</div>
+		<div id="block_colors">
+			<input type="radio" name="colors" value="green"> Green<br/>
+			<input type="radio" name="colors" value="blue"> Blue <br/>
+			<input type="radio" name="colors" value="red"> Red <br/>
+			<input type="radio" name="colors" value="yellow"> Yellow <br/>
+			<input type="radio" name="colors" value="purple"> Purple <br/>
+		</div>
 	</form>
 	<div style="clear:both;"></div>
 </div>
 
 <div style="clear:both;"></div>
 
-<canvas id="game" width="960px" height="540px"></canvas>
+<div class="canvas_wrapper">
+	<!-- <canvas id="horizontal_walls" width="960px" height="540px" style="z-index:1;"></canvas>
+	<canvas id="vertical_walls" width="960px" height="540px" style="z-index:2;"></canvas> -->
+	<canvas id="game" width="960px" height="540px" style="z-index:3;"></canvas>
+</div>
 	<div class="selections">
 	<input type="button" name="generate" value="generate" onclick="printCode()">
 	<pre id="code"></pre>
 </div>
 
-<img src="assets/wall_bg.png" id="wall_bg" style="display:none;" >
+<img src="assets/wall_horizontal.png" id="wall_horizontal" style="display:none;" >
+<img src="assets/wall_vertical.png" id="wall_vertical" style="display:none;" >
 
 <!-- <script src="../js/GLOBALS.js"></script> -->
 <!-- <script src="js/creater.js"></script> -->
@@ -75,6 +100,23 @@
 <script src="js/lc_eraseBlocks.js"></script>
 <script>
 	
+// var _H_WALLS =  { 
+// 	canvas : document.getElementById("horizontal_walls"),
+// 	ctx : this.canvas.getContext("2d"),
+// 	clear : function() {
+// 		this.ctx.clearRect( 0, 0, width, height );
+// 	}
+// }
+// //var ctx_v = document.getElementById("vertical_walls").getContext("2d").clearRect( 0, 0, width, height );
+
+// var _V_WALLS =  { 
+// 	canvas : document.getElementById("vertical_walls"),
+// 	ctx : this.canvas.getContext("2d"),
+// 	clear : function() {
+// 		this.ctx.clearRect( 0, 0, width, height );
+// 	}
+// }
+
 var mousePos = {
 	x : 0,
 	y : 0,
@@ -103,18 +145,26 @@ var placement_guides = {
 //placement objects that hint to the user what kind of block they are placing
 var BIG_BLOCK_DIMENSIONS = { width : 75, height : 35 };
 var SMALL_BLOCK_DIMENSIONS = { width : 75, height : 35 / 2 };
-var BIG_BLOCK_IMAGE = "assets/big_block_bg.jpg";
-var SMALL_BLOCK_IMAGE = "assets/small_block_bg.jpg";
+var BIG_BLOCK_IMAGE = "assets/big_block_green.jpg";
+var SMALL_BLOCK_IMAGE = "assets/small_block_green.jpg";
 var PLACEMENT_BIG_BLOCK, PLACEMENT_SMALL_BLOCK, PLACEMENT_WALL;
 
 //holds all of the assets for each type of block that can be placed
 var block_assets = {
 	big : {
-		"green" : "assets/big_block_bg.jpg"
+		"green" : "assets/big_block_green.jpg",
+		"blue" : "assets/big_block_blue.jpg",
+		"red" : "assets/big_block_red.jpg",
+		"purple" : "assets/big_block_purple.jpg",
+		"yellow" : "assets/big_block_yellow.jpg"
 	},
 
 	small : {
-		"green" : "assets/small_block_bg.jpg"
+		"green" : "assets/small_block_green.jpg",
+		"blue" : "assets/small_block_blue.jpg",
+		"red" : "assets/small_block_red.jpg",
+		"purple" : "assets/small_block_purple.jpg",
+		"yellow" : "assets/small_block_yellow.jpg"
 	},
 
 	wall : "assets/wall_bg.png"
@@ -169,10 +219,6 @@ function startGame() {
 	SCENES.wall.setup();
 
 	myGameArea.start( );
-}
-
-function block(  ) {
-
 }
 
 var myGameArea = {
@@ -257,7 +303,7 @@ function updateGameArea() {
 }
 
 function getMousePos(canvas, e) {
-    var rect = document.getElementById("game").getBoundingClientRect();
+    var rect = canvas.getBoundingClientRect();
     return {
     	x: e.clientX - rect.left,
     	y: e.clientY - rect.top
@@ -265,8 +311,7 @@ function getMousePos(canvas, e) {
 }
 
 document.getElementById("game").addEventListener('mousemove', function(e) {
-	mousePos = getMousePos(document.getElementById("game"), e);
-    //myPaddle.newPos( mousePos.x, mousePos.y );
+	mousePos = getMousePos(this, e);
 }, false);
 
 function block( width, height, color, x, y, health = 1, type = "color" ) {
@@ -277,6 +322,7 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 	this.x = x;
 	this.y = y;
 	this.is_wall = false;
+	this.orientation = null;
 	this.health = health;
 	if ( type == "image" ) {
 		this.image = new Image();
@@ -296,21 +342,22 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 
 	this.update = function() {
 		ctx = myGameArea.context;
+		// else if ( SCENES.wall.orientation == "horizontal" ) ctx = document.getElementById("horizontal_walls").getContext("2d");
+		// else if ( SCENES.wall.orientation == "vertical" ) ctx = document.getElementById("vertical_walls").getContext("2d");
+
 		if ( type == "color" ) {
 			ctx.fillStyle = color;
 			ctx.fillRect( this.x, this.y, this.width, this.height );
 		} else if ( this.is_wall ) {
 			ctx.beginPath();
-		    //ctx.clearRect(0, 0, width, height); 
-		    var img = document.getElementById("wall_bg")
-		    var pat = ctx.createPattern(img, "repeat-x");
-		    ctx.fillStyle = pat;
+		    var img = document.getElementById("wall_" + this.orientation);
+		    //alert( img.src );
+		    var pat = ctx.createPattern( img, "repeat" );
 		    ctx.save();
+		    ctx.fillStyle = pat;
 		    ctx.translate( this.x, this.y );
 		    ctx.fillRect(0, 0, this.width, this.height);
 		    ctx.restore();
-		    //ctx.translate( this.x, this.y );
-		    //ctx.fill();
 		}
 		else /*( type == "image" )*/ {
 			ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
@@ -325,19 +372,20 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 	}
 }
 
-function placement_code( width, height, src, x, y, type, health = 1 ){
+function placement_code( width, height, src, x, y, type, orientation = null, health = 1 ){
 	this.type = type; //big_block, small_block, wall
 	this.x = x,
 	this.y = y,
 	this.width = width,
 	this.height = height,
 	this.src = src,
-	this.health = health
+	this.health = health,
+	this.orientation = orientation //vertical, horizontal
 }
 
 var rad = document.placement_form.types;
 var prev = null;
-for(var i = 0; i < rad.length; i++) {
+for(var i = 0; i < rad.length; ++i) {
     rad[i].onclick = function() {
         (prev)? selection.blocks[prev.value] = false : null;
         //console.log( this.value );
@@ -370,7 +418,7 @@ for(var i = 0; i < rad.length; i++) {
 //actions
 var act_rad = document.placement_form.action;
 var act_prev = null;
-for(var i = 0; i < act_rad.length; i++) {
+for(var i = 0; i < act_rad.length; ++i) {
     act_rad[i].onclick = function() {
         (act_prev)? selection[act_prev.value] = false : null;
         //console.log( this.value );
@@ -385,6 +433,26 @@ for(var i = 0; i < act_rad.length; i++) {
     };
 }
 
+//colors
+var color_rad = document.placement_form.colors;
+var color_prev = null;
+for(var i = 0; i < color_rad.length; ++i) {
+    color_rad[i].onclick = function() {
+        (color_prev)? selection.color = color_prev.value : null;
+        //console.log( this.value );
+        //selection.blocks[act_prev.value] = false;
+        if(this !== color_prev) {
+            color_prev = this;
+        }
+        selection.color = color_prev.value;
+        if ( selection.blocks.big ) {
+	        active_block.image.src = block_assets.big[color_prev.value];
+	    } else if ( selection.blocks.small ) {
+	    	active_block.image.src = block_assets.small[color_prev.value];
+	    }
+    };
+}
+
 function validPlacement( blk ) {
 	if ( blk.right_edge > width || blk.left_edge < 0 || blk.top_edge < 0 || blk.bottom_edge > height ) {
 		return false;
@@ -396,6 +464,7 @@ function validPlacement( blk ) {
 function clearCanvas( ) {
 	test_blocks = [];
 	level_object.blocks = [];
+	document.getElementById("code").innerHTML = "";
 }
 
 function printCode() {
