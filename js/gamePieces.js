@@ -353,3 +353,136 @@ function wall( width, height, src, x, y, orientation ) {
 		}
 	}
 }
+
+function portal( width, height, src, x, y, tx, ty, endpoint = false ) {
+	this.width = width;
+	this.height = height;
+	this.x = x;
+	this.y = y;
+	this.image = new Image();
+	this.image.src = src;
+	this.teleporter = {
+		x : tx,
+		y : ty,
+		is_endpoint : endpoint, //this portal is at the endpoint of another portal
+		radius : this.width/2
+	};
+	this.center = {
+		x : this.x + (this.width / 2),
+		y : this.y + ( this.height / 2 )
+	};
+
+	if ( this.teleporter.is_endpoint ) {
+		//use these to spawn the ball correctly when the portal is the endpoint of another portal
+		this.top_point = {
+			x : tx + (this.width/2),
+			y : ty
+		};
+		this.right_point = {
+			x : tx + (this.width),
+			y : ty + (this.height/2)
+		};
+		this.bottom_point = {
+			x : tx + (this.width/2),
+			y : ty + this.height
+		};
+		this.left_point = {
+			x : tx,
+			y : ty + (this.height/2)
+		}
+	}
+
+	this.update = function() {
+		ctx = myGameArea.context;
+		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+		if ( !this.teleporter.is_endpoint ) {
+			ctx.drawImage(this.image, this.teleporter.x, this.teleporter.y, 25, 25);
+		}
+	}
+
+	this.collision = function( ball ) {
+		// alert(ball);
+		// alert(this);
+		var block = this;
+		//collision based on distance between center points of the objects
+		if ( distanceBetweenPoints( block.center.x, block.center.y, ball.center.x, ball.center.y ) <= block.teleporter.radius ) 
+		{
+			if ( !block.teleporter.is_endpoint ) 
+			{
+
+				ball.x = block.teleporter.x;
+				ball.y = block.teleporter.y;
+			}
+
+			else 
+			{
+			//if the ball is moving to the right
+				if ( ball.spdX >= 0 ) 
+				{
+					if ( ball.spdY < 0 ) 
+					{
+						//the ball is moving up (actually moving down) the canvas
+						var num = Math.floor(Math.random()*1) + 1;
+						num *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
+
+						if ( num > 0 ) {
+							ball.x = block.top_point.x;
+							ball.y = block.top_point.y;
+						} else {
+							ball.x = block.right_point.x;
+							ball.y = block.right_point.y;
+						}
+					} 
+
+					else if ( ball.spdY > 0 ) 
+					{
+						//the ball is moving up (actually moving down) the canvas
+						var num = Math.floor(Math.random()*1) + 1;
+						num *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
+
+						if ( num > 0 ) {
+							ball.x = block.bottom_point.x;
+							ball.y = block.bottom_point.y;
+						} else {
+							ball.x = block.left_point.x;
+							ball.y = block.left_point.y;
+						}
+					}
+				} 
+
+				else if ( ball.spdX < 0 ) 
+				{
+					if ( ball.spdY < 0 ) 
+					{
+						//the ball is moving up (actually moving down) the canvas
+						var num = Math.floor(Math.random()*1) + 1;
+						num *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
+
+						if ( num > 0 ) {
+							ball.x = block.top_point.x;
+							ball.y = block.top_point.y;
+						} else {
+							ball.x = block.left_point.x;
+							ball.y = block.left_point.y;
+						}
+					} 
+
+					else if ( ball.spdY > 0 ) 
+					{
+						//the ball is moving up (actually moving down) the canvas
+						var num = Math.floor(Math.random()*1) + 1;
+						num *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
+
+						if ( num > 0 ) {
+							ball.x = block.bottom_point.x;
+							ball.y = block.bottom_point.y;
+						} else {
+							ball.x = block.left_point.x;
+							ball.y = block.left_point.y;
+						}
+					}
+				}
+			}
+		}
+	}
+}
