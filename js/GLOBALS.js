@@ -23,6 +23,7 @@ var player;
 var balls = [];
 var blocks = [];
 var walls = [];
+var portals = [];
 
 var SCENES = {
 	MAIN_MENU_SCENE : mainMenuScene,			//main menu
@@ -41,8 +42,8 @@ var GAME_STATE = {
 	LIFE_LOST : false,
 	BALL_READY : false,
 	STOP_TIME : false,
-	LEVEL : 7,
-	HIGHEST_LEVEL : 7,
+	LEVEL : 9,
+	HIGHEST_LEVEL : 9,
 	PREVIOUS_SCENE : null,
 	ACTIVE_SCENE : SCENES.GAME_SCENE,
 	reset : function() {
