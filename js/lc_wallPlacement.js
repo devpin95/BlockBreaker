@@ -172,25 +172,6 @@ var wallPlacementScene = {
 
 		else if ( this.clicks == 2 ) 
 		{
-			//width, height, src, x, y, type, health = 1
-			// level_object.blocks.push( new placement_code( 
-			// 	this.placement_wall.width,
-   //  			this.placement_wall.height,
-   //  			"assets/wall_bg.png",
-   //  			this.placement_wall.x,
-   //  			this.placement_wall.y,
-   //  			"wall" 
-			// ) );
-
-			// test_blocks.push( new block( 
-			// 	this.placement_wall.width,
-   //  			this.placement_wall.height,
-   //  			"assets/wall_bg.png",
-   //  			this.placement_wall.x,
-   //  			this.placement_wall.y,
-   //  			1,
-   //  			"image" 
-			// ) );
 			PLACEMENT_WALL = new block( 
 				this.placement_wall.width,
     			this.placement_wall.height,
@@ -261,5 +242,9 @@ var wallPlacementScene = {
 			if (this.orientation == "horizontal" ) this.orientation = "vertical";
 			else if ( this.orientation == "vertical" ) this.orientation = "horizontal";
 		}
+	},
+
+	blur : function() {
+		this.clicks = 0;
 	}
 }
