@@ -45,6 +45,15 @@
 		}
 		.selections #block_types {
 			margin-right: 20px;
+			display:none;
+		}
+		.selections #block_colors {
+			margin-right: 20px;
+			display:none;
+		}
+		.selections #portal_colors {
+			margin-right:20px;
+			display:none;
 		}
 	</style>
 </head>
@@ -57,21 +66,26 @@
 	<img src="../assets/wall_bg.png"> -->
 	<form name="placement_form">
 		<div id="actions">
-			<input type="radio" name="action" value="place" checked> Place Blocks <br/>
+			<input type="radio" name="action" value="place"> Place Blocks <br/>
 			<input type="radio" name="action" value="erase"> Erase <br/>
 			<input type="button" value="Clear" onclick="clearCanvas()">
 		</div>
 		<div id="block_types">
 			<input type="radio" name="types" value="big"> Big Block <br/>
 			<input type="radio" name="types" value="small"> Small Block <br/>
-			<input type="radio" name="types" value="wall"> Wall
+			<input type="radio" name="types" value="wall"> Wall <br/>
+			<input type="radio" name="types" value="portal"> Portal <br/>
 		</div>
 		<div id="block_colors">
-			<input type="radio" name="colors" value="green"> Green<br/>
+			<input type="radio" name="colors" value="green" checked> Green<br/>
 			<input type="radio" name="colors" value="blue"> Blue <br/>
 			<input type="radio" name="colors" value="red"> Red <br/>
 			<input type="radio" name="colors" value="yellow"> Yellow <br/>
 			<input type="radio" name="colors" value="purple"> Purple <br/>
+		</div>
+		<div id="portal_colors">
+			<input type="radio" name="portal_colors" value="blue" checked> Blue <br/>
+			<input type="radio" name="portal_colors" value="red"> Red <br/>
 		</div>
 	</form>
 	<div style="clear:both;"></div>
@@ -97,6 +111,7 @@
 <!-- <script src="../js/gamePieces.js"></script> -->
 <script src="js/lc_blockPlacement.js"></script>
 <script src="js/lc_wallPlacement.js"></script>
+<script src="js/lc_portalPlacement.js"></script>
 <script src="js/lc_eraseBlocks.js"></script>
 <script>
 	
@@ -147,7 +162,7 @@ var BIG_BLOCK_DIMENSIONS = { width : 75, height : 35 };
 var SMALL_BLOCK_DIMENSIONS = { width : 75, height : 35 / 2 };
 var BIG_BLOCK_IMAGE = "assets/big_block_green.jpg";
 var SMALL_BLOCK_IMAGE = "assets/small_block_green.jpg";
-var PLACEMENT_BIG_BLOCK, PLACEMENT_SMALL_BLOCK, PLACEMENT_WALL;
+var PLACEMENT_BIG_BLOCK, PLACEMENT_SMALL_BLOCK, PLACEMENT_WALL, PLACEMENT_PORTAL;
 
 //holds all of the assets for each type of block that can be placed
 var block_assets = {
@@ -167,7 +182,12 @@ var block_assets = {
 		"yellow" : "assets/small_block_yellow.jpg"
 	},
 
-	wall : "assets/wall_bg.png"
+	wall : "assets/wall_bg.png",
+
+	portal : {
+		"red" : "assets/portal_red.png",
+		"blue" : "assets/portal_blue.png"
+	}
 }
 
 //an array to display all of the blocks that have been placed
@@ -179,12 +199,13 @@ var deleted_blocks = [];
 
 //holds information about the block that is to be placed
 var selection = {
-	place : true,
+	place : false,
 	erase : false,
 	blocks : {
 		big : false,
 		small : false,
-		wall : false
+		wall : false,
+		portal : false
 	},
 	color : "green"
 }
@@ -192,7 +213,8 @@ var selection = {
 var SCENES = {
 	place : blockPlacementScene,
 	erase : eraseBlocksScene,
-	wall : wallPlacementScene
+	wall : wallPlacementScene,
+	portal : portalPlacementScene
 }
 
 var active_block; //keeps track of the block that is currently being placed
@@ -214,9 +236,11 @@ function startGame() {
 	PLACEMENT_BIG_BLOCK = new block( BIG_BLOCK_DIMENSIONS.width, BIG_BLOCK_DIMENSIONS.height, BIG_BLOCK_IMAGE, -BIG_BLOCK_DIMENSIONS.width, -BIG_BLOCK_DIMENSIONS.height, 1, "image" );
 	PLACEMENT_SMALL_BLOCK = new block( SMALL_BLOCK_DIMENSIONS.width, SMALL_BLOCK_DIMENSIONS.height, SMALL_BLOCK_IMAGE, 100, -SMALL_BLOCK_DIMENSIONS.height, 1, "image" );
 	PLACEMENT_WALL = new block( SMALL_BLOCK_DIMENSIONS.width, SMALL_BLOCK_DIMENSIONS.height, SMALL_BLOCK_IMAGE, 100, -SMALL_BLOCK_DIMENSIONS.height, 1, "image" );
+	PLACEMENT_PORTAL = new block( 50, 50, block_assets.portal.red, 100, 100, 1, "image" );
 	active_block = new block( 0, 0, "rgba(0,0,0,0)", 100, 0, 0, "color" );
 
 	SCENES.wall.setup();
+	SCENES.portal.setup();
 
 	myGameArea.start( );
 }
@@ -323,7 +347,13 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 	this.x = x;
 	this.y = y;
 	this.is_wall = false;
+	this.is_portal = false;
 	this.orientation = null;
+	this.teleport_point = {
+		x : null,
+		y: null,
+		is_a_portal : false
+	};
 	this.health = health;
 	if ( type == "image" ) {
 		this.image = new Image();
@@ -359,6 +389,18 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 		    ctx.translate( this.x, this.y );
 		    ctx.fillRect(0, 0, this.width, this.height);
 		    ctx.restore();
+		} 
+		else if ( this.is_portal ) {
+			ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+
+			ctx.globalCompositeOperation='destination-over';
+			ctx.setLineDash([2, 4]);/*dashes are 5px and spaces are 3px*/
+			ctx.beginPath();
+			ctx.moveTo( this.center.x, this.center.y );
+			ctx.lineTo( this.teleport_point.x, this.teleport_point.y );
+			ctx.strokeStyle = '#f00';
+			ctx.stroke();
+
 		}
 		else /*( type == "image" )*/ {
 			ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
@@ -373,7 +415,7 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 	}
 }
 
-function placement_code( width, height, src, x, y, type, orientation = null, health = 1 ){
+function placement_code( width, height, src, x, y, type, orientation = null, health = 1, tx = null, ty = null, endportal = false ){
 	this.type = type; //big_block, small_block, wall
 	this.x = x,
 	this.y = y,
@@ -381,7 +423,12 @@ function placement_code( width, height, src, x, y, type, orientation = null, hea
 	this.height = height,
 	this.src = src,
 	this.health = health,
-	this.orientation = orientation //vertical, horizontal
+	this.orientation = orientation, //vertical, horizontal
+	this.teleport_point = {
+		x : tx,
+		y : ty,
+		is_endpoint : endportal
+	}
 }
 
 var rad = document.placement_form.types;
@@ -397,15 +444,42 @@ for(var i = 0; i < rad.length; ++i) {
         selection.blocks[prev.value] = true;
         ///console.log( prev.value );
 
-	    if ( ACTIVE_SCENE === SCENES.place ) {
-	        if ( prev.value == "big" ) {
-	        	active_block = PLACEMENT_BIG_BLOCK;
-	        } else if ( prev.value == "small" ) {
-	        	active_block = PLACEMENT_SMALL_BLOCK;
-	        } else if ( prev.value == "wall" ) {
-	    		ACTIVE_SCENE = SCENES.wall;
-	    	}	
-	    }
+        if ( prev.value == "big" ) 
+        {
+        	//reset the selection color to that of the colors radio buttons
+        	selection.color = document.querySelector('input[name="colors"]:checked').value;
+        	active_block = PLACEMENT_BIG_BLOCK;
+        	ACTIVE_SCENE = SCENES.place;
+        	document.getElementById("block_colors").style.display = "block";
+        	document.getElementById("portal_colors").style.display = "none";
+        } 
+
+        else if ( prev.value == "small" )
+        {
+        	//reset the selection color to that of the colors radio buttons
+        	selection.color = document.querySelector('input[name="colors"]:checked').value;
+        	active_block = PLACEMENT_SMALL_BLOCK;
+        	ACTIVE_SCENE = SCENES.place;
+        	document.getElementById("block_colors").style.display = "block";
+        	document.getElementById("portal_colors").style.display = "none";
+        } 
+
+        else if ( prev.value == "wall" )
+        {
+        	active_block = PLACEMENT_WALL;
+    		ACTIVE_SCENE = SCENES.wall;
+    		document.getElementById("block_colors").style.display = "none";
+    	} 
+
+    	else if ( prev.value == "portal" )
+    	{
+    		active_block = PLACEMENT_PORTAL;
+    		ACTIVE_SCENE = SCENES.portal;
+    		//reset the selection color to that of the portal-colors radio buttons
+    		selection.color = document.querySelector('input[name="portal_colors"]:checked').value;
+    		document.getElementById("block_colors").style.display = "none";
+    		document.getElementById("portal_colors").style.display = "block";
+    	}
 
         PLACEMENT_BIG_BLOCK.x = -100;
         PLACEMENT_BIG_BLOCK.y = -100;
@@ -428,6 +502,13 @@ for(var i = 0; i < act_rad.length; ++i) {
             act_prev = this;
         }
         selection[act_prev.value] = true;
+
+        if ( act_prev.value == "place" ) {
+        	document.getElementById("block_types").style.display = "block";
+        } else if ( act_prev.value == "erase" ) {
+        	document.getElementById("block_types").style.display = "none";
+        }
+
         ACTIVE_SCENE.blur();
         ACTIVE_SCENE = SCENES[act_prev.value];
         ///console.log( act_prev.value );
@@ -451,6 +532,23 @@ for(var i = 0; i < color_rad.length; ++i) {
 	    } else if ( selection.blocks.small ) {
 	    	active_block.image.src = block_assets.small[color_prev.value];
 	    }
+    };
+}
+
+var Pcolor_rad = document.placement_form.portal_colors;
+var Pcolor_prev = null;
+for(var i = 0; i < Pcolor_rad.length; ++i) {
+    Pcolor_rad[i].onclick = function() {
+        (Pcolor_prev)? selection.color = Pcolor_prev.value : null;
+        //console.log( this.value );
+        //selection.blocks[act_prev.value] = false;
+        if(this !== Pcolor_prev) {
+            Pcolor_prev = this;
+        }
+
+        selection.color = Pcolor_prev.value;
+        active_block.image.src = block_assets.portal[Pcolor_prev.value];
+        
     };
 }
 
