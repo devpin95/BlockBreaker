@@ -69,7 +69,10 @@ var gameScene = {
 
 			for ( var i = 0; i < balls.length; ++i ) 
 			{
-
+				for ( var j = 0; j < portals.length; ++j ) {
+					portals[j].update();
+					portals[j].collision( balls[i] );
+				}
 				myGameArea.collision( balls[i] );
 
 				//check if the ball went past the bottom of the canvas
