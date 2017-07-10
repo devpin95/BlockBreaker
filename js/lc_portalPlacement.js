@@ -10,6 +10,8 @@ var portalPlacementScene = {
 	temp_portal : null,
 	aligning_with_portal : false,
 	aligning_portal : null,
+	tx : null,
+	ty : null,
 
 	run : function() 
 	{
@@ -44,9 +46,9 @@ var portalPlacementScene = {
 				level_object.blocks[this.aligning_portal].teleport_point.is_endpoint = true;
 			}
 
-			var xpos, ypos;
-			xpos = mousePos.x;
-			ypos = mousePos.y;
+			//var xpos, ypos;
+			this.tx = mousePos.x;
+			this.ty = mousePos.y;
 
 			for ( var i = 0; i < test_blocks.length; ++i ) {
 				if ( test_blocks[i].is_portal ) {
@@ -55,8 +57,14 @@ var portalPlacementScene = {
 						mousePos.y >= test_blocks[i].top_edge && 
 						mousePos.y <= test_blocks[i].bottom_edge ) 
 					{
-						xpos = test_blocks[i].center.x;
-						ypos = test_blocks[i].center.y;
+						console.log( test_blocks[i] );
+						this.tx = test_blocks[i].center.x;
+						//this.tx = xpos;
+						this.ty = test_blocks[i].center.y;
+						//this.ty = ypos;
+						test_blocks[i].teleport_point.is_a_portal = true;
+						this.aligning_with_portal = true;
+						this.aligning_portal = i;
 						break;
 					} 
 				}
@@ -67,7 +75,7 @@ var portalPlacementScene = {
 			ctx.setLineDash([5, 2]);/*dashes are 5px and spaces are 3px*/
 			ctx.beginPath();
 			ctx.moveTo( this.temp_portal.center.x, this.temp_portal.center.y );
-			ctx.lineTo( xpos, ypos );
+			ctx.lineTo( this.tx, this.ty );
 			ctx.strokeStyle = '#00f';
 			ctx.stroke();
 		}
@@ -99,10 +107,15 @@ var portalPlacementScene = {
 			active_block.y = -100;
 
 			this.temp_portal.is_portal = true;
+
+			if ( this.aligning_with_portal  ) {
+				this.temp_portal.teleport_point.is_a_portal = true;
+				this.aligning_with_portal = false;
+			}
 		}
 
 		else if ( this.clicks == 2 ) {
-			alert(this.aligning_with_portal);
+			//alert(this.aligning_with_portal);
 			level_object.blocks.push( new placement_code(
     			this.temp_portal.width,
     			this.temp_portal.height,
@@ -112,9 +125,9 @@ var portalPlacementScene = {
     			"portal",
     			null,
     			1,
-    			mousePos.x, //tx
-    			mousePos.y,	//ty	
-    			false
+    			this.tx, //tx
+    			this.ty,	//ty	
+    			this.temp_portal.teleport_point.is_a_portal
 			) );
 
     		//width, height, color, x, y, health = 1, type = "color"
@@ -130,6 +143,9 @@ var portalPlacementScene = {
 			test_blocks[ test_blocks.length - 1 ].is_portal = true;
 			test_blocks[ test_blocks.length - 1 ].teleport_point.x = mousePos.x;
 			test_blocks[ test_blocks.length - 1 ].teleport_point.y = mousePos.y;
+			if ( this.aligning_with_portal  ) {
+				level_object.blocks[ this.aligning_portal ].teleport_point.is_endpoint = true;
+			}
 
 			this.clicks = 0;
 		}
