@@ -192,23 +192,33 @@
 	    },
 
 	    collision : function( obj ) {  	
-	    	//left and right
-	    	if ( obj.center.x >= this.canvas.width || obj.center.x <= 0 ) {
+	    	if ( obj.center.x >= this.canvas.width ) {
+	    		//hitting right wall
 	    		obj.spdX *= -1;
+	    		obj.x = width - obj.width;
 
 	    		//check if the ball is also hitting the top at the same time
 	    		if ( obj.y <= 0 ) {
 	    			obj.spdY *= -1;
+	    			obj.y = 0;
 	    		}
 	    	} 
-
-			else if ( obj.center.x <= 0 ) {
+	    	else if ( obj.center.x <= 0 ) {
+	    		//hitting the left wall
 	    		obj.spdX *= -1;
+	    		obj.x = 0;
 
 	    		//check if the ball is also hitting the top at the same time
 	    		if ( obj.y <= 0 ) {
 	    			obj.spdY *= -1;
+	    			obj.y = 0;
 	    		}
+	    	}
+
+			else if ( obj.center.x <= 0 ) {
+				//hitting the top wall
+	    		obj.spdX *= -1;
+	    		obj.y = 0;
 	    	}
 
 	    	else if ( obj.center.y <= 0 ) {
