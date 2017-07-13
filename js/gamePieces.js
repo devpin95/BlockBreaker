@@ -152,16 +152,29 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 function paddle() {
 	this.width = 100;
 	this.height = 7;
-	this.x = width / 2 - 50;
+	this.x = (width / 2) - 50;
 	this.y = height - 35;
 	this.numberHits = 0;
 	this.image = new Image();
 	this.image.src = "assets/paddle.png";
+
+	//edges
+	this.top_edge = this.y;
+	this.bottom_edge = this.top_edge + this.height;
+	this.left_edge = this.x;
+	this.right_edge = this.left_edge + this.width;
+
 	this.update = function() {
 		ctx = myGameArea.context;
 		//ctx.fillStyle = "#000";
 		//ctx.fillRect( this.x, this.y, this.width, this.height );
 		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+
+		//edges
+		this.top_edge = this.y;
+		this.bottom_edge = this.top_edge + this.height;
+		this.left_edge = this.x;
+		this.right_edge = this.left_edge + this.width;
 	}
 
 	//move the paddle as the mouse moves within the bounds of the canvas
@@ -175,8 +188,11 @@ function paddle() {
 		//if the left most side is less than the width of the paddle or the right most side is greater than the x position
 		//and the bottom side is less that the top of the paddle
 		if ( ( obj.x <= this.x + this.width && obj.x + obj.width >= this.x ) && ( obj.y + obj.height >= this.y && obj.y <= this.y + this.height ) ) {
+			//move the ball to the top of the paddle so that it doesnt get stuck bouncing within the paddle
+			obj.y = this.top_edge - obj.height;
+
+			//bounce the ball off the paddle based on it's position
 			this.bounceBack(obj);
-			//dbgr.add( this.numberHits + " PADDLE HIT");
 			if ( obj.free ) {
 				++this.numberHits;
 			}
