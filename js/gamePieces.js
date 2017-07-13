@@ -27,7 +27,7 @@ function ball( width, height, color, x, y, type = "color" ) {
 		y : this.y + ( this.height / 2 )
 	};
 	this.equation = {
-		slope : this.x / this.y,
+		slope : this.spdX / this.spdY,
 		y_intercept : null,
 		//debug values
 		point_in_distance : {
@@ -38,6 +38,10 @@ function ball( width, height, color, x, y, type = "color" ) {
 
 	//empty edges, initialized in update function
 	this.top_edge, this.bottom_edge, this.left_edge, this.right_edge;
+
+	this.updateEquation = function() {
+		//this.equation.slope = 
+	}
 
 	this.update = function() {
 		if ( !this.free ) {

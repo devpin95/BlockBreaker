@@ -7,7 +7,7 @@ function slopeTrace( ball, block ) {
 
 	//dbgr.add("TRACING");
 
-	for ( var i = 0; i < 10; ++i ) {
+	for ( var i = 0; i < 100; ++i ) {
 		//y = mx + b
 		--new_x;
 		new_y = ( ball.equation.slope * new_x ) + ball.equation.y_intercept;
@@ -24,6 +24,7 @@ function slopeTrace( ball, block ) {
 				//bottom
 				ball.spdY *= -1;
 				cont = true;
+				//ball.y = block.y + block.height;
 			}
 		}
 		//ball has a positive slope and is moving to the left
