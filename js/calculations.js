@@ -1,95 +1,117 @@
+var debug_current_block;
 function slopeTrace( ball, block ) {
 	var new_x = Math.round( ball.center.x );
 	var new_y = Math.round( ball.center.y );
 	var cont = false;
-	var range = 2;
-	var message = "";
+	var message;
 
-	//dbgr.add("TRACING");
+	//debug_current_block.update();
 
 	for ( var i = 0; i < 100; ++i ) {
 		//y = mx + b
-		--new_x;
+		if ( ball.spdX >= 0 ) {
+			--new_x;
+		} else {
+			++new_x;
+		}
 		new_y = ( ball.equation.slope * new_x ) + ball.equation.y_intercept;
 
 		//ball has a positive slope and is moving to the right
 		if ( ball.equation.slope >= 0 && ball.spdX >= 0 ) {
-			//ball can only hit bottom or left
-			if ( new_x <= block.x ) {
+			//ball can only hit top or left
+			if ( new_x <= block.left_edge ) {
 				//left
 				ball.spdX *= -1;
 				cont = true;
+				//ball.x = block.left_edge - ball.width;
+				message = "1 : left";
 			} 
-			else/* if ( new_y >= block.y + block.height )*/ {
+			else if ( new_y <= block.top_edge ) {
 				//bottom
 				ball.spdY *= -1;
 				cont = true;
-				//ball.y = block.y + block.height;
+				//ball.y = block.bottom_edge;
+				message = "1 : top";
+			} else {
+				//alert("IDK 1" + "\nSlope: " + ball.equation.slope + "\nX Speed: " + ball.spdX );
+				message = "1 : IDK";
 			}
 		}
 		//ball has a positive slope and is moving to the left
 		else if ( ball.equation.slope >= 0 && ball.spdX <= 0 ) {
 			//ball can only hit top or right
-			if ( new_x >= block.x + block.width ) {
+			if ( new_x >= block.right_edge ) {
 				//right
 				ball.spdX *= -1;
 				cont = true;
+				//ball.x = block.right_edge;
+				message = "2 : right";
 			} 
-			else/* if ( new_y <= block.y )*/ {
+			else if ( new_y >= block.bottom_edge ) {
 				//top
 				ball.spdY *= -1;
 				cont = true;
+				//ball.y = block.top_edge - ball.height;
+				message = "2 : bottom";
+			} else {
+				//alert("IDK 2" + "\nSlope: " + ball.equation.slope + "\nX Speed: " + ball.spdX);
+				message = "2 : IDK";
 			}
 		}
 		//ball has a negative slope and is moving to the right
 		else if ( ball.equation.slope <= 0 && ball.spdX >= 0 ) {
-			//ball can only hit top or left
-			if ( new_x <= block.x ) {
+			//ball can only hit bottom or left
+			if ( new_x <= block.left_edge ) {
 				//left
 				ball.spdX *= -1;
 				cont = true;
+				//ball.x = block.left_edge - ball.width;
+				message = "3 : left";
 			} 
-			else/* if ( new_y <= block.y )*/ {
+			else if ( new_y >= block.bottom_edge ) {
 				//top
 				ball.spdY *= -1;
 				cont = true;
+				//ball.y = block.top_edge - ball.height;
+				message = "3 : Bottom";
+			} else {
+				//alert("IDK 3" + "\nSlope: " + ball.equation.slope + "\nX Speed: " + ball.spdX);
+				message = "3 : IDK";
 			}
 		}//ball has a negative slope and is moving to the left
 		else if ( ball.equation.slope <= 0 && ball.spdX <= 0 ) {
-			//ball can only hit bottom or right
-			if ( new_x >= block.x + block.width ) {
+			//ball can only hit top or right
+			if ( new_x >= block.right_edge ) {
 				//right
 				ball.spdX *= -1;
 				cont = true;
+				//ball.x = block.right_edge;
+				message = "4 : right";
 			} 
-			else /*if ( new_y >= block.y + block.height )*/ {
+			else if ( new_y <= block.top_edge ) {
 				//bottom
 				ball.spdY *= -1;
 				cont = true;
+				//ball.y = block.bottom_edge;
+				message = "4 : top";
+			} else {
+				//alert("IDK 4" + "\nSlope: " + ball.equation.slope + "\nX Speed: " + ball.spdX);
+				message = "4 : IDK";
 			}
 		} else if ( ball.equation.slope == Number.POSITIVE_INFINITY ) {
+			if ( ball.spdY < 0 ) {
+				//ball.y = block.bottom_edge;
+			} else if ( ball.spdY > 0 ) {
+				//ball.y = block.top_edge - ball.height;
+			}
 			ball.spdY *= -1;
 		 	cont = true;
 		}
 
-
-		// if ( new_x <= block.x || new_x >= block.x + block.width ) {
-		// 	//bounced off left
-		// 	ball.spdX *= -1;
-		// 	cont = true;
-		// } else if ( new_y <= block.y || new_y >= block.y + block.height ) {
-		// 	//bounced off top
-		// 	ball.spdY *= -1;
-		// 	cont = true;
-		// } else {
-		// 	ball.spdY *= -1;
-		// 	cont = true;
-		// }
-
 		if ( cont == true ) {
 			break;
-		} else {
-			break;
+		} else if ( i == 99 ) {
+			//alert(message);
 		}
 	}
 
