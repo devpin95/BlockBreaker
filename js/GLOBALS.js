@@ -4,19 +4,25 @@
 var fps = 1000/50; //50 fps
 
 //default object values
+var max_player_lives = 3;
+var default_paddle_width = 100;
+var big_paddle_width = 175;
 var maxBallSpeed = 9;
 var default_block_width = 75; //50 || 75
 var default_block_height = 35; //20 || 35
+var streak_multiplyer = 50;
+var mods_default_fall_speed = 3;
+var mods_default_width = 50;
+var mods_default_height = 14;
 
 var default_ball_image = "assets/ball_bg.png";
-var default_block_image = "assets/big_block_bg.jpg";
-var default_wall_image = "assets/wall_bg.png";
+// var default_block_image = "assets/big_block_bg.jpg";
+// var default_wall_image = "assets/wall_bg.png";
 
 //helper elements
 var partition_block;
 
 //game pieces
-var myGamePiece;
 var myPaddle;
 var player;
 
@@ -24,6 +30,13 @@ var balls = [];
 var blocks = [];
 var walls = [];
 var portals = [];
+var streaks = [];
+var mods = [];
+var mod_list = [ 
+		mod_1up, 
+		mod_stretch, 
+		mod_newBall 
+	];
 
 var SCENES = {
 	MAIN_MENU_SCENE : mainMenuScene,			//main menu
@@ -42,8 +55,8 @@ var GAME_STATE = {
 	LIFE_LOST : false,
 	BALL_READY : false,
 	STOP_TIME : false,
-	LEVEL : 9,
-	HIGHEST_LEVEL : 9,
+	LEVEL : 0,
+	HIGHEST_LEVEL : 10,
 	PREVIOUS_SCENE : null,
 	ACTIVE_SCENE : SCENES.GAME_SCENE,
 	reset : function() {

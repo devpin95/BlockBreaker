@@ -3484,465 +3484,1320 @@ function level_six() {
 function level_seven() {
 
      var level = {
-          "bonuses": {
-               "time_lower_bound": 60,
-               "timer_upper_bound": 90,
-               "paddle_lower_bound": 20,
-               "paddle_upper_bound": 40
-          },
-          "blocks": [
-               {
-                    "type": "wall",
-                    "x": 151,
-                    "y": 438,
-                    "width": 962,
-                    "height": 20,
-                    "src": "file:///C:/Users/devin/Documents/Devin/projects/BlockBreaker/BlockBreaker/assets/wall_horizontal.png",
-                    "health": 1,
-                    "orientation": "horizontal"
-               },
-               {
-                    "type": "wall",
-                    "x": 152,
-                    "y": 95,
-                    "width": 20,
-                    "height": 343,
-                    "src": "file:///C:/Users/devin/Documents/Devin/projects/BlockBreaker/BlockBreaker/assets/wall_vertical.png",
-                    "health": 1,
-                    "orientation": "vertical"
-               },
-               {
-                    "type": "wall",
-                    "x": 406,
-                    "y": 75,
-                    "width": 556,
-                    "height": 20,
-                    "src": "file:///C:/Users/devin/Documents/Devin/projects/BlockBreaker/BlockBreaker/assets/wall_horizontal.png",
-                    "health": 1,
-                    "orientation": "horizontal"
-               },
-               {
-                    "type": "big_block",
-                    "x": 431.5,
-                    "y": 403,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 431.5,
-                    "y": 368,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 431.5,
-                    "y": 333,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 431.5,
-                    "y": 298,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 431.5,
-                    "y": 263,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 431.5,
-                    "y": 95,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 506.5,
-                    "y": 263,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 506.5,
-                    "y": 298,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 506.5,
-                    "y": 333,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 506.5,
-                    "y": 368,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 506.5,
-                    "y": 403,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 581.5,
-                    "y": 403,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 581.5,
-                    "y": 368,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 581.5,
-                    "y": 333,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 581.5,
-                    "y": 298,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 581.5,
-                    "y": 263,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 506.5,
-                    "y": 95,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 581.5,
-                    "y": 95,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 656.5,
-                    "y": 95,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 731.5,
-                    "y": 95,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 806.5,
-                    "y": 95,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 881.5,
-                    "y": 95,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 881.5,
-                    "y": 263,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 881.5,
-                    "y": 298,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 881.5,
-                    "y": 333,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 881.5,
-                    "y": 368,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 881.5,
-                    "y": 403,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 806.5,
-                    "y": 403,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 731.5,
-                    "y": 403,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 656.5,
-                    "y": 403,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 656.5,
-                    "y": 368,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 656.5,
-                    "y": 333,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 656.5,
-                    "y": 298,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 656.5,
-                    "y": 263,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 731.5,
-                    "y": 263,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 731.5,
-                    "y": 298,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 731.5,
-                    "y": 333,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 731.5,
-                    "y": 368,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 806.5,
-                    "y": 368,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 806.5,
-                    "y": 333,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 806.5,
-                    "y": 298,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
-               },
-               {
-                    "type": "big_block",
-                    "x": 806.5,
-                    "y": 263,
-                    "width": 75,
-                    "height": 35,
-                    "src": "assets/big_block_green.jpg",
-                    "health": 1,
-                    "orientation": null
+     "bonuses": {
+          "time_lower_bound": 60,
+          "timer_upper_bound": 90,
+          "paddle_lower_bound": 20,
+          "paddle_upper_bound": 40
+     },
+     "blocks": [
+          {
+               "type": "big_block",
+               "x": 442.5,
+               "y": 15.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
                }
-          ]
-     }
+          },
+          {
+               "type": "big_block",
+               "x": 442.5,
+               "y": 50.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 442.5,
+               "y": 85.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 442.5,
+               "y": 120.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 367.5,
+               "y": 155.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 367.5,
+               "y": 190.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 367.5,
+               "y": 225.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 442.5,
+               "y": 225.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 517.5,
+               "y": 225.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 592.5,
+               "y": 225.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 592.5,
+               "y": 190.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 592.5,
+               "y": 155.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 592.5,
+               "y": 120.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 592.5,
+               "y": 85.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 592.5,
+               "y": 50.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 592.5,
+               "y": 15.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 517.5,
+               "y": 15.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 517.5,
+               "y": 50.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 517.5,
+               "y": 85.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 517.5,
+               "y": 120.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 367.5,
+               "y": 120.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 367.5,
+               "y": 85.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 367.5,
+               "y": 50.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 367.5,
+               "y": 15.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 367.5,
+               "y": 260.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 367.5,
+               "y": 295.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 442.5,
+               "y": 260.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 517.5,
+               "y": 260.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 592.5,
+               "y": 260.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 592.5,
+               "y": 295.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 517.5,
+               "y": 295.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 442.5,
+               "y": 295.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_green.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "portal",
+               "x": 491,
+               "y": 389.1999969482422,
+               "width": 50,
+               "height": 50,
+               "src": "file:///C:/Users/devin/Documents/Devin/projects/BlockBreaker/BlockBreaker/assets/portal_blue.png",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": 516,
+                    "y": 187.1999969482422,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 292.5,
+               "y": 15.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 292.5,
+               "y": 50.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 292.5,
+               "y": 85.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 292.5,
+               "y": 120.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 292.5,
+               "y": 155.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 292.5,
+               "y": 190.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 292.5,
+               "y": 225.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 292.5,
+               "y": 260.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 292.5,
+               "y": 295.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 217.5,
+               "y": 295.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 217.5,
+               "y": 260.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 217.5,
+               "y": 225.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 217.5,
+               "y": 190.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 217.5,
+               "y": 155.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 217.5,
+               "y": 120.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 217.5,
+               "y": 85.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 217.5,
+               "y": 50.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 217.5,
+               "y": 15.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 667.5,
+               "y": 15.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 667.5,
+               "y": 50.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 667.5,
+               "y": 85.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 667.5,
+               "y": 120.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 667.5,
+               "y": 155.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 667.5,
+               "y": 190.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 667.5,
+               "y": 225.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 667.5,
+               "y": 260.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 667.5,
+               "y": 295.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 742.5,
+               "y": 295.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 742.5,
+               "y": 260.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 742.5,
+               "y": 225.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 742.5,
+               "y": 190.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 742.5,
+               "y": 155.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 742.5,
+               "y": 120.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 742.5,
+               "y": 85.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 742.5,
+               "y": 50.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 742.5,
+               "y": 15.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_blue.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 142.5,
+               "y": 295.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_purple.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 142.5,
+               "y": 260.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_purple.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 142.5,
+               "y": 225.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_purple.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 142.5,
+               "y": 190.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_purple.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 142.5,
+               "y": 155.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_purple.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 142.5,
+               "y": 120.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_purple.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 142.5,
+               "y": 85.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_purple.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 142.5,
+               "y": 50.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_purple.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 142.5,
+               "y": 15.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_purple.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 817.5,
+               "y": 15.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_purple.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 817.5,
+               "y": 50.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_purple.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 817.5,
+               "y": 85.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_purple.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 817.5,
+               "y": 120.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_purple.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 817.5,
+               "y": 155.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_purple.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 817.5,
+               "y": 190.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_purple.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 817.5,
+               "y": 225.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_purple.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 817.5,
+               "y": 260.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_purple.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          },
+          {
+               "type": "big_block",
+               "x": 817.5,
+               "y": 295.5,
+               "width": 75,
+               "height": 35,
+               "src": "assets/big_block_purple.jpg",
+               "health": 1,
+               "orientation": null,
+               "teleport_point": {
+                    "x": null,
+                    "y": null,
+                    "is_endpoint": false
+               }
+          }
+     ]
+}
 
      buildLevel(level);
 }
