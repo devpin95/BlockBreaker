@@ -8,6 +8,9 @@ var gameScene = {
 		balls = [];
 		blocks = [];
 		walls = [];
+		portals = [];
+		streaks = [];
+		mods = [];
 
 		balls.push( new ball( 15, 15, default_ball_image, 0, 0, "image" ) );
 		GAME_STATE.BALL_READY = true;
@@ -28,6 +31,7 @@ var gameScene = {
 	run : function() {
 		if ( this.draw_level ) 
 		{
+			document.body.style.cursor = "";
 			if ( this.draw_level_timer == 100 ) {
 				this.draw_level = false;
 				this.timer_interval = setInterval( UI.timer.countTime, 1000 );
@@ -50,6 +54,8 @@ var gameScene = {
 		
 		else if ( !GAME_STATE.IS_PAUSED && !GAME_STATE.WON && !GAME_STATE.LIFE_LOST ) 
 		{
+			document.body.style.cursor = "none";
+
 			if ( GAME_STATE.BALL_READY ) {
 				myGameArea.context.font = "20px Arial";
 				myGameArea.context.fillStyle = "#000";
@@ -60,48 +66,98 @@ var gameScene = {
 			myPaddle.newPos( mousePos.x, mousePos.y );
 			myPaddle.update();
 
+			//delete a block that was marked for deletion on the previous frame
 			if ( block_to_delete != -1 ) {
+
+				//randomly generate a number to determine if a mod should be dropped
+
+				var num = Math.floor( (Math.random() * 10) );
+
+				if ( num >= 0 && num <= mod_list.length - 1 ) {
+					//alert(num);
+					mods.push( new mod_list[num] );
+					mods[ mods.length - 1 ].x = blocks[block_to_delete].center.x;
+					mods[ mods.length - 1 ].y = blocks[block_to_delete].center.y;
+				}
+
 				blocks.splice( block_to_delete, 1 );
 				block_to_delete = -1;
 				player.score += 100;
 				UI.score.add( 100 );
 			}
 
+			//update the mods array
+			for ( var i = 0; i < mods.length; ++i ) {
+				mods[i].update();
+
+				//check if the mod is passed the bottom of the canvas or is no longer active
+				if ( !mods[i].is_active || mods[i].y >= height ) {
+					//delete the mod
+					mods.splice( i, 1 );
+					continue;
+				}
+
+				//check for a collision with the paddle
+				if ( myPaddle.collision( mods[i] ) ) {
+					mods[i].activate();
+				}
+			}
+
+			//update the streak items
+			for ( var i = 0; i < streaks.length; ++i ) {
+				streaks[i].update();
+				if ( streaks[i].is_done ) {
+					streaks.splice( i, 1 );
+				}
+			}
+
+			//main loops
 			for ( var i = 0; i < balls.length; ++i ) 
 			{
+				//check for collisions with portals
 				for ( var j = 0; j < portals.length; ++j ) {
-					portals[j].update();
+					portals[j].update();	//update each portal
 					portals[j].collision( balls[i] );
 				}
+
+				//check for a collision with the game area walls
 				myGameArea.collision( balls[i] );
 
 				//check if the ball went past the bottom of the canvas
 				if ( myGameArea.bottom_hit ) {
 					//if it did, remove the ball and deal with the player data
-					GAME_STATE.STOP_TIME = true;
+					//GAME_STATE.STOP_TIME = true;
 					balls.splice( i, 1 );
 
-					if ( balls.length == 0 ) {
+					//if there are no more free balls, a life is lost
+					if ( balls.length == 0 && !GAME_STATE.BALL_READY ) {
 						GAME_STATE.LIFE_LOST = true;
-						--player.lives;
+						--player.lives;						
 					}
 					myGameArea.bottom_hit = false;
 
-
-					if ( blocks.length == 10 ) {
-						GAME_STATE.BALL_READY = true;
-						balls.push( new ball( 15, 15, default_ball_image, 0, 0, "image" ) );
-					}
-
-					return;
+					//go to the next frame
+					continue;
 				}
 			
+				//check for a collision with a paddle
+				//if a ball hit the paddle, reset it's streak
+				if ( myPaddle.collision( balls[i] ) ) {
+					balls[i].streak = 0;
+				}
 
-				myPaddle.collision( balls[i] );
-
+				//check for collisions with the blocks
 				for ( var j = 0; j < blocks.length; ++j ) {
+
+					//if a ball is colliding with a block, prepare that block for deletion and increment the balls streak
 					if ( blocks[j].collision( balls[i] ) ) {
 						block_to_delete = j; //prepare block to be deleted on next frame
+						++balls[i].streak;
+						if ( balls[i].streak >= 2 ) {
+							streaks.push( new streak( blocks[ block_to_delete ].center.x, blocks[ block_to_delete ].center.y, "+" + ( streak_multiplyer * balls[i].streak ) ) );
+							player.score += streak_multiplyer * balls[i].streak;
+							UI.score.add( streak_multiplyer * balls[i].streak );
+						}
 					}
 
 					blocks[j].update();
@@ -129,18 +185,10 @@ var gameScene = {
 			} 
 		} 
 
-		//handle pausing
-		// else if ( GAME_STATE.IS_PAUSED && !GAME_STATE.WON ) 
-		// {
-		// 	myGameArea.context.font = "50px Arial";
-		// 	myGameArea.context.fillStyle = "#8e44ad";
-		// 	myGameArea.context.textAlign = "center";
-		// 	myGameArea.context.fillText( "Paused", width/2, height/2 );
-		// } 
-
 		//handle a win
 		else if ( !GAME_STATE.IS_PAUSED && GAME_STATE.WON ) 
 		{
+			document.body.style.cursor = "";
 			this.scene_ready = false;
 			GAME_STATE.ACTIVE_SCENE = SCENES.LEVEL_CLEAR_SCENE;
 			GAME_STATE.reset();
@@ -150,27 +198,33 @@ var gameScene = {
 		//handle a life lost
 		else if ( GAME_STATE.LIFE_LOST && !GAME_STATE.IS_PAUSED && !GAME_STATE.WON ) 
 		{
-			//Lost a life
-			if ( player.lives >= 0 && !GAME_STATE.BALL_READY ) {
+			if ( player.lives >= 0 ) {
 				if ( balls.length == 0 ) {
 					//make a new ball
 					balls.push( new ball( 15, 15, default_ball_image, 0, 0, "image" ) );
 					GAME_STATE.BALL_READY = true;
+					mods = []; //clear the mods that are falling
+					UI.lives.down();	
 				}
 
 				GAME_STATE.LIFE_LOST = false; 
-				GAME_STATE.STOP_TIME = false;
-
-				document.getElementById( "b" + ( player.lives + 1 ) ).className = "ball_deactivated";
+				//GAME_STATE.STOP_TIME = false;
+				//document.getElementById( "b" + ( player.lives + 1 ) ).className = "ball_deactivated";
 			} 
 
 			//Lost the game
-			else {
+			else if ( player.lives < 0 ) {
+				document.body.style.cursor = "";
 				this.scene_ready = false;
 				//this.draw_level = true;
 				GAME_STATE.ACTIVE_SCENE = SCENES.GAME_OVER_SCENE;
 				GAME_STATE.reset();
 				clearInterval(this.timer_interval);
+			} 
+			else 
+			{
+				//alert("IN HERE FOR SOME REASON");
+				GAME_STATE.LIFE_LOST = false;
 			}
 		}
 	},
