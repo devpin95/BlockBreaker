@@ -4,6 +4,18 @@ var UI = {
 		score_element : document.getElementById("score")
 	},
 
+	lives : {
+		up : function() {
+			document.getElementById( "b" + player.lives ).className = "";
+			dbgr.add("b" + ( player.lives ));
+		},
+
+		down : function() {
+			document.getElementById( "b" + (player.lives + 1) ).className = "ball_deactivated";
+			//dbgr.add("b" + ( player.lives ));
+		}
+	},
+
 	timer : {
 		seconds : 0,
 		minutes : 0,
@@ -47,5 +59,9 @@ var UI = {
 
 		UI.score.total = 0;
 		UI.elements.score_element.innerHTML = "0";
+
+		document.getElementById("b1").className = "";
+		document.getElementById("b2").className = "";
+		document.getElementById("b3").className = "";
 	}
 }
