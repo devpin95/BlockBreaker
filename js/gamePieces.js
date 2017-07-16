@@ -18,6 +18,7 @@ function ball( width, height, color, x, y, type = "color" ) {
 	this.x = x;
 	this.y = y;
 	this.free = false;
+	this.streak = 0;
 	if ( type == "image" ) {
 		this.image = new Image();
 		this.image.src = color;
@@ -143,6 +144,10 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 			ball.height + ball.y > block.y ) 
 		{
 			if ( isFinite( ball.equation.slope )  ) {
+				// debug_current_block.x = this.x;
+				// debug_current_block.y = this.y;
+				// debug_current_block.width = this.width;
+				// debug_current_block.height = this.height;
 				slopeTrace( ball, block );
 			} else {
 				ball.spdY *= -1;
@@ -154,13 +159,16 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 }
 
 function paddle() {
-	this.width = 100;
+	this.width = 100; //default_paddle_width
 	this.height = 7;
 	this.x = (width / 2) - 50;
 	this.y = height - 35;
 	this.numberHits = 0;
 	this.image = new Image();
 	this.image.src = "assets/paddle.png";
+
+	//mod effects
+	this.is_stretched = false;
 
 	//edges
 	this.top_edge = this.y;
@@ -183,7 +191,7 @@ function paddle() {
 
 	//move the paddle as the mouse moves within the bounds of the canvas
 	this.newPos = function( x, y ) {
-		if ( x <= myGameArea.canvas.width - 100 && x >= 0 )
+		if ( x <= myGameArea.canvas.width - this.width && x >= 0 )
 			this.x = x;
 	}
 
@@ -200,7 +208,10 @@ function paddle() {
 			if ( obj.free ) {
 				++this.numberHits;
 			}
+
+			return true;
 		}
+		return false;
 	}
 
 	this.bounceBack = function( obj ) {
@@ -287,89 +298,6 @@ function wall( width, height, src, x, y, orientation ) {
 			} else {
 				ball.spdY *= -1;
 			}
-
-			// dbgr.add("WALL");
-
-			// var new_x = Math.round( ball.center.x );
-			// var new_y = Math.round( ball.center.y );
-
-			// for ( var i = 0; i < 10; ++i ) {
-			// 	--new_x;
-			// 	new_y = ( ball.equation.slope * new_x ) + ball.equation.y_intercept;
-
-			// 	//ball has a positive slope and is moving to the right
-			// 	if ( ball.equation.slope >= 0 && ball.spdX >= 0 ) {
-			// 		//ball can only hit bottom or left
-			// 		if ( new_x <= block.x && block.is_edge_piece ) {
-			// 			//left
-			// 			ball.spdX *= -1;
-			// 			ball.x = block.x - ball.width;
-			// 			cont = true;
-			// 		} 
-			// 		else/* if ( new_y >= block.y + block.height )*/ {
-			// 			//bottom
-			// 			ball.spdY *= -1;
-			// 			ball.y = block.y + block.height;
-			// 			cont = true;
-			// 		}
-			// 	}
-			// 	//ball has a positive slope and is moving to the left
-			// 	else if ( ball.equation.slope >= 0 && ball.spdX <= 0 ) {
-			// 		//ball can only hit top or right
-			// 		if ( new_x >= block.x + block.width && block.is_edge_piece ) {
-			// 			//right
-			// 			ball.spdX *= -1;
-			// 			ball.x = block.x + block.width;
-			// 			cont = true;
-			// 		} 
-			// 		else/* if ( new_y <= block.y )*/ {
-			// 			//top
-			// 			ball.spdY *= -1;
-			// 			ball.y = block.y + ball.height;
-			// 			cont = true;
-			// 		}
-			// 	}
-			// 	//ball has a negative slope and is moving to the right
-			// 	else if ( ball.equation.slope <= 0 && ball.spdX >= 0 ) {
-			// 		//ball can only hit top or left
-			// 		if ( new_x <= block.x && block.is_edge_piece ) {
-			// 			//left
-			// 			ball.spdX *= -1;
-			// 			ball.x = block.x + ball.width;
-			// 			cont = true;
-			// 		} 
-			// 		else/* if ( new_y <= block.y )*/ {
-			// 			//top
-			// 			ball.spdY *= -1;
-			// 			ball.y = block.y + ball.height;
-			// 			cont = true;
-			// 		}
-			// 	}//ball has a negative slope and is moving to the left
-			// 	else if ( ball.equation.slope <= 0 && ball.spdX <= 0 ) {
-			// 		//ball can only hit bottom or right
-			// 		if ( new_x >= block.x + block.width && block.is_edge_piece ) {
-			// 			//right
-			// 			ball.spdX *= -1;
-			// 			ball.x = block.x + block.width;
-			// 			cont = true;
-			// 		} 
-			// 		else /*if ( new_y >= block.y + block.height )*/ {
-			// 			//bottom
-			// 			ball.spdY *= -1;
-			// 			ball.y = block.y + block.height;
-			// 			cont = true;
-			// 		}
-			// 	} else if ( ball.equation.slope == Number.POSITIVE_INFINITY ) {
-			// 		ball.spdY *= -1;
-			// 	 	cont = true;
-			// 	}
-
-			// 	if ( cont == true ) {
-			// 		break;
-			// 	} else {
-			// 		break;
-			// 	}
-			// }
 		}
 	}
 }
@@ -504,5 +432,145 @@ function portal( width, height, src, x, y, tx, ty, endpoint = false ) {
 				}
 			}
 		}
+	}
+}
+
+function streak( x, y, value, down = true ) {
+	this.x = x;
+	this.y = y;
+	this.spdY = 2;
+	this.time = 50;
+	this.is_done = false;
+	this.down = down;
+
+	this.update = function() {
+		if ( this.down ) {
+			this.y += this.spdY;
+		}
+		else if ( !this.down ) {
+			this.y += -this.spdY;
+		}
+
+		--this.time;
+		if ( this.time == 0 ) {
+			this.is_done = true;
+		}
+
+		myGameArea.context.font = "20px Bebas Neue";
+		// var gradient = myGameArea.context.createLinearGradient(this.x, this.y, this.x, this.y + 100);
+		// gradient.addColorStop("0.5","#FDD819");//
+		// gradient.addColorStop("0","#E80505");
+		myGameArea.context.fillStyle = "rgba(255, 0, 0, " + ( (this.time/50) ) + " )";
+		myGameArea.context.textAlign = "center";
+		myGameArea.context.fillText( value, this.x, this.y );
+	}
+}
+
+function mod_1up( x, y ) {
+	this.width = mods_default_width;
+	this.height = mods_default_height;
+	this.x = x - (this.width/2);
+	this.y = y - (this.height/2);
+	this.spdY = mods_default_fall_speed;
+	this.image = new Image();
+	this.image.src = "assets/mod_1up.png";
+
+	this.is_active = true;
+
+	this.update = function() {
+		this.y += this.spdY;
+		ctx = myGameArea.context;
+		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+	}
+
+	this.activate = function() {
+		this.spdY = 0;
+		this.is_active = false;
+
+		if ( player.lives < max_player_lives ) {
+			++player.lives;
+			UI.lives.up();
+		} 
+
+		streaks.push( new streak( this.x, this.y, "+50", false ) );
+		UI.score.add(50);
+		player.score += 50;
+
+		this.x = -1000;
+		this.y = -1000;
+	}
+}
+
+function mod_stretch( x, y ) {
+	this.width = mods_default_width;
+	this.height = mods_default_height;
+	this.x = x;
+	this.y = y;
+	this.spdY = mods_default_fall_speed;
+	this.image = new Image();
+	this.image.src = "assets/mod_stretch.png";
+
+	this.is_active = true;
+
+	this.update = function() {
+		this.y += this.spdY;
+		ctx = myGameArea.context;
+		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+	}
+
+	this.activate = function() {
+		this.spdY = 0;
+		this.is_active = false;
+
+		if ( !myPaddle.is_stretched ) {
+			myPaddle.width += big_paddle_width;
+			myPaddle.image.src = "assets/paddle_big.png";
+			setTimeout( function() {
+				myPaddle.width = default_paddle_width;
+				myPaddle.image.src = "assets/paddle.png";
+			}, 5000 )
+		} else {
+			streaks.push( new streak( this.x + (this.width/2), this.y + (this.height/2), "+50", false ) );
+			UI.score.add(50);
+			player.score += 50;
+		}
+
+		this.x = -1000;
+		this.y = -1000;
+	}
+}
+
+function mod_newBall( x, y ) {
+	this.width = mods_default_width;
+	this.height = mods_default_height;
+	this.x = x;
+	this.y = y;
+	this.spdY = mods_default_fall_speed;
+	this.image = new Image();
+	this.image.src = "assets/mod_newball.png";
+
+	this.is_active = true;
+
+	this.update = function() {
+		this.y += this.spdY;
+		ctx = myGameArea.context;
+		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+	}
+
+	this.activate = function() {
+		this.spdY = 0;
+		this.is_active = false;
+
+		if ( !GAME_STATE.BALL_READY ) {
+			balls.push( new ball( 15, 15, "assets/ball_bg_alternate.png", 0, 0, "image" ) );
+			GAME_STATE.BALL_READY = true;
+		} else {
+			streaks.push( new streak( this.x, this.y, "+50", false ) );
+			UI.score.add(50);
+			player.score += 50;
+		}
+
+		this.x = -1000;
+		this.y = -1000;
 	}
 }
