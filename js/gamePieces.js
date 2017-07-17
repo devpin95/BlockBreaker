@@ -509,6 +509,8 @@ function mod_stretch( x, y ) {
 	this.spdY = mods_default_fall_speed;
 	this.image = new Image();
 	this.image.src = "assets/mod_stretch.png";
+	this.interval = null;
+	this.interval_counter = big_paddle_width;
 
 	this.is_active = true;
 
@@ -520,15 +522,42 @@ function mod_stretch( x, y ) {
 
 	this.activate = function() {
 		this.spdY = 0;
-		this.is_active = false;
+		//this.is_active = false;
+		myPaddle.is_stretched = true;
 
 		if ( !myPaddle.is_stretched ) {
-			myPaddle.width += big_paddle_width;
+			myPaddle.width = big_paddle_width;
 			myPaddle.image.src = "assets/paddle_big.png";
+			//myPaddle.width = big_paddle_width;
+			
 			setTimeout( function() {
 				myPaddle.width = default_paddle_width;
-				myPaddle.image.src = "assets/paddle.png";
-			}, 5000 )
+				myPaddle.image.src = "assets/paddle_big.png";
+				myPaddle.is_stretched = false;
+				this.is_active = false;
+			}, 5000 );
+
+			// setTimeout( function() {
+			// 	myPaddle.width = big_paddle_width - 75;
+			// }, 5000 );
+
+			// setTimeout( function() {
+			// 	myPaddle.width = default_paddle_width;
+			// 	myPaddle.image.src = "assets/paddle_big.png";
+			// 	myPaddle.is_stretched = true;
+			// }, 7000 );
+
+
+			// this.interval = setInterval( function() {
+			// 	--this.interval_counter;
+			// 	myPaddle.width = ( big_paddle_width - this.interval_counter );
+
+			// 	if ( this.interval_counter == 0 ) {
+			// 		this.interval_counter = big_paddle_width;
+			// 		clearInterval( this.interval );
+			// 	}
+
+			// }, fps );
 		} else {
 			streaks.push( new streak( this.x + (this.width/2), this.y + (this.height/2), "+50", false ) );
 			UI.score.add(50);

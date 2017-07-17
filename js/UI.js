@@ -7,12 +7,10 @@ var UI = {
 	lives : {
 		up : function() {
 			document.getElementById( "b" + player.lives ).className = "";
-			dbgr.add("b" + ( player.lives ));
 		},
 
 		down : function() {
 			document.getElementById( "b" + (player.lives + 1) ).className = "ball_deactivated";
-			//dbgr.add("b" + ( player.lives ));
 		}
 	},
 

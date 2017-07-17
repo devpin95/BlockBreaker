@@ -12,12 +12,15 @@ var gameScene = {
 		streaks = [];
 		mods = [];
 
+		myPaddle.width = default_paddle_width;
+
 		balls.push( new ball( 15, 15, default_ball_image, 0, 0, "image" ) );
 		GAME_STATE.BALL_READY = true;
 
   		levels[GAME_STATE.LEVEL]();
 
         this.scene_ready = true;
+
         //this.timer_interval = setInterval( UI.timer.countTime, 1000 );
 	},
 
@@ -31,7 +34,7 @@ var gameScene = {
 	run : function() {
 		if ( this.draw_level ) 
 		{
-			document.body.style.cursor = "";
+			//document.body.style.cursor = "";
 			if ( this.draw_level_timer == 100 ) {
 				this.draw_level = false;
 				this.timer_interval = setInterval( UI.timer.countTime, 1000 );
@@ -54,7 +57,10 @@ var gameScene = {
 		
 		else if ( !GAME_STATE.IS_PAUSED && !GAME_STATE.WON && !GAME_STATE.LIFE_LOST ) 
 		{
-			document.body.style.cursor = "none";
+
+			if ( GAME_SETTINGS.cursor.hidden ) {
+	        	document.body.style.cursor = "none";
+	        }
 
 			if ( GAME_STATE.BALL_READY ) {
 				myGameArea.context.font = "20px Arial";
@@ -208,8 +214,6 @@ var gameScene = {
 				}
 
 				GAME_STATE.LIFE_LOST = false; 
-				//GAME_STATE.STOP_TIME = false;
-				//document.getElementById( "b" + ( player.lives + 1 ) ).className = "ball_deactivated";
 			} 
 
 			//Lost the game
@@ -249,6 +253,7 @@ var gameScene = {
 
 	button_press : function( e ) {
 		if ( e.keyCode == KEYCODES.ESCAPE ) {
+			document.body.style.cursor = "";
 			GAME_STATE.STOP_TIME = true;
 			GAME_STATE.change_scene( SCENES.PAUSED_SCENE );
 		}

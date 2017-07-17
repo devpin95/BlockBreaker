@@ -117,5 +117,13 @@ var mousePos = {
 var GAME_SETTINGS = {
 	ball : {
 		flight_path : false
+	},
+
+	paddle : {
+		papa_paddle : false
+	},
+
+	cursor : {
+		hidden : false
 	}
 }
