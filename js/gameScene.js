@@ -236,7 +236,16 @@ var gameScene = {
 	clicked : function( e ) {
 		if ( GAME_STATE.WON ) {
     		GAME_STATE.WON = false;
-    	} else if ( GAME_STATE.BALL_READY && !GAME_STATE.IS_PAUSED && !this.draw_level ) {
+    	} 
+
+    	else if ( this.draw_level ) 
+    	{
+    		this.draw_level = false;
+    		this.draw_level_timer = 0;
+    	}
+
+    	else if ( GAME_STATE.BALL_READY && !GAME_STATE.IS_PAUSED && !this.draw_level ) 
+    	{
     		//there is a ball ready to be launched
 			GAME_STATE.BALL_READY = false; 
 
@@ -245,6 +254,10 @@ var gameScene = {
 				if ( !balls[i].free ) {
 					balls[i].free = true;
 					balls[i].spdY = maxBallSpeed;
+
+					var spd_x = (Math.random() * maxBallSpeed) + 1;
+					spd_x *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
+					balls[i].spdX = spd_x;
 					break;
 				}
 			}
