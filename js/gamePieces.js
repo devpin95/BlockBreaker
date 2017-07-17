@@ -166,6 +166,7 @@ function paddle() {
 	this.numberHits = 0;
 	this.image = new Image();
 	this.image.src = "assets/paddle.png";
+	this.color = null;
 
 	//mod effects
 	this.is_stretched = false;
@@ -178,9 +179,30 @@ function paddle() {
 
 	this.update = function() {
 		ctx = myGameArea.context;
-		//ctx.fillStyle = "#000";
-		//ctx.fillRect( this.x, this.y, this.width, this.height );
-		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+
+		if ( GAME_SETTINGS.paddle.papa_paddle ) {
+			this.width = width;
+			if ( mousePos.x < width / 2 ) {
+				this.color = "#f00";
+			} else if ( mousePos.x >= width / 2 ) {
+				this.color = "#00f";
+			}
+
+			ctx.globalCompositeOperation='destination-over';
+			ctx.setLineDash([5, 2]);/*dashes are 5px and spaces are 3px*/
+			ctx.beginPath();
+			ctx.moveTo( width / 2, 0 );
+			ctx.lineTo( width / 2, height );
+			ctx.strokeStyle = '#0f0';
+			ctx.stroke();
+
+			ctx.fillStyle = this.color;
+			ctx.fillRect( this.x, this.y, this.width, this.height );
+		}
+		else {
+			ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+		}
+
 
 		//edges
 		this.top_edge = this.y;
@@ -191,22 +213,41 @@ function paddle() {
 
 	//move the paddle as the mouse moves within the bounds of the canvas
 	this.newPos = function( x, y ) {
+		if ( GAME_SETTINGS.paddle.papa_paddle ) {
+			this.x = 0;
+			return;
+		}
+
 		if ( x <= myGameArea.canvas.width - this.width && x >= 0 )
 			this.x = x;
 	}
 
 	//check if there was a collision with the paddle
 	this.collision = function( obj ) {
+
 		//if the left most side is less than the width of the paddle or the right most side is greater than the x position
 		//and the bottom side is less that the top of the paddle
 		if ( ( obj.x <= this.x + this.width && obj.x + obj.width >= this.x ) && ( obj.y + obj.height >= this.y && obj.y <= this.y + this.height ) ) {
 			//move the ball to the top of the paddle so that it doesnt get stuck bouncing within the paddle
 			obj.y = this.top_edge - obj.height;
 
-			//bounce the ball off the paddle based on it's position
-			this.bounceBack(obj);
-			if ( obj.free ) {
-				++this.numberHits;
+
+			if ( GAME_SETTINGS.paddle.papa_paddle ) {
+				obj.spdY *= -1;
+				
+				if ( mousePos.x < width / 2 && obj.spdX > 0 ) {
+					obj.spdX *= -1;	
+				} else if ( mousePos.x >= width / 2 && obj.spdX < 0  ) {
+					obj.spdX *= -1;
+				}
+			} 
+
+			else {
+				//bounce the ball off the paddle based on it's position
+				this.bounceBack(obj);
+				if ( obj.free ) {
+					++this.numberHits;
+				}
 			}
 
 			return true;
@@ -263,16 +304,8 @@ function wall( width, height, src, x, y, orientation ) {
 
 	this.update = function() {
 		var ctx = myGameArea.context;
-		// var img = document.getElementById("wall_bg")
-	 //    var pat = ctx.createPattern(img, "repeat-x");
-	 //    ctx.fillStyle = pat;
-	 //    ctx.save();
-	 //    ctx.translate( this.x, this.y );
-	 //    ctx.fillRect(0, 0, this.width, this.height);
-	 //    ctx.restore();
 		ctx.beginPath();
 	    var img = document.getElementById("wall_" + this.orientation);
-	    //alert( img.src );
 	    var pat = ctx.createPattern( img, "repeat" );
 	    ctx.save();
 	    ctx.fillStyle = pat;
@@ -522,7 +555,12 @@ function mod_stretch( x, y ) {
 
 	this.activate = function() {
 		this.spdY = 0;
-		//this.is_active = false;
+		this.is_active = false;
+
+		if ( GAME_SETTINGS.paddle.papa_paddle ) {
+			return;
+		}
+
 		myPaddle.is_stretched = true;
 
 		if ( !myPaddle.is_stretched ) {

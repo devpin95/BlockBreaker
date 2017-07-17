@@ -253,11 +253,21 @@ var gameScene = {
 			for ( var i = 0; i < balls.length; ++i ) {
 				if ( !balls[i].free ) {
 					balls[i].free = true;
-					balls[i].spdY = maxBallSpeed;
+					balls[i].spdY = -maxBallSpeed;
 
-					var spd_x = (Math.random() * maxBallSpeed) + 1;
-					spd_x *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
-					balls[i].spdX = spd_x;
+					if ( GAME_SETTINGS.paddle.papa_paddle ) 
+					{
+						var spd_x = Math.floor(Math.random()*2) == 1 ? 1 : -1;
+						balls[i].spdX = spd_x * ( maxBallSpeed / 2 );
+					} 
+
+					else 
+					{
+						var spd_x = (Math.random() * maxBallSpeed) + 1;
+						spd_x *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
+						balls[i].spdX = spd_x;
+					}
+
 					break;
 				}
 			}
