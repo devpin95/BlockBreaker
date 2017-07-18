@@ -261,7 +261,7 @@ var gameScene = {
 					if ( GAME_SETTINGS.paddle.papa_paddle ) 
 					{
 						var spd_x = Math.floor(Math.random()*2) == 1 ? 1 : -1;
-						balls[i].spdX = spd_x * ( maxBallSpeed / 2 );
+						balls[i].spdX = spd_x * maxBallSpeed;
 					} 
 
 					else 
