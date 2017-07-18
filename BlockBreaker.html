@@ -170,6 +170,7 @@
 	        this.interval = setInterval( updateGameArea, fps );
 	        // this.timer = setInterval( countTime, 1000 );
 	        this.bottom_hit = false;
+	        this.sound = new sound( "assets/sound_paddle.wav" );
 
         	//canvas event listeners
 	        window.addEventListener('keydown', function(e) {
@@ -197,6 +198,7 @@
 	    		//hitting right wall
 	    		obj.spdX *= -1;
 	    		obj.x = width - obj.width;
+	    		this.sound.play();
 
 	    		//check if the ball is also hitting the top at the same time
 	    		if ( obj.y <= 0 ) {
@@ -208,11 +210,12 @@
 	    		//hitting the left wall
 	    		obj.spdX *= -1;
 	    		obj.x = 0;
+	    		this.sound.play();
 
 	    		//check if the ball is also hitting the top at the same time
 	    		if ( obj.y <= 0 ) {
 	    			obj.spdY *= -1;
-	    			obj.y = 0;
+	    			obj.y = 0;	    			
 	    		}
 	    	}
 
@@ -220,10 +223,12 @@
 				//hitting the top wall
 	    		obj.spdX *= -1;
 	    		obj.y = 0;
+	    		this.sound.play();
 	    	}
 
 	    	else if ( obj.center.y <= 0 ) {
     			obj.spdY *= -1;
+    			this.sound.play();
 
     			//check if the ball is also hitting the left or right wall at the same time
     			if ( obj.x <= 0 || obj.x >= width ) {
