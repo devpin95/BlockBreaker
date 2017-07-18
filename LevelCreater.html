@@ -259,23 +259,6 @@ var myGameArea = {
         	//send the keyup event to the active scene 
         	pressed_buttons[ e.keyCode ] = true;
         	ACTIVE_SCENE.buttonPress( e );
-        	// //ctrl-z == 17 && 90
-        	// if ( pressed_buttons[17] && pressed_buttons[90] )  {
-        	// 	if ( test_blocks.length >= 0 ) {
-	        // 		test_blocks.pop();
-	        // 		deleted_blocks.push( level_object.blocks[ level_object.blocks.length - 1 ] );
-	        // 		level_object.blocks.pop();
-	        // 	}
-        	// }     	
-        	// //ctrl-y == 17 && 90
-        	// else if ( pressed_buttons[17] && pressed_buttons[89] ) {
-        	// 	if ( deleted_blocks.length >= 0 ) {
-	        // 		var blk = deleted_blocks.pop();
-	        // 		level_object.blocks.push( blk );
-	        // 		//width, height, color, x, y, health = 1, type = "color"
-	        // 		test_blocks.push( new block( blk.width, blk.height, blk.src, blk.x, blk.y, blk.health, "image" ) );
-	        // 	}
-        	// }
         })
 
         window.addEventListener('keyup', function( e ){
@@ -380,6 +363,16 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 			ctx.fillStyle = color;
 			ctx.fillRect( this.x, this.y, this.width, this.height );
 		} else if ( this.is_wall ) {
+
+			if ( this.orientation == "horizontal" ) {
+				//draw the end caps
+				ctx.drawImage(this.cap_image, this.x - (5/2), this.y - (5/2), 25, 25);
+				ctx.drawImage(this.cap_image, (this.x + this.width) - 24, this.y - (5/2), 25, 25);
+			} else {
+				ctx.drawImage(this.cap_image, this.x - (5/2), this.y - (5/2), 25, 25);
+				ctx.drawImage(this.cap_image, (this.x + this.width) - 24, this.y - (5/2), 25, 25);
+			}
+			
 			ctx.beginPath();
 		    var img = document.getElementById("wall_" + this.orientation);
 		    //alert( img.src );
