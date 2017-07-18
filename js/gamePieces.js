@@ -190,8 +190,57 @@ function paddle() {
 			this.width = width;
 			if ( mousePos.x < width / 2 ) {
 				this.color = "#f00";
+
+				ctx.globalCompositeOperation='destination-over';
+				ctx.setLineDash([5, 2]);/*dashes are 5px and spaces are 3px*/
+				ctx.beginPath();
+				ctx.moveTo( width / 2, this.y );
+				ctx.lineTo( (width / 2) - 100, this.y - 100 );
+				ctx.strokeStyle = '#000';
+				ctx.stroke();
+
+				ctx.globalCompositeOperation='destination-over';
+				ctx.setLineDash([5, 2]);/*dashes are 5px and spaces are 3px*/
+				ctx.beginPath();
+				ctx.moveTo( (width / 2) - 100, this.y - 100 );
+				ctx.lineTo( (width / 2) - 100, this.y - 85 );
+				ctx.strokeStyle = '#000';
+				ctx.stroke();
+
+				ctx.globalCompositeOperation='destination-over';
+				ctx.setLineDash([5, 2]);/*dashes are 5px and spaces are 3px*/
+				ctx.beginPath();
+				ctx.moveTo( (width / 2) - 100, this.y - 100 );
+				ctx.lineTo( (width / 2) - 85, this.y - 100 );
+				ctx.strokeStyle = '#000';
+				ctx.stroke();
+
 			} else if ( mousePos.x >= width / 2 ) {
 				this.color = "#00f";
+
+				ctx.globalCompositeOperation='destination-over';
+				ctx.setLineDash([5, 2]);/*dashes are 5px and spaces are 3px*/
+				ctx.beginPath();
+				ctx.moveTo( width / 2, this.y );
+				ctx.lineTo( (width / 2) + 100, this.y - 100 );
+				ctx.strokeStyle = '#000';
+				ctx.stroke();
+
+				ctx.globalCompositeOperation='destination-over';
+				ctx.setLineDash([5, 2]);/*dashes are 5px and spaces are 3px*/
+				ctx.beginPath();
+				ctx.moveTo( (width / 2) + 100, this.y - 100 );
+				ctx.lineTo( (width / 2) + 100, this.y - 85 );
+				ctx.strokeStyle = '#000';
+				ctx.stroke();
+
+				ctx.globalCompositeOperation='destination-over';
+				ctx.setLineDash([5, 2]);/*dashes are 5px and spaces are 3px*/
+				ctx.beginPath();
+				ctx.moveTo( (width / 2) + 100, this.y - 100 );
+				ctx.lineTo( (width / 2) + 85, this.y - 100 );
+				ctx.strokeStyle = '#000';
+				ctx.stroke();
 			}
 
 			ctx.globalCompositeOperation='destination-over';
