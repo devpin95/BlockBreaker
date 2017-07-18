@@ -14,6 +14,9 @@ var gameScene = {
 
 		myPaddle.width = default_paddle_width;
 
+		//initialize game sounds
+		snd_block_hit = new sound( "assets/sound_hit.wav" );
+
 		balls.push( new ball( 15, 15, default_ball_image, 0, 0, "image" ) );
 		GAME_STATE.BALL_READY = true;
 
@@ -77,7 +80,7 @@ var gameScene = {
 
 				//randomly generate a number to determine if a mod should be dropped
 
-				var num = Math.floor( (Math.random() * 10) );
+				var num = Math.floor( (Math.random() * 10 + ( 50 * mods.length )) );
 
 				if ( num >= 0 && num <= mod_list.length - 1 ) {
 					//alert(num);
@@ -86,10 +89,10 @@ var gameScene = {
 					mods[ mods.length - 1 ].y = blocks[block_to_delete].center.y;
 				}
 
+				player.score += default_block_score * block_score_multiplyer;
+				UI.score.add( default_block_score * block_score_multiplyer );
 				blocks.splice( block_to_delete, 1 );
 				block_to_delete = -1;
-				player.score += 100;
-				UI.score.add( 100 );
 			}
 
 			//update the mods array
@@ -160,9 +163,9 @@ var gameScene = {
 						block_to_delete = j; //prepare block to be deleted on next frame
 						++balls[i].streak;
 						if ( balls[i].streak >= 2 ) {
-							streaks.push( new streak( blocks[ block_to_delete ].center.x, blocks[ block_to_delete ].center.y, "+" + ( streak_multiplyer * balls[i].streak ) ) );
-							player.score += streak_multiplyer * balls[i].streak;
-							UI.score.add( streak_multiplyer * balls[i].streak );
+							streaks.push( new streak( blocks[ block_to_delete ].center.x, blocks[ block_to_delete ].center.y, "+" + ( streak_multiplyer * balls[i].streak * block_score_multiplyer ) ) );
+							player.score += streak_multiplyer * balls[i].streak * block_score_multiplyer;
+							UI.score.add( streak_multiplyer * balls[i].streak * block_score_multiplyer );
 						}
 					}
 
