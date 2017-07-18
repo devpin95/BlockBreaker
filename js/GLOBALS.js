@@ -60,7 +60,7 @@ var GAME_STATE = {
 	LIFE_LOST : false,
 	BALL_READY : false,
 	STOP_TIME : false,
-	LEVEL : 4,
+	LEVEL : 0,
 	HIGHEST_LEVEL : 10,
 	PREVIOUS_SCENE : null,
 	ACTIVE_SCENE : SCENES.GAME_SCENE,
