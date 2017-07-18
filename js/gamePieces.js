@@ -104,6 +104,7 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 	this.spdY = 0;
 	this.x = x;
 	this.y = y;
+	this.score = default_block_score;
 	this.health = health;
 	this.center = {
 		x : this.x + (this.width / 2),
@@ -113,6 +114,8 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 		this.image = new Image();
 		this.image.src = color;
 	}
+
+	this.sound = new sound( "assets/sound_hit.wav" );
 
 	//edges
 	this.top_edge = this.y;
@@ -153,6 +156,7 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 				ball.spdY *= -1;
 			}
 
+			this.sound.play();
 			return true;
 		}
 	}
@@ -167,6 +171,8 @@ function paddle() {
 	this.image = new Image();
 	this.image.src = "assets/paddle.png";
 	this.color = null;
+	this.sound = new sound( "assets/sound_wall.wav" );
+	this.sound.volume = .2;
 
 	//mod effects
 	this.is_stretched = false;
@@ -234,7 +240,7 @@ function paddle() {
 
 			if ( GAME_SETTINGS.paddle.papa_paddle ) {
 				obj.spdY *= -1;
-				
+
 				if ( mousePos.x < width / 2 && obj.spdX > 0 ) {
 					obj.spdX *= -1;	
 				} else if ( mousePos.x >= width / 2 && obj.spdX < 0  ) {
@@ -248,6 +254,11 @@ function paddle() {
 				if ( obj.free ) {
 					++this.numberHits;
 				}
+			}
+
+			if ( obj.free ) {
+				this.sound.stop();
+				this.sound.play();
 			}
 
 			return true;
@@ -296,6 +307,9 @@ function wall( width, height, src, x, y, orientation ) {
 	this.image.src = src;
 	this.orientation = orientation;
 
+	this.cap_image = new Image();
+	this.cap_image.src = "assets/wall_cap.png";
+
 	//edges
 	this.top_edge = this.y;
 	this.bottom_edge = this.top_edge + this.height;
@@ -304,6 +318,15 @@ function wall( width, height, src, x, y, orientation ) {
 
 	this.update = function() {
 		var ctx = myGameArea.context;
+		if ( this.orientation == "horizontal" ) {
+			//draw the end caps
+			ctx.drawImage(this.cap_image, this.x - (5/2), this.y - (5/2), 25, 25);
+			ctx.drawImage(this.cap_image, (this.x + this.width) - 24, this.y - (5/2), 25, 25);
+		} else {
+			ctx.drawImage(this.cap_image, this.x - (5/2), this.y - (5/2), 25, 25);
+			ctx.drawImage(this.cap_image, this.x - (5/2), (this.y + this.height) - 25, 25, 25);
+		}
+
 		ctx.beginPath();
 	    var img = document.getElementById("wall_" + this.orientation);
 	    var pat = ctx.createPattern( img, "repeat" );
@@ -575,27 +598,6 @@ function mod_stretch( x, y ) {
 				this.is_active = false;
 			}, 5000 );
 
-			// setTimeout( function() {
-			// 	myPaddle.width = big_paddle_width - 75;
-			// }, 5000 );
-
-			// setTimeout( function() {
-			// 	myPaddle.width = default_paddle_width;
-			// 	myPaddle.image.src = "assets/paddle_big.png";
-			// 	myPaddle.is_stretched = true;
-			// }, 7000 );
-
-
-			// this.interval = setInterval( function() {
-			// 	--this.interval_counter;
-			// 	myPaddle.width = ( big_paddle_width - this.interval_counter );
-
-			// 	if ( this.interval_counter == 0 ) {
-			// 		this.interval_counter = big_paddle_width;
-			// 		clearInterval( this.interval );
-			// 	}
-
-			// }, fps );
 		} else {
 			streaks.push( new streak( this.x + (this.width/2), this.y + (this.height/2), "+50", false ) );
 			UI.score.add(50);
@@ -640,4 +642,58 @@ function mod_newBall( x, y ) {
 		this.x = -1000;
 		this.y = -1000;
 	}
+}
+
+block_score_multiplyer = 1;
+
+function mod_x2( x, y ) {
+	this.width = mods_default_width;
+	this.height = mods_default_height;
+	this.x = x;
+	this.y = y;
+	this.spdY = mods_default_fall_speed;
+	this.image = new Image();
+	this.image.src = "assets/mod_x2.png";
+	this.value_boost = 2;
+
+	this.is_active = true;
+
+	this.update = function() {
+		this.y += this.spdY;
+		ctx = myGameArea.context;
+		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+	}
+
+	this.activate = function() {
+		this.spdY = 0;
+		block_score_multiplyer = 2;
+		document.getElementById("game").style.backgroundImage = "url('assets/mod_x2_bg.png')";
+
+		setTimeout( function() {
+			block_score_multiplyer = 1;
+			this.is_active = false;
+			document.getElementById("game").style.backgroundImage = "";
+		}, 5000 );
+
+		this.x = -1000;
+		this.y = -1000;
+	}
+}
+
+function sound( src ) {
+	//https://www.w3schools.com/graphics/game_sound.asp
+	this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild( this.sound );
+    this.play = function(){
+    	if ( GAME_SETTINGS.sound.on ) {
+	        this.sound.play();
+	    }
+    }
+    this.stop = function(){
+        this.sound.pause();
+    }
 }
