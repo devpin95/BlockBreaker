@@ -11,9 +11,13 @@ var maxBallSpeed = 9;
 var default_block_width = 75; //50 || 75
 var default_block_height = 35; //20 || 35
 var streak_multiplyer = 50;
+var default_block_score = 100;
+var block_score_multiplyer = 1; //changed by the x2 mod
 var mods_default_fall_speed = 3;
 var mods_default_width = 50;
 var mods_default_height = 14;
+
+var snd_block_hit;
 
 var default_ball_image = "assets/ball_bg.png";
 // var default_block_image = "assets/big_block_bg.jpg";
@@ -35,7 +39,8 @@ var mods = [];
 var mod_list = [ 
 		mod_1up, 
 		mod_stretch, 
-		mod_newBall 
+		mod_newBall,
+		mod_x2
 	];
 
 var SCENES = {
@@ -55,7 +60,7 @@ var GAME_STATE = {
 	LIFE_LOST : false,
 	BALL_READY : false,
 	STOP_TIME : false,
-	LEVEL : 0,
+	LEVEL : 4,
 	HIGHEST_LEVEL : 10,
 	PREVIOUS_SCENE : null,
 	ACTIVE_SCENE : SCENES.GAME_SCENE,
@@ -125,5 +130,9 @@ var GAME_SETTINGS = {
 
 	cursor : {
 		hidden : false
+	},
+
+	sound : {
+		on : false
 	}
 }
