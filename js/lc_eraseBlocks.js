@@ -20,6 +20,10 @@ var eraseBlocksScene = {
 		mousePos.down = false;
 	},
 
+	buttonPress : function(e) {
+		
+	},
+
 	blur : function() {
 
 	}
