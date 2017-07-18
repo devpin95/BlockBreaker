@@ -47,37 +47,6 @@ var wallPlacementScene = {
 		else if ( this.clicks == 1 ) 
 		{
 			//----------------------------------------------------------------------------------------------------------------
-			// __     __        _   _           _   __        __    _ _ 
-			// \ \   / /__ _ __| |_(_) ___ __ _| |  \ \      / /_ _| | |
-			//  \ \ / / _ \ '__| __| |/ __/ _` | |   \ \ /\ / / _` | | |
-			//   \ V /  __/ |  | |_| | (_| (_| | |    \ V  V / (_| | | |
-			//    \_/ \___|_|   \__|_|\___\__,_|_|     \_/\_/ \__,_|_|_|
-			//----------------------------------------------------------------------------------------------------------------
-			if ( this.orientation == "horizontal" ) 
-			{
-				var dx;
-				if ( mousePos.x >= this.origin.x ) 
-				{
-					//make the wall horizontal to the right
-					dx = mousePos.x - this.origin.x;
-					//move the right edge of the wall to the right of the origin
-					this.placement_wall.width = dx;
-					this.placement_wall.height = this.wall_guides.default_size;
-				} 
-
-				else if ( mousePos.x <= this.origin.x ) 
-				{
-					//the mouse is left of the origin, so make the origin the mouse x and the width the distance between 
-					//the new origin and the old origin (shift it back and make the right edge the x of the old origin)
-					dx = Math.abs( mousePos.x - this.origin.x );
-					//this.origin.x = mousePos.x;
-					this.placement_wall.width = dx;
-					this.placement_wall.height = this.wall_guides.default_size;
-					this.placement_wall.x = mousePos.x;
-				}
-			}
-
-			//----------------------------------------------------------------------------------------------------------------
 			//  _   _            _                _        _    __        __    _ _ 
 			// | | | | ___  _ __(_)_______  _ __ | |_ __ _| |   \ \      / /_ _| | |
 			// | |_| |/ _ \| '__| |_  / _ \| '_ \| __/ _` | |    \ \ /\ / / _` | | |
@@ -85,16 +54,80 @@ var wallPlacementScene = {
 			// |_| |_|\___/|_|  |_/___\___/|_| |_|\__\__,_|_|      \_/\_/ \__,_|_|_|
 			//
 			//----------------------------------------------------------------------------------------------------------------
+			if ( this.orientation == "horizontal" ) 
+			{
+				var dx;
+				dx = mousePos.x - this.origin.x;
+
+				if ( mousePos.x >= this.origin.x ) 
+				{
+					//make the wall horizontal to the right
+					//shift is being pressed
+					if ( pressed_buttons[16] ) {
+						if ( dx < 75 ) {
+							this.placement_wall.width = 75;
+						} else {
+							this.placement_wall.width = Math.floor( dx / 75 ) * 75;
+						}
+					}
+					else {
+						//move the right edge of the wall to the right of the origin
+						this.placement_wall.width = dx;
+						this.placement_wall.height = this.wall_guides.default_size;
+					}
+				} 
+
+				else if ( mousePos.x <= this.origin.x ) 
+				{
+					//the mouse is left of the origin, so make the origin the mouse x and the width the distance between 
+					//the new origin and the old origin (shift it back and make the right edge the x of the old origin)
+					dx = Math.abs( mousePos.x - this.origin.x );
+					
+					if ( pressed_buttons[16] ) {
+						if ( dx < 75 ) {
+							this.placement_wall.width = 75;
+							//this.placement_wall.x = mousePos.x;
+						} else {
+							this.placement_wall.width = Math.floor( dx / 75 ) * 75;
+							//this.placement_wall.x = mousePos.x;
+						}
+					}
+					else {
+						this.placement_wall.width = dx;
+						this.placement_wall.height = this.wall_guides.default_size;
+						this.placement_wall.x = mousePos.x;
+					}
+				}
+			}
+
+			//----------------------------------------------------------------------------------------------------------------
+			// __     __        _   _           _   __        __    _ _ 
+			// \ \   / /__ _ __| |_(_) ___ __ _| |  \ \      / /_ _| | |
+			//  \ \ / / _ \ '__| __| |/ __/ _` | |   \ \ /\ / / _` | | |
+			//   \ V /  __/ |  | |_| | (_| (_| | |    \ V  V / (_| | | |
+			//    \_/ \___|_|   \__|_|\___\__,_|_|     \_/\_/ \__,_|_|_|
+			//----------------------------------------------------------------------------------------------------------------
 			else if ( this.orientation == "vertical" ) 
 			{
 				var dy;
+				dy = mousePos.y - this.origin.y;
 				if ( mousePos.y >= this.origin.y ) 
 				{
-					//make the wall vertical
-					dy = mousePos.y - this.origin.y;
-					//move the right edge of the wall to the right of the origin
-					this.placement_wall.width = this.wall_guides.default_size;
-					this.placement_wall.height = dy;
+					if ( pressed_buttons[16] ) {
+						if ( dy < 75 ) {
+							this.placement_wall.height = 75;
+							//this.placement_wall.x = mousePos.x;
+						} else {
+							this.placement_wall.height = Math.floor( dy / 75 ) * 75;
+							//this.placement_wall.x = mousePos.x;
+						}
+					}
+					else {
+						//make the wall vertical
+						//move the right edge of the wall to the right of the origin
+						this.placement_wall.width = this.wall_guides.default_size;
+						this.placement_wall.height = dy;
+					}
 
 				}
 			}
