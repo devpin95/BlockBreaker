@@ -14,14 +14,20 @@ var cursor_activated_hover = "assets/settings_cursor_activated_hover.png";
 var cursor_deactivated = "assets/settings_cursor_deactivated.png";
 var cursor_deactivated_hover = "assets/settings_cursor_deactivated_hover.png";
 
-var SETTINGS_HEADER, FLIGHT_PATH, PAPA_PADDLE, CURSOR;
+var sounds_activated = "assets/settings_sounds_activated.png";
+var sounds_activated_hover = "assets/settings_sounds_activated_hover.png";
+var sounds_deactivated = "assets/settings_sounds_deactivated.png";
+var sounds_deactivated_hover = "assets/settings_sounds_deactivated_hover.png";
+
+var SETTINGS_HEADER, FLIGHT_PATH, PAPA_PADDLE, CURSOR, SOUNDS;
 
 var settingsScene = {
 	setup : function( ) {
-		SETTINGS_HEADER = new block( 122, 50, settings_header_image, ( myGameArea.canvas.width / 2 ) - 61, 75, 0, "image" );
-		FLIGHT_PATH = new block( 400, 64, flight_path_deactivated, ( myGameArea.canvas.width / 2 ) - 200, 125, 0, "image" );
-		PAPA_PADDLE = new block( 400, 64, papa_paddle_deactivated, ( myGameArea.canvas.width / 2 ) - 200, 200, 0, "image" );
-		CURSOR = new block( 400, 64, cursor_deactivated, ( myGameArea.canvas.width / 2 ) - 200, 275, 0, "image" );
+		SETTINGS_HEADER = new block( 122, 50, settings_header_image, ( myGameArea.canvas.width / 2 ) - 61, 25, 0, "image" );
+		FLIGHT_PATH = new block( 400, 64, flight_path_deactivated, ( myGameArea.canvas.width / 2 ) - 200, 75, 0, "image" );
+		PAPA_PADDLE = new block( 400, 64, papa_paddle_deactivated, ( myGameArea.canvas.width / 2 ) - 200, 125, 0, "image" );
+		CURSOR = new block( 400, 64, cursor_deactivated, ( myGameArea.canvas.width / 2 ) - 200, 175, 0, "image" );
+		SOUNDS = new block( 400, 64, sounds_deactivated, ( myGameArea.canvas.width / 2 ) - 200, 225, 0, "image" );
 
 		//set the correct state of the flight path setting
 		if ( GAME_SETTINGS.ball.flight_path == true ) {
@@ -34,6 +40,10 @@ var settingsScene = {
 
 		if ( GAME_SETTINGS.paddle.papa_paddle == true ) {
 			PAPA_PADDLE.image.src = papa_paddle_activated;
+		}
+
+		if ( GAME_SETTINGS.sound.on == true ) {
+			SOUNDS.image.src = sounds_activated;
 		}
 
 		this.scene_ready = true;
@@ -115,10 +125,36 @@ var settingsScene = {
 			}
 		}
 
+
+		if (mousePos.x < SOUNDS.x + SOUNDS.width &&
+			mousePos.x > SOUNDS.x &&
+			mousePos.y < SOUNDS.y + SOUNDS.height &&
+			mousePos.y > SOUNDS.y ) 
+		{
+			//hovering
+			if ( GAME_SETTINGS.sound.on == true ) {
+				//hovering and active
+				SOUNDS.image.src = sounds_activated_hover;
+			} else {
+				//hovering and deactivated
+				SOUNDS.image.src = sounds_deactivated_hover;
+			}
+		} else {
+			//not hovering
+			if ( GAME_SETTINGS.sound.on == true ) {
+				//not hovering and active
+				SOUNDS.image.src = sounds_activated;
+			} else {
+				//not hovering and deactivated
+				SOUNDS.image.src = sounds_deactivated;
+			}
+		}
+
 		SETTINGS_HEADER.update();
 		FLIGHT_PATH.update();
 		PAPA_PADDLE.update();
 		CURSOR.update();
+		SOUNDS.update();
 
 		myGameArea.context.font = "15px Arial";
 		myGameArea.context.fillStyle = "#000";
@@ -175,6 +211,21 @@ var settingsScene = {
 			} else {
 				GAME_SETTINGS.cursor.hidden = true;
 				CURSOR.image.src = cursor_activated;
+			}
+		}
+
+		else if (mousePos.x < SOUNDS.x + SOUNDS.width &&
+			mousePos.x > SOUNDS.x &&
+			mousePos.y < SOUNDS.y + SOUNDS.height &&
+			mousePos.y > SOUNDS.y ) 
+		{
+			//toggle the flight path setting and the activated/deactivated image
+			if ( GAME_SETTINGS.sound.on == true ) {
+				GAME_SETTINGS.sound.on = false;
+				SOUNDS.image.src = sounds_deactivated;				
+			} else {
+				GAME_SETTINGS.sound.on = true;
+				SOUNDS.image.src = sounds_activated;
 			}
 		}
 	},
