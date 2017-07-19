@@ -10,14 +10,21 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<!-- FONTS -->
+	<link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
+
 	<title>Level Creater</title>
 	<style>
+		body {
+			font-family: 'Droid Sans', sans-serif;
+		}
 		input[type=button]{
 			border:1px solid #111;
 			border-radius:2px;
 			font-weight:bold;
 			color:#fff;
 			text-shadow:2px 2px 5px #000;
+			cursor:pointer;
 		}
 		.canvas_wrapper {
 			display: block;
@@ -115,7 +122,8 @@
 			margin:10px;
 		}
 		#import-wrapper textarea{
-			width:400px;
+			width:575px;
+			max-width:575px;
 			height:100px;
 		}
 		#import-parse{
@@ -157,15 +165,25 @@
 		}
 		.level_info_section {
 			width:100%;
-			border-bottom:1px solid #000;
+			/*border-bottom:1px solid #000;*/
 			padding: 10px 0;
 		}
-		[class~='level_info_section']:last-of-type {
+		/*[class~='level_info_section']:last-of-type {
 			border:none;
+		}*/
+		.level_info_section .h1_checkbox {
+			margin:0;
+			padding:0;
+			margin-top:13px;
+			margin-right:5px;
+			float:left;
 		}
 		.level_info_section h1{
 			padding:0;
 			margin:10px 0;
+			color:#2c3e50;
+			text-transform: uppercase;
+			border-bottom:1px solid #111;
 		}
 		.level_info_section label:hover, .level_info_section input:hover{
 			cursor:pointer;
@@ -249,25 +267,25 @@
 			</ul>
 		</div>
 		<div id="actions">
-			<input type="radio" name="action" value="place"> Place Blocks <br/>
-			<input type="radio" name="action" value="erase"> Erase <br/>
+			<input type="radio" id="action_place" name="action" value="place"><label for="action_place">Place Blocks</label><br/>
+			<input type="radio" id="action_erase" name="action" value="erase"><label for="action_erase">Erase</label> <br/>
 		</div>
 		<div id="block_types">
-			<input type="radio" name="types" value="big"> Big Block <br/>
-			<input type="radio" name="types" value="small"> Small Block <br/>
-			<input type="radio" name="types" value="wall"> Wall <br/>
-			<input type="radio" name="types" value="portal"> Portal <br/>
+			<input type="radio" id="big_type" name="types" value="big"><label for="big_type">Big Block</label><br/>
+			<input type="radio" id="small_type" name="types" value="small"><label for="small_type">Small Block</label><br/>
+			<input type="radio" id="wall_type" name="types" value="wall"><label for="wall_type">Wall</label><br/>
+			<input type="radio" id="portal_type" name="types" value="portal"><label for="portal_type">Portal</label><br/>
 		</div>
 		<div id="block_colors">
-			<input type="radio" name="colors" value="green" checked> Green<br/>
-			<input type="radio" name="colors" value="blue"> Blue <br/>
-			<input type="radio" name="colors" value="red"> Red <br/>
-			<input type="radio" name="colors" value="yellow"> Yellow <br/>
-			<input type="radio" name="colors" value="purple"> Purple <br/>
+			<input type="radio" id="green" name="colors" value="green" checked> <label for="green">Green</label><br/>
+			<input type="radio" id="blue" name="colors" value="blue"> <label for="blue">Blue <br/>
+			<input type="radio" id="red" name="colors" value="red"> <label for="red">Red <br/>
+			<input type="radio" id="yellow" name="colors" value="yellow"> <label for="yellow">Yellow <br/>
+			<input type="radio" id="purple" name="colors" value="purple"> <label for="purple">Purple <br/>
 		</div>
 		<div id="portal_colors">
-			<input type="radio" name="portal_colors" value="blue" checked> Blue <br/>
-			<input type="radio" name="portal_colors" value="red"> Red <br/>
+			<input type="radio" id="blue_portal" name="portal_colors" value="blue" checked><label for="blue_portal">Blue</label> <br/>
+			<input type="radio" for="red_portal" name="portal_colors" value="red"><label for="blue_portal">Red</label><br/>
 		</div>
 	</form>
 	<div style="clear:both;"></div>
@@ -292,11 +310,15 @@
 	<div id="level_info_wrapper">
 		<form name="level_info">
 			<div class="level_info_section">
-				<h1><input type="checkbox" id="modifiers" name="mods" onclick="level_info_section('modifiers')" checked><label for="modifiers">Modifiers</label></h1>
+				<h1><input class="h1_checkbox" type="checkbox" id="main_paddle" name="paddles" onclick="level_info_section('main_paddle')" checked><label for="main_paddle">Main Paddle</label></h1>
+				<p>Enables the main paddle at the bottom of the game area. If disabled, a new main paddle must be created.</p>
+			</div>
+			<div class="level_info_section">
+				<h1><input class="h1_checkbox" type="checkbox" id="modifiers" name="mods" onclick="level_info_section('modifiers')" checked><label for="modifiers">Modifiers</label></h1>
 				<ul>
 					<li><input type="checkbox" id="x2" name="mods" checked><label for="x2"><img src="assets/mod_x2.png"></label></li>
 					<li><input type="checkbox" id="up1" name="mods" checked><label for="up1"><img src="assets/mod_1up.png"></label></li>
-					<li><input type="checkbox" id="str" name="mods" checked><label for="str"><img src="assets/mod_stretch.png"></label></li>
+					<li><input type="checkbox" id="stretch" name="mods" checked><label for="stretch"><img src="assets/mod_stretch.png"></label></li>
 					<li><input type="checkbox" id="newball" name="mods" checked><label for="newball"><img src="assets/mod_newball.png"></label></li>
 				</ul>
 			</div>
@@ -305,13 +327,13 @@
 				<ul>
 					<li>
 						<strong>Timer:</strong>
-						<input type="number" placeholder="60" value="60">
-						<input type="number" placeholder="90" value="90">
+						<input id="timer_lower_bound" type="number" name="bonuses" placeholder="60" value="60">
+						<input id="timer_upper_bound" type="number" name="bonuses" placeholder="90" value="90">
 					</li>
 					<li>
 						<strong>Paddle hits:</strong>
-						<input type="number" placeholder="20" value="20">
-						<input type="number" placeholder="40" value="40">
+						<input id="paddle_lower_bound" type="number" name="bonuses" placeholder="20" value="20">
+						<input id="paddle_upper_bound" type="number" name="bonuses" placeholder="40" value="40">
 					</li>
 				</ul>
 			</div>
@@ -434,7 +456,7 @@ var level_object = {
 	},
 
 	bonuses : {
-		time_lower_bound : 60,
+		timer_lower_bound : 60,
 		timer_upper_bound : 90,
 		paddle_lower_bound : 20,
 		paddle_upper_bound : 40
@@ -770,7 +792,22 @@ function clearCanvas( ) {
 	document.getElementById("code").innerHTML = "";
 }
 
+function generateLevelInfoCode() {
+	//MODIFIERS
+	level_object.modifiers.x2 = document.getElementById("x2").checked;
+	level_object.modifiers.up1 = document.getElementById("up1").checked;
+	level_object.modifiers.stretch = document.getElementById("stretch").checked;
+	level_object.modifiers.newball = document.getElementById("newball").checked;
+
+	//BONUSES
+	level_object.bonuses.timer_lower_bound = document.getElementById("timer_lower_bound").value;
+	level_object.bonuses.timer_upper_bound = document.getElementById("timer_upper_bound").value;
+	level_object.bonuses.paddle_lower_bound = document.getElementById("paddle_lower_bound").value;
+	level_object.bonuses.paddle_upper_bound = document.getElementById("paddle_upper_bound").value;
+}
+
 function printCode() {
+	generateLevelInfoCode();
 	document.getElementById("code").innerHTML = JSON.stringify( level_object, null, 5 );
 	document.getElementById("code").style.height = document.getElementById("code").scrollHeight+'px';
 	document.getElementById("code").style.overflow = "hidden";
@@ -851,6 +888,10 @@ function parse_import() {
 
 		if ( code.bonuses != null ) {
 			level_object.bonuses = code.bonuses;
+			document.getElementById("timer_lower_bound").value = level_object.bonuses.timer_lower_bound;
+			document.getElementById("timer_upper_bound").value = level_object.bonuses.timer_upper_bound; 
+			document.getElementById("paddle_lower_bound").value = level_object.bonuses.paddle_lower_bound;
+			document.getElementById("paddle_upper_bound").value = level_object.bonuses.paddle_upper_bound;
 		}
 
 		if ( code.blocks != null ) {
