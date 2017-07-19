@@ -12,9 +12,13 @@
 <head>
 	<title>Level Creater</title>
 	<style>
-		/*canvas {
-
-		}*/
+		input[type=button]{
+			border:1px solid #111;
+			border-radius:2px;
+			font-weight:bold;
+			color:#fff;
+			text-shadow:2px 2px 5px #000;
+		}
 		.canvas_wrapper {
 			display: block;
 			margin: 0 auto;
@@ -30,8 +34,12 @@
 			left:0;
 			pointer-events: none;
 		}
+		input:focus{
+			outline:none;
+		}
 		.selections {
 			width: 960px;
+			height:80px;
 			display:block;
 			margin:0 auto;
 			margin-bottom:20px;
@@ -39,6 +47,50 @@
 		}
 		.selections div {
 			float:left;
+		}
+		.selections .macro_actions ul{
+			margin:0;
+			padding:0;
+		}
+		.selections .macro_actions ul li:first-child{
+			margin-top:0;
+		}
+		.selections .macro_actions ul li{
+			list-style:none;
+			margin: 5px 0;
+		}
+		#clear {
+			margin-right:20px;
+			background: #feb692;
+			background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZmViNjkyIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2VhNTQ1NSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+			background: -moz-linear-gradient(-45deg, #feb692 0%, #ea5455 100%);
+			background: -webkit-linear-gradient(-45deg, #feb692 0%,#ea5455 100%);
+			background: linear-gradient(135deg, #feb692 0%,#ea5455 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feb692', endColorstr='#ea5455',GradientType=1 );
+		}
+		#clear:active{
+			background: #ea5455;
+			background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZWE1NDU1IiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iOTklIiBzdG9wLWNvbG9yPSIjZmViNjkyIiBzdG9wLW9wYWNpdHk9IjEiLz4KICA8L2xpbmVhckdyYWRpZW50PgogIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZ3JhZC11Y2dnLWdlbmVyYXRlZCkiIC8+Cjwvc3ZnPg==);
+			background: -moz-linear-gradient(-45deg, #ea5455 0%, #feb692 99%);
+			background: -webkit-linear-gradient(-45deg, #ea5455 0%,#feb692 99%);
+			background: linear-gradient(135deg, #ea5455 0%,#feb692 99%);
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ea5455', endColorstr='#feb692',GradientType=1 );
+		}
+		#import{
+			background: #90f7ec;
+			background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjOTBmN2VjIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzMyY2NiYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+			background: -moz-linear-gradient(-45deg, #90f7ec 0%, #32ccbc 100%);
+			background: -webkit-linear-gradient(-45deg, #90f7ec 0%,#32ccbc 100%);
+			background: linear-gradient(135deg, #90f7ec 0%,#32ccbc 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#90f7ec', endColorstr='#32ccbc',GradientType=1 );
+		}
+		#import:active{
+			background: #32ccbc;
+			background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMzJjY2JjIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzkwZjdlYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+			background: -moz-linear-gradient(-45deg, #32ccbc 0%, #90f7ec 100%);
+			background: -webkit-linear-gradient(-45deg, #32ccbc 0%,#90f7ec 100%);
+			background: linear-gradient(135deg, #32ccbc 0%,#90f7ec 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#32ccbc', endColorstr='#90f7ec',GradientType=1 );
 		}
 		.selections #actions {
 			margin-right: 20px;
@@ -55,20 +107,150 @@
 			margin-right:20px;
 			display:none;
 		}
+		#import-wrapper {
+			display:none;
+		}
+		#import-wrapper div{
+			float:left;
+			margin:10px;
+		}
+		#import-wrapper textarea{
+			width:400px;
+			height:100px;
+		}
+		#import-parse{
+			background: #81fbb8;
+			background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjODFmYmI4IiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzI4Yzc2ZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+			background: -moz-linear-gradient(-45deg, #81fbb8 0%, #28c76f 100%);
+			background: -webkit-linear-gradient(-45deg, #81fbb8 0%,#28c76f 100%);
+			background: linear-gradient(135deg, #81fbb8 0%,#28c76f 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#81fbb8', endColorstr='#28c76f',GradientType=1 );
+		}
+		#import-parse:active{
+			background: #28c76f;
+			background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMjhjNzZmIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzgxZmJiOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+			background: -moz-linear-gradient(-45deg, #28c76f 0%, #81fbb8 100%);
+			background: -webkit-linear-gradient(-45deg, #28c76f 0%,#81fbb8 100%);
+			background: linear-gradient(135deg, #28c76f 0%,#81fbb8 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#28c76f', endColorstr='#81fbb8',GradientType=1 );
+		}
+		#import-cancel {
+			margin-right:20px;
+			background: #feb692;
+			background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZmViNjkyIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2VhNTQ1NSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+			background: -moz-linear-gradient(-45deg, #feb692 0%, #ea5455 100%);
+			background: -webkit-linear-gradient(-45deg, #feb692 0%,#ea5455 100%);
+			background: linear-gradient(135deg, #feb692 0%,#ea5455 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feb692', endColorstr='#ea5455',GradientType=1 );
+		}
+		#import-cancel:active{
+			background: #ea5455;
+			background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZWE1NDU1IiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iOTklIiBzdG9wLWNvbG9yPSIjZmViNjkyIiBzdG9wLW9wYWNpdHk9IjEiLz4KICA8L2xpbmVhckdyYWRpZW50PgogIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZ3JhZC11Y2dnLWdlbmVyYXRlZCkiIC8+Cjwvc3ZnPg==);
+			background: -moz-linear-gradient(-45deg, #ea5455 0%, #feb692 99%);
+			background: -webkit-linear-gradient(-45deg, #ea5455 0%,#feb692 99%);
+			background: linear-gradient(135deg, #ea5455 0%,#feb692 99%);
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ea5455', endColorstr='#feb692',GradientType=1 );
+		}
+		#level_info_wrapper {
+			width:100%;
+			margin-bottom:10px;
+		}
+		.level_info_section {
+			width:100%;
+			border-bottom:1px solid #000;
+			padding: 10px 0;
+		}
+		[class~='level_info_section']:last-of-type {
+			border:none;
+		}
+		.level_info_section h1{
+			padding:0;
+			margin:10px 0;
+		}
+		.level_info_section label:hover, .level_info_section input:hover{
+			cursor:pointer;
+		}
+		.level_info_section input[type=checkbox]:focus{
+			outline:none;
+		}
+		.level_info_section input[type=number]{
+			width:40px;
+			height:20px;
+			border-radius:5px;
+			border:1px solid #aaa;
+			padding:5px 0 5px 10px;
+		}
+		.level_info_section input[type=number]:focus{
+			outline:none;
+			border:1px solid #000;
+		}
+		#level_info_wrapper ul {
+			padding:0;
+			margin:0;
+		}
+		#level_info_wrapper ul li:first-child{
+			margin-right:10px;
+		}
+		#level_info_wrapper ul li{
+			list-style:none;
+			padding: 3px 0;
+			float:left;
+			margin-right:10px;
+		}
+		input#generate {
+			border:1px solid #111;
+			width:100px;
+			height:25px;
+			font-size:15px;
+			font-weight:bold;
+			color:#fff;
+			border-radius:2px;
+			text-shadow:2px 2px 5px #000;
+
+			background: #81fbb8;
+			background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjODFmYmI4IiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzI4Yzc2ZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+			background: -moz-linear-gradient(-45deg, #81fbb8 0%, #28c76f 100%);
+			background: -webkit-linear-gradient(-45deg, #81fbb8 0%,#28c76f 100%);
+			background: linear-gradient(135deg, #81fbb8 0%,#28c76f 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#81fbb8', endColorstr='#28c76f',GradientType=1 );
+		}
+		input#generate:focus {
+			outline:none;
+		}
+		input#generate:active{
+			background: #28c76f;
+			background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMjhjNzZmIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzgxZmJiOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+			background: -moz-linear-gradient(-45deg, #28c76f 0%, #81fbb8 100%);
+			background: -webkit-linear-gradient(-45deg, #28c76f 0%,#81fbb8 100%);
+			background: linear-gradient(135deg, #28c76f 0%,#81fbb8 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#28c76f', endColorstr='#81fbb8',GradientType=1 );
+		}
+		#code {
+			overflow:hidden;
+			border:none;
+			width:100%;
+			margin-top:10px;
+		}
+
+		#code:focus {
+			outline:none;
+		}
 	</style>
 </head>
 
 <body onload="startGame()">
 
 <div class="selections">
-	<!-- <img src="../assets/big_block_bg.jpg">
-	<img src="../assets/small_block_bg.jpg">
-	<img src="../assets/wall_bg.png"> -->
 	<form name="placement_form">
+		<div class="macro_actions">
+			<ul>
+				<li><input id="clear" type="button" value="CLEAR" onclick="clearCanvas()"></li>
+				<li><input id="import" type="button" value="IMPORT" onclick="start_import()"></li>
+			</ul>
+		</div>
 		<div id="actions">
 			<input type="radio" name="action" value="place"> Place Blocks <br/>
 			<input type="radio" name="action" value="erase"> Erase <br/>
-			<input type="button" value="Clear" onclick="clearCanvas()">
 		</div>
 		<div id="block_types">
 			<input type="radio" name="types" value="big"> Big Block <br/>
@@ -89,18 +271,56 @@
 		</div>
 	</form>
 	<div style="clear:both;"></div>
+	<div id="import-wrapper">
+		<div>Paste level code here &#8594;</div>
+		<div><textarea id="import-code"></textarea></div>
+		<div>
+			<input id="import-parse" type="button" value="PARSE" onclick="parse_import()"><br>
+			<input id="import-cancel" type="button" value="CLOSE" onclick="cancel_import()">
+			<p id="import-parse-error"></p>
+		</div>
+	</div>
 </div>
 
 <div style="clear:both;"></div>
 
 <div class="canvas_wrapper">
-	<!-- <canvas id="horizontal_walls" width="960px" height="540px" style="z-index:1;"></canvas>
-	<canvas id="vertical_walls" width="960px" height="540px" style="z-index:2;"></canvas> -->
 	<canvas id="game" width="960px" height="540px" style="z-index:3;"></canvas>
 </div>
-	<div class="selections">
-	<input type="button" name="generate" value="generate" onclick="printCode()">
-	<pre id="code"></pre>
+
+<div class="selections">
+	<div id="level_info_wrapper">
+		<form name="level_info">
+			<div class="level_info_section">
+				<h1><input type="checkbox" id="modifiers" name="mods" onclick="level_info_section('modifiers')" checked><label for="modifiers">Modifiers</label></h1>
+				<ul>
+					<li><input type="checkbox" id="x2" name="mods" checked><label for="x2"><img src="assets/mod_x2.png"></label></li>
+					<li><input type="checkbox" id="up1" name="mods" checked><label for="up1"><img src="assets/mod_1up.png"></label></li>
+					<li><input type="checkbox" id="str" name="mods" checked><label for="str"><img src="assets/mod_stretch.png"></label></li>
+					<li><input type="checkbox" id="newball" name="mods" checked><label for="newball"><img src="assets/mod_newball.png"></label></li>
+				</ul>
+			</div>
+			<div class="level_info_section">
+				<h1>Bonuses</h1>
+				<ul>
+					<li>
+						<strong>Timer:</strong>
+						<input type="number" placeholder="60" value="60">
+						<input type="number" placeholder="90" value="90">
+					</li>
+					<li>
+						<strong>Paddle hits:</strong>
+						<input type="number" placeholder="20" value="20">
+						<input type="number" placeholder="40" value="40">
+					</li>
+				</ul>
+			</div>
+		</form>
+	</div>
+	<br/>
+	<input id="generate" type="button" name="generate" value="GENERATE" onclick="printCode()">
+	<br/>
+	<textarea id="code"></textarea>
 </div>
 
 <img src="assets/wall_horizontal.png" id="wall_horizontal" style="display:none;" >
@@ -115,23 +335,6 @@
 <script src="js/lc_eraseBlocks.js"></script>
 <script>
 	
-// var _H_WALLS =  { 
-// 	canvas : document.getElementById("horizontal_walls"),
-// 	ctx : this.canvas.getContext("2d"),
-// 	clear : function() {
-// 		this.ctx.clearRect( 0, 0, width, height );
-// 	}
-// }
-// //var ctx_v = document.getElementById("vertical_walls").getContext("2d").clearRect( 0, 0, width, height );
-
-// var _V_WALLS =  { 
-// 	canvas : document.getElementById("vertical_walls"),
-// 	ctx : this.canvas.getContext("2d"),
-// 	clear : function() {
-// 		this.ctx.clearRect( 0, 0, width, height );
-// 	}
-// }
-
 var mousePos = {
 	x : 0,
 	y : 0,
@@ -222,6 +425,14 @@ var ACTIVE_SCENE = SCENES.place;
 
 //holds all of the level data entered by the user
 var level_object = {
+	modifiers : {
+		disable : false,
+		x2 : true,
+		up1 : true,
+		stretch : true,
+		newball : true
+	},
+
 	bonuses : {
 		time_lower_bound : 60,
 		timer_upper_bound : 90,
@@ -364,14 +575,14 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 			ctx.fillRect( this.x, this.y, this.width, this.height );
 		} else if ( this.is_wall ) {
 
-			if ( this.orientation == "horizontal" ) {
-				//draw the end caps
-				ctx.drawImage(this.cap_image, this.x - (5/2), this.y - (5/2), 25, 25);
-				ctx.drawImage(this.cap_image, (this.x + this.width) - 24, this.y - (5/2), 25, 25);
-			} else {
-				ctx.drawImage(this.cap_image, this.x - (5/2), this.y - (5/2), 25, 25);
-				ctx.drawImage(this.cap_image, (this.x + this.width) - 24, this.y - (5/2), 25, 25);
-			}
+			// if ( this.orientation == "horizontal" ) {
+			// 	//draw the end caps
+			// 	ctx.drawImage(this.cap_image, this.x - (5/2), this.y - (5/2), 25, 25);
+			// 	ctx.drawImage(this.cap_image, (this.x + this.width) - 24, this.y - (5/2), 25, 25);
+			// } else {
+			// 	ctx.drawImage(this.cap_image, this.x - (5/2), this.y - (5/2), 25, 25);
+			// 	ctx.drawImage(this.cap_image, (this.x + this.width) - 24, this.y - (5/2), 25, 25);
+			// }
 			
 			ctx.beginPath();
 		    var img = document.getElementById("wall_" + this.orientation);
@@ -561,7 +772,129 @@ function clearCanvas( ) {
 
 function printCode() {
 	document.getElementById("code").innerHTML = JSON.stringify( level_object, null, 5 );
+	document.getElementById("code").style.height = document.getElementById("code").scrollHeight+'px';
+	document.getElementById("code").style.overflow = "hidden";
 }
+
+function level_info_section(obj) {
+	var parent_name = document.getElementById(obj).parentElement.nodeName;
+	var parent_ele = document.getElementById(obj).parentElement;
+	while ( parent_name != "DIV" ) {
+		parent_name = parent_ele.parentElement.nodeName;
+		parent_ele = parent_ele.parentElement;
+	}
+
+	if ( document.getElementById(obj).checked ) {
+		if ( obj == "modifiers" ) {
+			for ( var i = 0; i < document.getElementsByName('mods').length; ++i ) {
+				document.getElementsByName('mods')[i].checked = true;
+			}
+			level_object.modifiers.disable = false;
+			level_object.modifiers.x2 = true;
+			level_object.modifiers.up1 = true;
+			level_object.modifiers.stretch = true;
+			level_object.modifiers.newball = true;
+		}
+
+		parent_ele.style.opacity = "1";
+	} else {
+		if ( obj == "modifiers" ) {
+			for ( var i = 0; i < document.getElementsByName('mods').length; ++i ) {
+				document.getElementsByName('mods')[i].checked = false;
+			}
+			level_object.modifiers.disable = true;
+			level_object.modifiers.x2 = false;
+			level_object.modifiers.up1 = false;
+			level_object.modifiers.stretch = false;
+			level_object.modifiers.newball = false;
+		}
+
+		parent_ele.style.opacity = ".25";
+	}
+}
+
+function start_import() {
+	document.getElementById("import-wrapper").style.display = "block";
+}
+
+function cancel_import() {
+	document.getElementById("import-wrapper").style.display = "none";
+	document.getElementById("import-code").value = "";
+	document.getElementById("import-parse-error").innerHTML = "";
+}
+
+function parse_import() {
+	test_blocks = [];
+	document.getElementById("import-parse-error").innerHTML = "";
+	var area = document.getElementById("import-code");
+	var code = null;
+
+	if ( area.value === "" ){
+		document.getElementById("import-parse-error").innerHTML = "Invalid Level Object";
+		return;
+	}
+	
+	//https://stackoverflow.com/questions/32121479/get-json-code-from-textarea-and-parse-it
+	try {
+		//alert(area.value);
+		code = JSON.parse(area.value);
+		//alert(code);
+
+		if ( code.modifiers != null ) {
+			level_object.modifiers = code.modifiers;
+
+			if ( level_object.modifiers.disable ) {
+				document.getElementById("modifiers").checked = false;
+				level_info_section("modifiers");
+			}
+		}
+
+		if ( code.bonuses != null ) {
+			level_object.bonuses = code.bonuses;
+		}
+
+		if ( code.blocks != null ) {
+			level_object.blocks = code.blocks;
+		}
+
+		//alert(JSON.stringify(level_object));
+
+		for ( var i = 0; i < level_object.blocks.length; ++i ) {
+			//width, height, color, x, y, health = 1, type = "color"
+			test_blocks.push( new block( 
+				level_object.blocks[i].width,
+				level_object.blocks[i].height,
+				level_object.blocks[i].src,
+				level_object.blocks[i].x,
+				level_object.blocks[i].y,
+				level_object.blocks[i].health,
+				"image"
+			) );
+
+			//alert(level_object.blocks[i].src);
+
+			if ( level_object.blocks[i].type == "wall" ) {
+				test_blocks[test_blocks.length - 1].is_wall = true;
+				test_blocks[test_blocks.length - 1].orientation = level_object.blocks[i].orientation;
+			} else if ( level_object.blocks[i].type == "portal" ) {
+				test_blocks[test_blocks.length - 1].is_portal = true;
+				test_blocks[test_blocks.length - 1].teleport_point.x = level_object.blocks[i].teleport_point.x;
+				test_blocks[test_blocks.length - 1].teleport_point.y = level_object.blocks[i].teleport_point.y;
+				test_blocks[test_blocks.length - 1].teleport_point.is_a_portal = level_object.blocks[i].teleport_point.is_endpoint;
+			}
+		}
+	}
+	catch ( error ) {
+		if ( error instanceof SyntaxError ) {
+			document.getElementById("import-parse-error").innerHTML = "Invalid Level Object";
+		} else {
+			throw error;
+		}
+	}
+
+	document.getElementById("import-parse-error").innerHTML = "Import Successful";
+}
+
 </script>
 
 </body>
