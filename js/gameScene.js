@@ -5,12 +5,14 @@ var gameScene = {
 	setup : function() {
 		GAME_STATE.reset();
 		player.reset();
+		//balls = blocks = walls = portals = streaks = mods = paddles = [];
 		balls = [];
 		blocks = [];
 		walls = [];
 		portals = [];
 		streaks = [];
 		mods = [];
+		paddles = [];
 
 		myPaddle.width = default_paddle_width;
 

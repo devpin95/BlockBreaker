@@ -68,6 +68,19 @@ function level_one() {
           "paddle_lower_bound": 20,
           "paddle_upper_bound": 40
      },
+     "paddles" : [
+          {
+               rail : "x",
+               first_bound : {
+                    x : 0,
+                    y : 505
+               },
+               second_bound : {
+                    x : 960,
+                    y : 505
+               }
+          }
+     ],
      "blocks": [
           {
                "type": "big_block",

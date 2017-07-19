@@ -174,6 +174,18 @@ function paddle() {
 	this.sound = new sound( "assets/sound_wall.wav" );
 	this.sound.volume = .2;
 
+	this.track = {
+		rail : "x",
+		first_bound : {
+			x : 0,
+			y: 0
+		},
+		second_bound : {
+			x : 0,
+			y: 0
+		}
+	}
+
 	//mod effects
 	this.is_stretched = false;
 
