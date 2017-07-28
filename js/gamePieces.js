@@ -573,7 +573,7 @@ function streak( x, y, value, down = true ) {
 			this.is_done = true;
 		}
 
-		myGameArea.context.font = "20px Bebas Neue";
+		myGameArea.context.font = "30px Bebas Neue";
 		// var gradient = myGameArea.context.createLinearGradient(this.x, this.y, this.x, this.y + 100);
 		// gradient.addColorStop("0.5","#FDD819");//
 		// gradient.addColorStop("0","#E80505");
@@ -757,4 +757,109 @@ function sound( src ) {
     this.stop = function(){
         this.sound.pause();
     }
+}
+
+function button( x1, x2, y1, y2, type = "image", image = "", image_hover = "", callback = function(){ alert("CLICKED"); } ) {
+	this.x = x1;
+	this.y = y1;
+	this.width = 0;
+	this.height = 0;
+	this.image = new Image();
+	this.image_hover = new Image();
+	this.ready = false;
+	this.image_effects = {
+		hover_x : x2,
+		hover_y : y2,
+		hover_width : 0,
+		hover_height : 0
+	}
+	this.type = type;
+	this.hovering = false;
+	this.action = callback;
+
+	if ( type === "image" ) {
+		this.image.onload = function(e) {
+			return function() {
+				e.width = e.image.width;
+				e.height = e.image.height;
+			}
+		}(this);
+
+		//this.image = new Image();
+		this.image.src = image;
+		//console.log(this.image.src );
+
+		this.image_hover.onload = function(e) {
+			return function() {
+				e.image_effects.hover_width = e.image_hover.width;
+				e.image_effects.hover_height = e.image_hover.height;
+			}
+		}(this);
+
+		//this.image_hover = new Image();
+		this.image_hover.src = image_hover;
+		//console.log(this.image_hover.src );
+
+		this.ready = true;
+	}
+
+	this.update = function() {
+		ctx = myGameArea.context;
+		if ( this.hovering ) 
+		{
+			if ( this.type == "image" ) {
+				//alert("BUTTON 1");
+				ctx.drawImage(this.image_hover, this.image_effects.hover_x, this.image_effects.hover_y, this.image_effects.hover_width, this.image_effects.hover_height);
+			}
+		} 
+
+		else 
+		{
+			if ( this.type == "image" ) {
+				//alert("BUTTON 2");
+				ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+			}
+		}
+	}
+}
+
+function buttons_image1_loaded(e, i) {
+	alert(i.naturalWidth);
+}
+
+function menu() {
+	this.buttons = [];
+	this.add = function( x1, x2, y1, y2, type, image, image_hover, callback ) {
+		//alert(image);
+		this.buttons.push( new button( x1, x2, y1, y2, type, image, image_hover, callback ) );
+		//alert(this.buttons.length);
+	}
+
+	this.update = function() {
+		for ( var i = 0; i < this.buttons.length; ++i ) {
+			if ( this.buttons[i].ready ) this.buttons[i].update();
+		}
+	}
+
+	this.hovering = function( x, y ) {
+		for ( var i = 0; i < this.buttons.length; ++i ) {
+			if (x < this.buttons[i].x + this.buttons[i].width && x > this.buttons[i].x && y < this.buttons[i].y + this.buttons[i].height && y > this.buttons[i].y )  {
+				//hovering
+				this.buttons[i].hovering = true;
+			} else {
+				this.buttons[i].hovering = false;
+			}
+		}
+	}
+
+	this.click = function( x, y ) {
+		for ( var i = 0; i < this.buttons.length; ++i ) {
+			if (x < this.buttons[i].x + this.buttons[i].width && x > this.buttons[i].x && y < this.buttons[i].y + this.buttons[i].height && y > this.buttons[i].y )  {
+				this.buttons[i].action();
+				return true;
+			}
+		}
+
+		return false;
+	}
 }
