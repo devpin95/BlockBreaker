@@ -40,7 +40,7 @@ var gameScene = {
 		if ( this.draw_level ) 
 		{
 			//document.body.style.cursor = "";
-			if ( this.draw_level_timer == 100 ) {
+			if ( this.draw_level_timer == 200 ) {
 				this.draw_level = false;
 				this.timer_interval = setInterval( UI.timer.countTime, 1000 );
 			}
@@ -57,6 +57,13 @@ var gameScene = {
 			myGameArea.context.fillStyle=gradient;
 			myGameArea.context.textAlign = "center";
 			myGameArea.context.fillText("LEVEL " + (GAME_STATE.LEVEL + 1), xpos , height - 200);
+
+			myGameArea.context.font = "20px Bebas Neue";
+			myGameArea.context.fillStyle= "#000";
+			myGameArea.context.textAlign = "center";
+			myGameArea.context.fillText(GAME_STATE.MESSAGE, xpos - 15, height - 170);
+
+			GAME_STATE.MESSAGE
 
 		}
 		
@@ -245,8 +252,7 @@ var gameScene = {
 
     	else if ( this.draw_level ) 
     	{
-    		this.draw_level = false;
-    		this.draw_level_timer = 0;
+    		this.draw_level_timer = 200;
     	}
 
     	else if ( GAME_STATE.BALL_READY && !GAME_STATE.IS_PAUSED && !this.draw_level ) 
