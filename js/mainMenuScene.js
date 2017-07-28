@@ -1,41 +1,38 @@
-var play_image = "assets/play_button.png";
-var play_image_hover = "assets/play_button_hover.png";
-var settings_image = "assets/settings_button.png";
-var settings_image_hover = "assets/settings_button_hover.png";
-
-var PLAY, LOGO;
+var LOGO;
 
 var mainMenuScene = {
 	setup : function() {
 		//bonuses_image = new block( 437, 139, bonuses_image_path, width/2 - 219, 25, 0, "image" );
 		LOGO = new block( 260, 40, "assets/logo.png", ( myGameArea.canvas.width / 2 ) - 130, 75, 0, "image" );
-		// PLAY = new block( 60, 30, play_image, ( myGameArea.canvas.width / 2 ) - 30, 100, 0, "image" );
-		// SETTINGS = new block( 90, 30, settings_image, ( myGameArea.canvas.width / 2 ) - 45, 190, 0, "image" );
 
+		var play_button = "assets/play_button.png";
+		var play_button_hover = "assets/play_button_hover.png";
+		var settings_button = "assets/settings_button.png";
+		var settings_button_hover = "assets/settings_button_hover.png";
+
+		//create the menu
 		this.menu = new menu();
+		
 		//x1, x2, y1, y2, type, image, image_hover, callback
-		this.menu.add( ( myGameArea.canvas.width / 2 ) - 30, ( myGameArea.canvas.width / 2 ) - 35, 150, 145, "image", "assets/play_button.png", "assets/play_button_hover.png", function() {
+		this.menu.add( ( myGameArea.canvas.width / 2 ) - 30, ( myGameArea.canvas.width / 2 ) - 35, 150, 145, "image", play_button, play_button_hover, function() {
 			this.menu_balls = [];
 			this.scene_ready = false;
 			GAME_STATE.change_scene( SCENES.GAME_SCENE );
 		} );
-		this.menu.add( ( myGameArea.canvas.width / 2 ) - 45, ( myGameArea.canvas.width / 2 ) - 55, 190, 185, "image", "assets/settings_button.png", "assets/settings_button_hover.png", function() {
+		this.menu.add( ( myGameArea.canvas.width / 2 ) - 45, ( myGameArea.canvas.width / 2 ) - 55, 190, 185, "image", settings_button, settings_button_hover, function() {
 			GAME_STATE.change_scene( SCENES.SETTINGS_SCENE );
 		} );
 
+		//make a ball with a random x,y position and random spdx
 		this.menu_balls.push( new ball( 15, 15, default_ball_image, width / 2, height / 2, "image" ) );
 		var spd_x = (Math.random() * maxBallSpeed) + 1;
 		spd_x *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
 		this.menu_balls[0].spdX = spd_x;
-
 		this.menu_balls[0].spdY = Math.floor(Math.random()*2) == 1 ? maxBallSpeed : -maxBallSpeed;
-
 		var pos_x = (Math.random() * ( width - 45 )) + 45;
 		this.menu_balls[0].x = pos_x;
-
 		var pos_y = (Math.random() * ( height - 45 )) + 45;
 		this.menu_balls[0].y = pos_y;
-
 		this.menu_balls[0].free = true;
 
 		this.scene_ready = true;
