@@ -5,21 +5,30 @@ var mainMenuScene = {
 		//bonuses_image = new block( 437, 139, bonuses_image_path, width/2 - 219, 25, 0, "image" );
 		LOGO = new block( 260, 40, "assets/logo.png", ( myGameArea.canvas.width / 2 ) - 130, 75, 0, "image" );
 
-		var play_button = "assets/play_button.png";
-		var play_button_hover = "assets/play_button_hover.png";
+		var play_button = "assets/mode_play_button.png";
+		var play_button_hover = "assets/mode_play_button_hover.png";
 		var settings_button = "assets/settings_button.png";
 		var settings_button_hover = "assets/settings_button_hover.png";
+		var mode_classic_image = "assets/mode_classic.png";
+		var mode_double_trouble_image = "assets/mode_double_trouble.png";
+		var mode_survival_image = "assets/mode_survival.png";
+
+		this.mode_classic = new block( 274, 317, mode_classic_image, 53, 125, 0, "image" );
+		this.mode_double_trouble = new block( 274, 317, mode_double_trouble_image, 53 + 274 + 10, 125, 0, "image" );
+		this.mode_survival = new block( 274, 317, mode_survival_image, 53 + 274 + 274 + 10 + 10, 125, 0, "image" );
 
 		//create the menu
 		this.menu = new menu();
-		
+
 		//x1, x2, y1, y2, type, image, image_hover, callback
-		this.menu.add( ( myGameArea.canvas.width / 2 ) - 30, ( myGameArea.canvas.width / 2 ) - 35, 150, 145, "image", play_button, play_button_hover, function() {
+		var classic_center_x = (this.mode_classic.x + (this.mode_classic.width / 2)) - (75/2);
+		var modes_y = (this.mode_classic.y + this.mode_classic.height) - 50;
+		this.menu.add( classic_center_x , classic_center_x, modes_y, modes_y, "image", play_button, play_button_hover, function() {
 			this.menu_balls = [];
 			this.scene_ready = false;
 			GAME_STATE.change_scene( SCENES.GAME_SCENE );
 		} );
-		this.menu.add( ( myGameArea.canvas.width / 2 ) - 45, ( myGameArea.canvas.width / 2 ) - 55, 190, 185, "image", settings_button, settings_button_hover, function() {
+		this.menu.add( ( myGameArea.canvas.width / 2 ) - 45, ( myGameArea.canvas.width / 2 ) - 55, height - 55, height - 60, "image", settings_button, settings_button_hover, function() {
 			GAME_STATE.change_scene( SCENES.SETTINGS_SCENE );
 		} );
 
@@ -39,6 +48,9 @@ var mainMenuScene = {
 	},
 
 	menu : null,
+	mode_classic : null,
+	mode_double_trouble : null,
+	mode_survival : null,
 	scene_ready : false,
 
 	menu_balls : [],
@@ -46,6 +58,9 @@ var mainMenuScene = {
 	run : function() {
 
 		LOGO.update();
+		this.mode_classic.update();
+		this.mode_double_trouble.update();
+		this.mode_survival.update();
 		this.menu.hovering( mousePos.x, mousePos.y );
 		this.menu.update();
 
