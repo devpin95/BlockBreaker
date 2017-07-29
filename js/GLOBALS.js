@@ -30,6 +30,7 @@ var partition_block;
 var myPaddle;
 var player;
 
+var paddles = [];
 var balls = [];
 var blocks = [];
 var walls = [];
@@ -44,12 +45,13 @@ var mod_list = [
 	];
 
 var SCENES = {
-	MAIN_MENU_SCENE : mainMenuScene,			//main menu
-	GAME_SCENE : gameScene,						//game logic
-	PAUSED_SCENE : pausedScene,					//pause screen
-	RETRY_LEVEL_PROMPT : retryPromptScene,		// |-> retry level prompt screen
-	SETTINGS_SCENE : settingsScene,				// |-> settings screen
-	LEVEL_CLEAR_SCENE : levelClearScene,		//level cleared screen
+	MAIN_MENU_SCENE : mainMenuScene,							//main menu
+	GAME_SCENE : gameScene,										//game logic
+	C_MODE_LVL_SELECT : classicModeLevelSelectionScene, 		//classic mode level selection
+	PAUSED_SCENE : pausedScene,									//pause screen
+	RETRY_LEVEL_PROMPT : retryPromptScene,						// |-> retry level prompt screen
+	SETTINGS_SCENE : settingsScene,								// |-> settings screen
+	LEVEL_CLEAR_SCENE : levelClearScene,						//level cleared screen
 	GAME_OVER_SCENE : gameOverScene
 };
 
@@ -62,6 +64,7 @@ var GAME_STATE = {
 	STOP_TIME : false,
 	LEVEL : 0,
 	HIGHEST_LEVEL : 10,
+	LEVEL_MESSAGE : "",
 	PREVIOUS_SCENE : null,
 	ACTIVE_SCENE : SCENES.GAME_SCENE,
 	reset : function() {
