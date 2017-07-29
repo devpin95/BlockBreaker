@@ -25,8 +25,8 @@ var mainMenuScene = {
 		var modes_y = (this.mode_classic.y + this.mode_classic.height) - 50;
 		this.menu.add( classic_center_x , classic_center_x, modes_y, modes_y, "image", play_button, play_button_hover, function() {
 			this.menu_balls = [];
-			this.scene_ready = false;
-			GAME_STATE.change_scene( SCENES.GAME_SCENE );
+			//this.scene_ready = false;
+			GAME_STATE.change_scene( SCENES.C_MODE_LVL_SELECT );
 		} );
 		this.menu.add( ( myGameArea.canvas.width / 2 ) - 45, ( myGameArea.canvas.width / 2 ) - 55, height - 55, height - 60, "image", settings_button, settings_button_hover, function() {
 			GAME_STATE.change_scene( SCENES.SETTINGS_SCENE );
