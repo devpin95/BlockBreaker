@@ -4,10 +4,23 @@ var height = 540;
 function Player() {
 	this.score = 0;
 	this.lives = 3;
+	this.levels_complete = [];
+	this.level_scores = [];
+	this.ready = false;
 	this.reset = function( num_lives ) {
 		this.score = 0;
 		this.lives = 3;
+		if ( !this.ready ) {
+			this.initialize();
+		}
 	};
+	this.initialize = function() {
+		for ( var i = 0; i < GAME_STATE.HIGHEST_LEVEL; ++i ) {
+			this.levels_complete.push( false );
+			this.level_scores.push( 0 );
+		}
+		this.ready = true;
+	}
 }
 
 function ball( width, height, color, x, y, type = "color" ) {
@@ -759,85 +772,154 @@ function sound( src ) {
     }
 }
 
-function button( x1, x2, y1, y2, type = "image", image = "", image_hover = "", callback = function(){ alert("CLICKED"); } ) {
+//BUTTON PARAMETERS:
+//type = "image"
+//v1 = default image
+//v2 = cursor-hover image
+//
+//type = "text"
+//v1 = text value
+//v2 = font size
+function button( x1, x2, y1, y2, type = "image", v1 = "", v2 = "", callback = function(){ alert("CLICKED"); }, ff = "arial", c1 = "#000", c2 = null ) {
 	this.x = x1;
 	this.y = y1;
 	this.width = 0;
 	this.height = 0;
-	this.image = new Image();
-	this.image_hover = new Image();
-	this.ready = false;
-	this.image_effects = {
+	// width, height, color, x, y, health = 1, type = "color"
+	this.bb = new block(this.width, this.height, "rgba(255, 0, 0, 0)", this.x, this.y, 1, "color");
+
+	if ( type === "image" ) {
+		this.v1 = new Image();
+		this.v2 = new Image();
+	} else if ( type === "text" ) {
+		this.v1 = v1;
+		this.v2 = parseInt(v2);
+	}
+	this.effects = {
 		hover_x : x2,
 		hover_y : y2,
 		hover_width : 0,
 		hover_height : 0
 	}
+	this.text_vals = {
+		color1 : c1,
+		color2 : ( (c2 == null) ? c1 : c2 ),
+		font_face : ff,
+		font_width_measured : false,	//use this to measure the text width after all it's display values have been set
+		text_baseline : "middle",	//https://stackoverflow.com/questions/14289331/html5-canvas-doesnt-fill-text-at-coordinates-0-0
+		text_align : "center",
+		position : {
+			x : x1,
+			y : y1
+		}
+	};
+
+	this.text_vals.color2 = ( (c2 == null) ? c1 : c2 );
+
+	//alert("c1: " + this.text_vals.color1 + "\nc2: " + this.text_vals.color2 );
+
 	this.type = type;
 	this.hovering = false;
 	this.action = callback;
 
 	if ( type === "image" ) {
-		this.image.onload = function(e) {
+
+		this.v1.onload = function(e) {
 			return function() {
-				e.width = e.image.width;
-				e.height = e.image.height;
+				e.width = e.v1.width;
+				e.height = e.v1.height;
 			}
 		}(this);
+		this.v1.src = v1;
 
-		//this.image = new Image();
-		this.image.src = image;
-		//console.log(this.image.src );
-
-		this.image_hover.onload = function(e) {
+		this.v2.onload = function(e) {
 			return function() {
-				e.image_effects.hover_width = e.image_hover.width;
-				e.image_effects.hover_height = e.image_hover.height;
+				e.effects.hover_width = e.v2.width;
+				e.effects.hover_height = e.v2.height;
 			}
 		}(this);
+		this.v2.src = v2;
+	}
 
-		//this.image_hover = new Image();
-		this.image_hover.src = image_hover;
-		//console.log(this.image_hover.src );
-
-		this.ready = true;
+	else if ( type === "text" ) {
+		this.width = myGameArea.context.measureText(v1).width;
+		this.height = parseInt(v2);
+		this.bb.height = this.height;
+		this.y -= (this.height/2);
+		this.bb.y = this.y;
 	}
 
 	this.update = function() {
 		ctx = myGameArea.context;
+
+		//HOVERING
 		if ( this.hovering ) 
 		{
-			if ( this.type == "image" ) {
-				//alert("BUTTON 1");
-				ctx.drawImage(this.image_hover, this.image_effects.hover_x, this.image_effects.hover_y, this.image_effects.hover_width, this.image_effects.hover_height);
+			document.body.style.cursor = "pointer";
+			if ( this.type === "image" ) {
+				ctx.drawImage(this.v2, this.effects.hover_x, this.effects.hover_y, this.effects.hover_width, this.effects.hover_height);
+			}
+			else if ( this.type === "text" ) {
+
+				ctx.font = (this.v2 + (this.v2 * .1) ) + "px " + this.text_vals.font_face;
+				ctx.textBaseline = this.text_vals.text_baseline; //https://stackoverflow.com/questions/14289331/html5-canvas-doesnt-fill-text-at-coordinates-0-0
+				myGameArea.context.textAlign = this.text_vals.text_align;
+				var gradient = ctx.createLinearGradient(this.text_vals.position.x, this.y,  this.text_vals.position.x, this.y + this.height);
+				gradient.addColorStop( "0", this.text_vals.color1 );
+				gradient.addColorStop( "0.75", this.text_vals.color2 );
+				myGameArea.context.fillStyle = gradient;
+				ctx.fillText( v1, this.text_vals.position.x, this.text_vals.position.y );
+
+				this.bb.update();
 			}
 		} 
 
+		//DEFAULT
 		else 
 		{
-			if ( this.type == "image" ) {
-				//alert("BUTTON 2");
-				ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+			document.body.style.cursor = "";
+			if ( this.type === "image" ) {
+				ctx.drawImage(this.v1, this.x, this.y, this.width, this.height);
 			}
+			else if ( this.type === "text" ) {
+				ctx.font = this.v2 + "px " + this.text_vals.font_face;
+				ctx.textBaseline = this.text_vals.text_baseline; //https://stackoverflow.com/questions/14289331/html5-canvas-doesnt-fill-text-at-coordinates-0-0
+				ctx.textAlign = this.text_vals.text_align;
+				//ctx.fillStyle = this.text_vals.color1;
+				var gradient = ctx.createLinearGradient( this.text_vals.position.x, this.y,  this.text_vals.position.x, this.y + this.height);
+				gradient.addColorStop( "0", this.text_vals.color1 );
+				gradient.addColorStop( "0.75", this.text_vals.color2 );
+				ctx.fillStyle = gradient;
+				ctx.fillText( v1, this.text_vals.position.x, this.text_vals.position.y );
+
+				// ctx.beginPath();
+				// ctx.moveTo(this.text_vals.position.x, this.y);
+				// ctx.lineTo(this.text_vals.position.x,this.y + this.height);
+				// ctx.stroke();
+
+				this.bb.update();
+			}
+		}
+
+		if ( this.type === "text" && this.text_vals.font_width_measured == false ) {
+			this.width = myGameArea.context.measureText(v1).width;
+			this.text_vals.font_width_measured = true;
+			this.bb.width = this.width;
+			this.x = this.x - (this.width / 2);
+			this.bb.x = this.x;
 		}
 	}
 }
 
-function buttons_image1_loaded(e, i) {
-	alert(i.naturalWidth);
-}
-
 function menu() {
 	this.buttons = [];
-	this.add = function( x1, x2, y1, y2, type, image, image_hover, callback ) {
-		//alert(image);
-		this.buttons.push( new button( x1, x2, y1, y2, type, image, image_hover, callback ) );
-		//alert(this.buttons.length);
+	this.add = function( x1, x2, y1, y2, type, image, image_hover, callback, ff, color1, color2 ) {
+		this.buttons.push( new button( x1, x2, y1, y2, type, image, image_hover, callback, ff, color1, color2 ) );
 	}
 
 	this.update = function() {
 		for ( var i = 0; i < this.buttons.length; ++i ) {
-			if ( this.buttons[i].ready ) this.buttons[i].update();
+			this.buttons[i].update();
 		}
 	}
 
