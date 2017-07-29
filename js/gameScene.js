@@ -16,17 +16,12 @@ var gameScene = {
 
 		myPaddle.width = default_paddle_width;
 
-		//initialize game sounds
-		snd_block_hit = new sound( "assets/sound_hit.wav" );
-
 		balls.push( new ball( 15, 15, default_ball_image, 0, 0, "image" ) );
 		GAME_STATE.BALL_READY = true;
 
   		levels[GAME_STATE.LEVEL]();
 
         this.scene_ready = true;
-
-        //this.timer_interval = setInterval( UI.timer.countTime, 1000 );
 	},
 
 	scene_ready : false,
@@ -206,6 +201,11 @@ var gameScene = {
 		//handle a win
 		else if ( !GAME_STATE.IS_PAUSED && GAME_STATE.WON ) 
 		{
+			//set the player score and level_complete
+			player.levels_complete[GAME_STATE.LEVEL] = true;
+			player.level_scores[GAME_STATE.LEVEL] = UI.score.total;
+
+			//prepare the scene to be changed to the level cleared screen
 			document.body.style.cursor = "";
 			this.scene_ready = false;
 			GAME_STATE.ACTIVE_SCENE = SCENES.LEVEL_CLEAR_SCENE;
