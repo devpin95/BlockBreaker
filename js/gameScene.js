@@ -51,12 +51,12 @@ var gameScene = {
 			// Fill with gradient
 			myGameArea.context.fillStyle=gradient;
 			myGameArea.context.textAlign = "center";
-			myGameArea.context.fillText("LEVEL " + (GAME_STATE.LEVEL + 1), xpos , height - 200);
+			myGameArea.context.fillText("LEVEL " + (GAME_STATE.LEVEL + 1), xpos, height - 200);
 
 			myGameArea.context.font = "20px Bebas Neue";
 			myGameArea.context.fillStyle= "#000";
 			myGameArea.context.textAlign = "center";
-			myGameArea.context.fillText(GAME_STATE.MESSAGE, xpos - 15, height - 170);
+			myGameArea.context.fillText(GAME_STATE.MESSAGE, xpos - 15, height - 160);
 
 			GAME_STATE.MESSAGE
 
