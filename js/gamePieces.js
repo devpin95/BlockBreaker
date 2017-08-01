@@ -298,8 +298,8 @@ function paddle() {
 			return;
 		}
 
-		if ( x <= myGameArea.canvas.width - this.width && x >= 0 )
-			this.x = x;
+		if ( x <= myGameArea.canvas.width - (this.width/2) && x >= (this.width/2) )
+			this.x = x - (this.width/2);
 	}
 
 	//check if there was a collision with the paddle
@@ -640,7 +640,8 @@ function mod_stretch( x, y ) {
 	this.image = new Image();
 	this.image.src = "assets/mod_stretch.png";
 	this.interval = null;
-	this.interval_counter = big_paddle_width;
+	this.interval_counter = 500;
+	this.count_down_block = new block( 0, 0, "#27ae60", 0, 0, 0, "color" );
 
 	this.is_active = true;
 
@@ -648,29 +649,49 @@ function mod_stretch( x, y ) {
 		this.y += this.spdY;
 		ctx = myGameArea.context;
 		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+
+		if ( myPaddle.is_stretched ) {
+			--this.interval_counter;
+
+			this.count_down_block.width = width * ( this.interval_counter / 500 );
+			this.count_down_block.x = (width/2) - (this.count_down_block.width / 2);
+
+			if ( this.interval_counter == 0 ) {
+				myPaddle.is_stretched = false;
+				this.is_active = false;
+				myPaddle.width = default_paddle_width;
+				this.count_down_block.x = -100;
+				this.count_down_block.y = -100;
+			}
+
+			this.count_down_block.update();
+		}
 	}
 
 	this.activate = function() {
 		this.spdY = 0;
-		this.is_active = false;
+		//this.is_active = false;
 
 		if ( GAME_SETTINGS.paddle.papa_paddle ) {
+			this.activate = false;
 			return;
 		}
 
-		myPaddle.is_stretched = true;
-
 		if ( !myPaddle.is_stretched ) {
+			myPaddle.is_stretched = true;
 			myPaddle.width = big_paddle_width;
 			myPaddle.image.src = "assets/paddle_big.png";
-			//myPaddle.width = big_paddle_width;
 			
-			setTimeout( function() {
-				myPaddle.width = default_paddle_width;
-				myPaddle.image.src = "assets/paddle_big.png";
-				myPaddle.is_stretched = false;
-				this.is_active = false;
-			}, 5000 );
+			// setTimeout( function() {
+			// 	myPaddle.width = default_paddle_width;
+			// 	myPaddle.image.src = "assets/paddle_big.png";
+			// 	myPaddle.is_stretched = false;
+			// 	this.is_active = false;
+			// }, 5000 );
+
+			this.count_down_block.x = myPaddle.x;
+			this.count_down_block.y = height - 3;
+			this.count_down_block.height = 3;
 
 		} else {
 			streaks.push( new streak( this.x + (this.width/2), this.y + (this.height/2), "+50", false ) );
@@ -743,11 +764,13 @@ function mod_x2( x, y ) {
 		block_score_multiplyer = 2;
 		document.getElementById("game").style.backgroundImage = "url('assets/mod_x2_bg.png')";
 
-		setTimeout( function() {
-			block_score_multiplyer = 1;
-			this.is_active = false;
-			document.getElementById("game").style.backgroundImage = "";
-		}, 5000 );
+		setTimeout( function(e) {
+			return function() {
+				block_score_multiplyer = 1;
+				e.is_active = false;
+				document.getElementById("game").style.backgroundImage = "";
+			}
+		}(this), 5000 );
 
 		this.x = -1000;
 		this.y = -1000;
