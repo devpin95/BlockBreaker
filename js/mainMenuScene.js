@@ -27,6 +27,7 @@ var mainMenuScene = {
 			this.menu_balls = [];
 			//this.scene_ready = false;
 			GAME_STATE.change_scene( SCENES.C_MODE_LVL_SELECT );
+			GAME_STATE.MESSAGE = "Classic Mode";
 		} );
 		this.menu.add( ( myGameArea.canvas.width / 2 ) - 45, ( myGameArea.canvas.width / 2 ) - 55, height - 55, height - 60, "image", settings_button, settings_button_hover, function() {
 			GAME_STATE.change_scene( SCENES.SETTINGS_SCENE );
