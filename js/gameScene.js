@@ -13,6 +13,7 @@ var gameScene = {
 		streaks = [];
 		mods = [];
 		paddles = [];
+		this.stretch_mod_ptr = null;
 
 		myPaddle.width = default_paddle_width;
 
@@ -28,6 +29,7 @@ var gameScene = {
 
 	draw_level : true,
 	draw_level_timer : 0,
+	stretch_mod_ptr : null,
 
 	timer_interval : null,
 
@@ -83,15 +85,17 @@ var gameScene = {
 			if ( block_to_delete != -1 ) {
 
 				//randomly generate a number to determine if a mod should be dropped
+				// var num = Math.floor( (Math.random() * 10));// + ( 50 * mods.length )) );
 
-				var num = Math.floor( (Math.random() * 10 + ( 50 * mods.length )) );
+				// if ( num >= 0 && num <= mod_list.length - 1 ) {
+				// 	mods.push( new mod_list[num] );
+				// 	mods[ mods.length - 1 ].x = blocks[block_to_delete].center.x;
+				// 	mods[ mods.length - 1 ].y = blocks[block_to_delete].center.y;
+				// }
 
-				if ( num >= 0 && num <= mod_list.length - 1 ) {
-					//alert(num);
-					mods.push( new mod_list[num] );
-					mods[ mods.length - 1 ].x = blocks[block_to_delete].center.x;
-					mods[ mods.length - 1 ].y = blocks[block_to_delete].center.y;
-				}
+				mods.push( new mod_list[1] );
+				mods[ mods.length - 1 ].x = blocks[block_to_delete].center.x;
+				mods[ mods.length - 1 ].y = blocks[block_to_delete].center.y;
 
 				player.score += default_block_score * block_score_multiplyer;
 				UI.score.add( default_block_score * block_score_multiplyer );
@@ -100,6 +104,13 @@ var gameScene = {
 			}
 
 			//update the mods array
+			var stretch_mod_active = myPaddle.is_stretched;
+			//var stretch_mod_ptr = null;
+
+			if ( !stretch_mod_active ) {
+				this.stretch_mod_ptr = null;
+			}
+
 			for ( var i = 0; i < mods.length; ++i ) {
 				mods[i].update();
 
@@ -110,8 +121,22 @@ var gameScene = {
 					continue;
 				}
 
+				// if ( mods[i] instanceof mod_stretch && mods[i].x == -1000 ) {
+				// 	stretch_mod_ptr = mods[i];
+				// }
+
 				//check for a collision with the paddle
 				if ( myPaddle.collision( mods[i] ) ) {
+					if ( mods[i] instanceof mod_stretch ) {
+						//if there is a stretch mod already active, reset the stretch timer
+						if ( this.stretch_mod_ptr === null ) {
+							this.stretch_mod_ptr = mods[i];
+							mods[i].activate();
+						} else {
+							this.stretch_mod_ptr.reset();
+							mods[i].is_active = false;
+						}
+					}
 					mods[i].activate();
 				}
 			}
@@ -221,7 +246,12 @@ var gameScene = {
 					//make a new ball
 					balls.push( new ball( 15, 15, default_ball_image, 0, 0, "image" ) );
 					GAME_STATE.BALL_READY = true;
-					mods = []; //clear the mods that are falling
+					for ( var i = 0; i < mods.length; ++i ) {
+						if ( !mods[i].is_active ) {
+							mods.splice( i, 1 );
+						}
+						//mods = []; //clear the mods that are falling
+					}
 					UI.lives.down();	
 				}
 

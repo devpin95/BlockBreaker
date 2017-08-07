@@ -639,9 +639,12 @@ function mod_stretch( x, y ) {
 	this.spdY = mods_default_fall_speed;
 	this.image = new Image();
 	this.image.src = "assets/mod_stretch.png";
-	this.interval = null;
-	this.interval_counter = 500;
+	// this.interval = null;
+	this.interval_counter = 0;
+	this.active_time = 500;
 	this.count_down_block = new block( 0, 0, "#27ae60", 0, 0, 0, "color" );
+	this.shrinkify = false;
+	this.stretchify = false;
 
 	this.is_active = true;
 
@@ -651,20 +654,42 @@ function mod_stretch( x, y ) {
 		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
 
 		if ( myPaddle.is_stretched ) {
-			--this.interval_counter;
+			if ( this.stretchify ) {
+				this.interval_counter += 10;
+				myPaddle.width = default_paddle_width + this.interval_counter;
 
-			this.count_down_block.width = width * ( this.interval_counter / 500 );
-			this.count_down_block.x = (width/2) - (this.count_down_block.width / 2);
-
-			if ( this.interval_counter == 0 ) {
-				myPaddle.is_stretched = false;
-				this.is_active = false;
-				myPaddle.width = default_paddle_width;
-				this.count_down_block.x = -100;
-				this.count_down_block.y = -100;
+				if ( this.interval_counter >= big_paddle_width - default_paddle_width ) {
+					this.stretchify = false;
+					this.interval_counter = this.active_time;
+				}
 			}
+			else if ( !this.shrinkify && !this.stretchify ) {
+				//console.log("1");
+				--this.interval_counter;
 
-			this.count_down_block.update();
+				this.count_down_block.width = width * ( this.interval_counter / 500 );
+				this.count_down_block.x = (width/2) - (this.count_down_block.width / 2);
+
+				if ( this.interval_counter == 0 ) {
+					this.shrinkify = true;
+					this.count_down_block.x = -100;
+					this.count_down_block.y = -100;
+					this.interval_counter = big_paddle_width - default_paddle_width;
+				}
+
+				this.count_down_block.update();
+			} else if ( this.shrinkify ) {
+				this.interval_counter -= 5;
+				myPaddle.width = default_paddle_width + this.interval_counter;
+
+				if ( this.interval_counter <= 0 ) {
+					myPaddle.is_stretched = false;
+					this.shrinkify = false;
+					this.interval_counter = 0;
+					this.is_active = false;
+					//SCENES.GAME_SCENE.stretch_mod_ptr = null;
+				}
+			}
 		}
 	}
 
@@ -679,15 +704,9 @@ function mod_stretch( x, y ) {
 
 		if ( !myPaddle.is_stretched ) {
 			myPaddle.is_stretched = true;
-			myPaddle.width = big_paddle_width;
+			this.stretchify = true;
+			//myPaddle.width = big_paddle_width;
 			myPaddle.image.src = "assets/paddle_big.png";
-			
-			// setTimeout( function() {
-			// 	myPaddle.width = default_paddle_width;
-			// 	myPaddle.image.src = "assets/paddle_big.png";
-			// 	myPaddle.is_stretched = false;
-			// 	this.is_active = false;
-			// }, 5000 );
 
 			this.count_down_block.x = myPaddle.x;
 			this.count_down_block.y = height - 3;
@@ -701,6 +720,13 @@ function mod_stretch( x, y ) {
 
 		this.x = -1000;
 		this.y = -1000;
+	}
+
+	this.reset = function() {
+		//alert("RESETING");
+		if (!this.stretchify && !this.shrinkify) {
+			this.interval_counter = this.active_time;
+		}
 	}
 }
 
