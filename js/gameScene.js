@@ -85,17 +85,18 @@ var gameScene = {
 			if ( block_to_delete != -1 ) {
 
 				//randomly generate a number to determine if a mod should be dropped
-				// var num = Math.floor( (Math.random() * 10));// + ( 50 * mods.length )) );
+				var num = Math.floor( (Math.random() * 10));// + ( 50 * mods.length )) );
 
-				// if ( num >= 0 && num <= mod_list.length - 1 ) {
-				// 	mods.push( new mod_list[num] );
-				// 	mods[ mods.length - 1 ].x = blocks[block_to_delete].center.x;
-				// 	mods[ mods.length - 1 ].y = blocks[block_to_delete].center.y;
-				// }
+				if ( num >= 0 && num <= mod_list.length - 1 ) {
+					mods.push( new mod_list[num] );
+					mods[ mods.length - 1 ].x = blocks[block_to_delete].center.x;
+					mods[ mods.length - 1 ].y = blocks[block_to_delete].center.y;
+				}
 
-				mods.push( new mod_list[1] );
-				mods[ mods.length - 1 ].x = blocks[block_to_delete].center.x;
-				mods[ mods.length - 1 ].y = blocks[block_to_delete].center.y;
+				//choose a mod to drop from every block for debugging
+				// mods.push( new mod_list[1] );
+				// mods[ mods.length - 1 ].x = blocks[block_to_delete].center.x;
+				// mods[ mods.length - 1 ].y = blocks[block_to_delete].center.y;
 
 				player.score += default_block_score * block_score_multiplyer;
 				UI.score.add( default_block_score * block_score_multiplyer );
@@ -121,15 +122,12 @@ var gameScene = {
 					continue;
 				}
 
-				// if ( mods[i] instanceof mod_stretch && mods[i].x == -1000 ) {
-				// 	stretch_mod_ptr = mods[i];
-				// }
-
 				//check for a collision with the paddle
 				if ( myPaddle.collision( mods[i] ) ) {
 					if ( mods[i] instanceof mod_stretch ) {
-						//if there is a stretch mod already active, reset the stretch timer
-						if ( this.stretch_mod_ptr === null ) {
+						//if there is a stretch mod already active, reset the stretch timer and make mod[i] unactive so that is is deleted on the next frame
+						//otherwise, set the stretch mod pointer to point the mods[i] as the new active stretch mod
+						if ( this.stretch_mod_ptr === null ) { 
 							this.stretch_mod_ptr = mods[i];
 							mods[i].activate();
 						} else {
@@ -137,6 +135,8 @@ var gameScene = {
 							mods[i].is_active = false;
 						}
 					}
+
+					//activate the mod, if the current mod is a stretch, it will be deleted on the next frame is one is already active
 					mods[i].activate();
 				}
 			}
