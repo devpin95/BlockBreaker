@@ -177,6 +177,10 @@
 		.level_info_section {
 			width:100%;
 			padding: 10px 0;
+			-webkit-user-select: none; /* webkit (safari, chrome) browsers */
+		    -moz-user-select: none; /* mozilla browsers */
+		    -khtml-user-select: none; /* webkit (konqueror) browsers */
+		    -ms-user-select: none; /* IE10+ */
 		}
 		.level_info_section .h1_checkbox {
 			margin:0;
@@ -198,14 +202,14 @@
 		.level_info_section input[type=checkbox]:focus{
 			outline:none;
 		}
-		.level_info_section input[type=number]{
+		.level_info_section input[type=number], .level_info_section input[type=selection]{
 			width:40px;
 			height:20px;
 			border-radius:5px;
 			border:1px solid #aaa;
 			padding:5px 0 5px 10px;
 		}
-		.level_info_section input[type=number]:focus{
+		.level_info_section input[type=number]:focus, .level_info_section input[type=selection]:focus{
 			outline:none;
 			border:1px solid #000;
 		}
@@ -274,7 +278,7 @@
 			</ul>
 		</div>
 		<div id="actions">
-			<input type="radio" id="action_place" name="action" value="place"><label for="action_place">Place Blocks</label><br/>
+			<input type="radio" id="action_place" name="action" value="place"><label for="action_place">Place Object</label><br/>
 			<input type="radio" id="action_erase" name="action" value="erase"><label for="action_erase">Erase</label> <br/>
 		</div>
 		<div id="block_types">
@@ -324,6 +328,26 @@
 			<div class="level_info_section">
 				<h1><input class="h1_checkbox" type="checkbox" id="main_paddle" name="paddles" onclick="level_info_section('main_paddle')" checked><label for="main_paddle">Main Paddle</label></h1>
 				<p>If disabled, the default values will be used. Enable to edit the main paddle values</p>
+				<ul>
+					<li>
+						<label for="main_paddle_length"><strong>Major Length:&nbsp;&nbsp;</strong></label>
+						<input type="selection" id="main_paddle_length" value="100" name="main_paddle_values" placeholder="100">
+					</li>
+					<li>
+						<label for="main_paddle_length_mod"><strong>Modified Length:&nbsp;&nbsp;</strong></label>
+						<input type="selection" id="main_paddle_length_mod" value="300" name="main_paddle_values" placeholder="300">
+					</li>
+					<br/>
+					<br/>
+					<li>
+						<label for="main_paddle_left_x"><strong>Left-Bound x:&nbsp;&nbsp;</strong></label>
+						<input type="selection" id="main_paddle_left_x" value="0" name="main_paddle_values" placeholder="0">
+					</li>
+					<li>
+						<label for="main_paddle_right_x"><strong>Right-Bound x:&nbsp;&nbsp;</strong></label>
+						<input type="selection" id="main_paddle_right_x" value="960" name="main_paddle_values" placeholder="960">
+					</li>
+				</ul>
 			</div>
 			<div class="level_info_section">
 				<h1><input class="h1_checkbox" type="checkbox" id="modifiers" name="mods" onclick="level_info_section('modifiers')" checked><label for="modifiers">Modifiers</label></h1>
@@ -402,6 +426,8 @@ var SMALL_BLOCK_DIMENSIONS = { width : 75, height : 35 / 2 };
 var BIG_BLOCK_IMAGE = "assets/big_block_green.jpg";
 var SMALL_BLOCK_IMAGE = "assets/small_block_green.jpg";
 var PLACEMENT_BIG_BLOCK, PLACEMENT_SMALL_BLOCK, PLACEMENT_WALL, PLACEMENT_PORTAL;
+var main_paddle_default_length = 100;
+var main_paddle_modded_length = 300;
 
 //holds all of the assets for each type of block that can be placed
 var block_assets = {
@@ -480,6 +506,12 @@ var level_object = {
 
 	blocks : [],
 
+	main_paddle : {
+		major_length : 100,
+		major_modded_length : 300,
+		left_bound_x : 0,
+		right_bound_x : width
+	},
 	paddles : []
 }
 
@@ -631,7 +663,6 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 		{
 			ctx.beginPath();
 		    var img = document.getElementById("wall_" + this.orientation);
-		    //alert( img.src );
 		    var pat = ctx.createPattern( img, "repeat" );
 		    ctx.save();
 		    ctx.fillStyle = pat;
@@ -669,7 +700,6 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 				this.paddle.block.x = this.paddle.xpos;
 
 				if ( this.paddle.block.x + this.paddle.block.width >= this.teleport_point.x || this.paddle.block.x <= this.x ) {
-					console.log("SWITCH");
 					this.paddle.spd *= -1;
 				}
 
@@ -728,7 +758,7 @@ function paddle_code( x1, y1, x2, y2, orientation, width = 100 ) {
 	this.x2 = x2;
 	this.y2 = y2;
 	this.orientation = orientation;
-	this.major_axis = width;
+	this.major_length = width;
 }
 
 var rad = document.placement_form.types;
@@ -887,6 +917,19 @@ function generateLevelInfoCode() {
 	level_object.bonuses.timer_upper_bound = document.getElementById("timer_upper_bound").value;
 	level_object.bonuses.paddle_lower_bound = document.getElementById("paddle_lower_bound").value;
 	level_object.bonuses.paddle_upper_bound = document.getElementById("paddle_upper_bound").value;
+
+	//MAIN PADDLE VALUES
+	if ( document.getElementById("main_paddle").checked ) {
+		level_object.main_paddle.major_length = document.getElementById("main_paddle_length").value;
+		level_object.main_paddle.major_modded_length = document.getElementById("main_paddle_length_mod").value;
+		level_object.main_paddle.left_bound_x = document.getElementById("main_paddle_left_x").value;
+		level_object.main_paddle.right_bound_x = document.getElementById("main_paddle_right_x").value;
+	} else {
+		level_object.main_paddle.major_length = main_paddle_default_length;
+		level_object.main_paddle.major_modded_length = main_paddle_modded_length;
+		level_object.main_paddle.left_bound_x = 0;
+		level_object.main_paddle.right_bound_x = width;
+	}
 }
 
 function printCode() {

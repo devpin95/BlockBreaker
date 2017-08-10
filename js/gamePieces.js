@@ -175,27 +175,27 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 	}
 }
 
-function paddle() {
-	this.width = 100; //default_paddle_width
-	this.height = 7;
-	this.x = (width / 2) - 50;
-	this.y = height - 35;
+function paddle( width = 100, height = 7, x1 = 0, y1 = 0, x2 = 0, y2 = 0, rail = "horizontal" ) {
+	this.width = width; //default_paddle_width
+	this.height = height;
+	this.x = x;
+	this.y = y;
 	this.numberHits = 0;
 	this.image = new Image();
 	this.image.src = "assets/paddle.png";
 	this.color = null;
 	this.sound = new sound( "assets/sound_wall.wav" );
-	this.sound.volume = .2;
+	this.is_main = false;
 
 	this.track = {
-		rail : "x",
+		rail : rail,
 		first_bound : {
-			x : 0,
-			y: 0
+			x : x1,
+			y: y1
 		},
 		second_bound : {
-			x : 0,
-			y: 0
+			x : x2,
+			y: y2
 		}
 	}
 
@@ -298,8 +298,10 @@ function paddle() {
 			return;
 		}
 
-		if ( x <= myGameArea.canvas.width - (this.width/2) && x >= (this.width/2) )
-			this.x = x - (this.width/2);
+		if ( this.track.rail === "horizontal" ) {
+			if ( x <= this.track.left_bound.x - (this.width/2) && x >= (this.width/2) )
+				this.x = x - (this.width/2);
+		}
 	}
 
 	//check if there was a collision with the paddle

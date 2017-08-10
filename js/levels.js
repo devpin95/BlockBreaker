@@ -58,6 +58,11 @@ function buildLevel( level ) {
      //alert(level.blocks[i].teleport_point.is_endpoint);
     }
   }
+
+  for ( var i = 0; i < level.paddles.length; ++i ) {
+     
+  }
+
 }
 
 function level_one() {
