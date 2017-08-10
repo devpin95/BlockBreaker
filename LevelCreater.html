@@ -114,6 +114,17 @@
 			margin-right:20px;
 			display:none;
 		}
+		.selections #paddle_options {
+			margin-right:20px;
+			display:none;
+		}
+		.selections #paddle_options input[type=input]{
+			width:40px;
+			height:20px;
+			border-radius:5px;
+			border:1px solid #aaa;
+			padding:5px 0 5px 10px;
+		}
 		#import-wrapper {
 			display:none;
 		}
@@ -165,12 +176,8 @@
 		}
 		.level_info_section {
 			width:100%;
-			/*border-bottom:1px solid #000;*/
 			padding: 10px 0;
 		}
-		/*[class~='level_info_section']:last-of-type {
-			border:none;
-		}*/
 		.level_info_section .h1_checkbox {
 			margin:0;
 			padding:0;
@@ -259,7 +266,7 @@
 <body onload="startGame()">
 
 <div class="selections">
-	<form name="placement_form">
+	<form name="placement_form" onsubmit="return false;">
 		<div class="macro_actions">
 			<ul>
 				<li><input id="clear" type="button" value="CLEAR" onclick="clearCanvas()"></li>
@@ -275,6 +282,7 @@
 			<input type="radio" id="small_type" name="types" value="small"><label for="small_type">Small Block</label><br/>
 			<input type="radio" id="wall_type" name="types" value="wall"><label for="wall_type">Wall</label><br/>
 			<input type="radio" id="portal_type" name="types" value="portal"><label for="portal_type">Portal</label><br/>
+			<input type="radio" id="paddle_type" name="types" value="paddle"><label for="paddle_type">Paddle</label><br/>
 		</div>
 		<div id="block_colors">
 			<input type="radio" id="green" name="colors" value="green" checked> <label for="green">Green</label><br/>
@@ -286,6 +294,10 @@
 		<div id="portal_colors">
 			<input type="radio" id="blue_portal" name="portal_colors" value="blue" checked><label for="blue_portal">Blue</label> <br/>
 			<input type="radio" for="red_portal" name="portal_colors" value="red"><label for="blue_portal">Red</label><br/>
+		</div>
+		<div id="paddle_options">
+			<label for="paddle_length">Length:&nbsp;&nbsp;</label><input type="input" id="paddle_length" name="paddle_values" value="100" placeholder="100"><br/>
+			<!-- <input type="radio" for="red_portal" name="portal_colors" value="red"><label for="blue_portal">Red</label><br/> -->
 		</div>
 	</form>
 	<div style="clear:both;"></div>
@@ -311,7 +323,7 @@
 		<form name="level_info">
 			<div class="level_info_section">
 				<h1><input class="h1_checkbox" type="checkbox" id="main_paddle" name="paddles" onclick="level_info_section('main_paddle')" checked><label for="main_paddle">Main Paddle</label></h1>
-				<p>Enables the main paddle at the bottom of the game area. If disabled, a new main paddle must be created.</p>
+				<p>If disabled, the default values will be used. Enable to edit the main paddle values</p>
 			</div>
 			<div class="level_info_section">
 				<h1><input class="h1_checkbox" type="checkbox" id="modifiers" name="mods" onclick="level_info_section('modifiers')" checked><label for="modifiers">Modifiers</label></h1>
@@ -354,7 +366,9 @@
 <script src="js/lc_blockPlacement.js"></script>
 <script src="js/lc_wallPlacement.js"></script>
 <script src="js/lc_portalPlacement.js"></script>
+<script src="js/lc_paddlePlacement.js"></script>
 <script src="js/lc_eraseBlocks.js"></script>
+
 <script>
 	
 var mousePos = {
@@ -430,7 +444,8 @@ var selection = {
 		big : false,
 		small : false,
 		wall : false,
-		portal : false
+		portal : false,
+		paddle : false,
 	},
 	color : "green"
 }
@@ -439,7 +454,8 @@ var SCENES = {
 	place : blockPlacementScene,
 	erase : eraseBlocksScene,
 	wall : wallPlacementScene,
-	portal : portalPlacementScene
+	portal : portalPlacementScene,
+	paddle : paddlePlacementScene
 }
 
 var active_block; //keeps track of the block that is currently being placed
@@ -462,7 +478,9 @@ var level_object = {
 		paddle_upper_bound : 40
 	},
 
-	blocks : []
+	blocks : [],
+
+	paddles : []
 }
 
 function startGame() {
@@ -474,6 +492,7 @@ function startGame() {
 
 	SCENES.wall.setup();
 	SCENES.portal.setup();
+	SCENES.paddle.setup();
 
 	myGameArea.start( );
 }
@@ -491,6 +510,10 @@ var myGameArea = {
         window.addEventListener('keydown', function(e) {
         	//send the keyup event to the active scene 
         	pressed_buttons[ e.keyCode ] = true;
+        	if( e.keyCode == 32 && e.target == document.body ) {
+        		//if e is spacebar, stop it from scrolling the goddamn page
+				e.preventDefault();
+			}
         	ACTIVE_SCENE.buttonPress( e );
         })
 
@@ -564,14 +587,21 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 	this.y = y;
 	this.is_wall = false;
 	this.is_portal = false;
+	this.is_paddle = false;
 	this.orientation = null;
 	this.teleport_point = {
 		x : null,
 		y: null,
 		is_a_portal : false
 	};
+	this.paddle = {
+		xpos : this.x,
+		ypos : this.y,
+		spd : 3,
+		block : null
+	}
 	this.health = health;
-	if ( type == "image" ) {
+	if ( type === "image" || type === "paddle" ) {
 		this.image = new Image();
 		this.image.src = color;
 	}
@@ -592,20 +622,13 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 		// else if ( SCENES.wall.orientation == "horizontal" ) ctx = document.getElementById("horizontal_walls").getContext("2d");
 		// else if ( SCENES.wall.orientation == "vertical" ) ctx = document.getElementById("vertical_walls").getContext("2d");
 
-		if ( type == "color" ) {
+		if ( type == "color" ) 
+		{
 			ctx.fillStyle = color;
 			ctx.fillRect( this.x, this.y, this.width, this.height );
-		} else if ( this.is_wall ) {
-
-			// if ( this.orientation == "horizontal" ) {
-			// 	//draw the end caps
-			// 	ctx.drawImage(this.cap_image, this.x - (5/2), this.y - (5/2), 25, 25);
-			// 	ctx.drawImage(this.cap_image, (this.x + this.width) - 24, this.y - (5/2), 25, 25);
-			// } else {
-			// 	ctx.drawImage(this.cap_image, this.x - (5/2), this.y - (5/2), 25, 25);
-			// 	ctx.drawImage(this.cap_image, (this.x + this.width) - 24, this.y - (5/2), 25, 25);
-			// }
-			
+		} 
+		else if ( this.is_wall ) 
+		{
 			ctx.beginPath();
 		    var img = document.getElementById("wall_" + this.orientation);
 		    //alert( img.src );
@@ -616,7 +639,8 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 		    ctx.fillRect(0, 0, this.width, this.height);
 		    ctx.restore();
 		} 
-		else if ( this.is_portal ) {
+		else if ( this.is_portal ) 
+		{
 			ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
 
 			ctx.globalCompositeOperation='destination-over';
@@ -628,7 +652,48 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 			ctx.stroke();
 
 		}
-		else /*( type == "image" )*/ {
+		else if ( this.is_paddle ) 
+		{
+			if ( this.paddle.block === null ) {
+				//width, height, color, x, y, health = 1, type = "color"
+				if ( this.orientation === "horizontal" ) {
+					this.paddle.block = new block( this.width, 5, "assets/paddle.png", this.x, this.y - 2.5, "image"  );
+				} else if ( this.orientation === "vertical" ) {
+					this.paddle.block = new block( 5, this.width, "assets/paddle.png", this.x - 2.5, this.y - 100, "image"  );
+				}
+			}
+
+			if ( this.orientation === "horizontal" ) {
+				// alert("HORIZ");
+				this.paddle.xpos += this.paddle.spd;
+				this.paddle.block.x = this.paddle.xpos;
+
+				if ( this.paddle.block.x + this.paddle.block.width >= this.teleport_point.x || this.paddle.block.x <= this.x ) {
+					console.log("SWITCH");
+					this.paddle.spd *= -1;
+				}
+
+			} else if ( this.orientation === "vertical" ) {
+				this.paddle.ypos += this.paddle.spd;
+				this.paddle.block.y = this.paddle.ypos;
+
+				if ( this.paddle.block.y + this.paddle.block.height >= this.teleport_point.y || this.paddle.block.y <= this.y ) {
+					this.paddle.spd *= -1;
+				}
+			}
+
+			this.paddle.block.update();
+
+			ctx.globalCompositeOperation='destination-over';
+			ctx.setLineDash([2, 4]);/*dashes are 5px and spaces are 3px*/
+			ctx.beginPath();
+			ctx.moveTo( this.x, this.y );
+			ctx.lineTo( this.teleport_point.x, this.teleport_point.y );
+			ctx.strokeStyle = '#00f';
+			ctx.stroke();
+		}
+		else /*( type == "image" )*/ 
+		{
 			ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
 		}
 		//edges
@@ -657,18 +722,24 @@ function placement_code( width, height, src, x, y, type, orientation = null, hea
 	}
 }
 
+function paddle_code( x1, y1, x2, y2, orientation, width = 100 ) {
+	this.x1 = x1;
+	this.y1 = y1;
+	this.x2 = x2;
+	this.y2 = y2;
+	this.orientation = orientation;
+	this.major_axis = width;
+}
+
 var rad = document.placement_form.types;
 var prev = null;
 for(var i = 0; i < rad.length; ++i) {
     rad[i].onclick = function() {
         (prev)? selection.blocks[prev.value] = false : null;
-        //console.log( this.value );
-        //selection.blocks[prev.value] = false;
         if(this !== prev) {
             prev = this;
         }
         selection.blocks[prev.value] = true;
-        ///console.log( prev.value );
 
         if ( prev.value == "big" ) 
         {
@@ -678,6 +749,7 @@ for(var i = 0; i < rad.length; ++i) {
         	ACTIVE_SCENE = SCENES.place;
         	document.getElementById("block_colors").style.display = "block";
         	document.getElementById("portal_colors").style.display = "none";
+        	document.getElementById("paddle_options").style.display = "none";
         } 
 
         else if ( prev.value == "small" )
@@ -688,6 +760,7 @@ for(var i = 0; i < rad.length; ++i) {
         	ACTIVE_SCENE = SCENES.place;
         	document.getElementById("block_colors").style.display = "block";
         	document.getElementById("portal_colors").style.display = "none";
+        	document.getElementById("paddle_options").style.display = "none";
         } 
 
         else if ( prev.value == "wall" )
@@ -695,6 +768,8 @@ for(var i = 0; i < rad.length; ++i) {
         	active_block = PLACEMENT_WALL;
     		ACTIVE_SCENE = SCENES.wall;
     		document.getElementById("block_colors").style.display = "none";
+    		document.getElementById("paddle_options").style.display = "none";
+    		document.getElementById("portal_colors").style.display = "none";
     	} 
 
     	else if ( prev.value == "portal" )
@@ -704,7 +779,15 @@ for(var i = 0; i < rad.length; ++i) {
     		//reset the selection color to that of the portal-colors radio buttons
     		selection.color = document.querySelector('input[name="portal_colors"]:checked').value;
     		document.getElementById("block_colors").style.display = "none";
+    		document.getElementById("paddle_options").style.display = "none";
     		document.getElementById("portal_colors").style.display = "block";
+    	}
+
+    	else if ( prev.value == "paddle" ) {
+    		ACTIVE_SCENE = SCENES.paddle;
+    		document.getElementById("block_colors").style.display = "none";
+    		document.getElementById("portal_colors").style.display = "none";
+    		document.getElementById("paddle_options").style.display = "block";
     	}
 
         PLACEMENT_BIG_BLOCK.x = -100;
