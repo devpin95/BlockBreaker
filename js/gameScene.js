@@ -17,6 +17,8 @@ var gameScene = {
 
 		myPaddle.width = default_paddle_width;
 
+		paddles.push(myPaddle);
+
 		balls.push( new ball( 15, 15, default_ball_image, 0, 0, "image" ) );
 		GAME_STATE.BALL_READY = true;
 
@@ -180,8 +182,14 @@ var gameScene = {
 			
 				//check for a collision with a paddle
 				//if a ball hit the paddle, reset it's streak
-				if ( myPaddle.collision( balls[i] ) ) {
-					balls[i].streak = 0;
+				// if ( myPaddle.collision( balls[i] ) ) {
+				// 	balls[i].streak = 0;
+				// }
+
+				for ( var j = 0; j < paddles.length; ++j ) {
+					if ( paddles[j].collision( balls[i] ) ) {
+						balls[i].streak = 0;
+					}
 				}
 
 				//check for collisions with the blocks
