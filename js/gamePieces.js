@@ -164,7 +164,7 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 				// debug_current_block.y = this.y;
 				// debug_current_block.width = this.width;
 				// debug_current_block.height = this.height;
-				slopeTrace( ball, block );
+				return slopeTrace( ball, block );
 			} else {
 				ball.spdY *= -1;
 			}
@@ -175,11 +175,11 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 	}
 }
 
-function paddle( width = 100, height = 7, x1 = 0, y1 = 0, x2 = 0, y2 = 0, rail = "horizontal" ) {
+function paddle( width = 100, height = 7, x1 = 0, y1 = 500, x2 = 960, y2 = 500, rail = "horizontal" ) {
 	this.width = width; //default_paddle_width
 	this.height = height;
-	this.x = x;
-	this.y = y;
+	this.x = x1;
+	this.y = y1;
 	this.numberHits = 0;
 	this.image = new Image();
 	this.image.src = "assets/paddle.png";
@@ -299,8 +299,13 @@ function paddle( width = 100, height = 7, x1 = 0, y1 = 0, x2 = 0, y2 = 0, rail =
 		}
 
 		if ( this.track.rail === "horizontal" ) {
-			if ( x <= this.track.left_bound.x - (this.width/2) && x >= (this.width/2) )
+			//alert( x >= this.width/2 && x <= width - (this.width/2) );
+			//if ( x >= this.width/2 && x <= width - (this.width/2) ) {
+			if ( x >= this.track.first_bound.x + (this.width/2) && x <= this.track.second_bound.x - (this.width/2) ) {
 				this.x = x - (this.width/2);
+			}
+		} else {
+			alert("WAT");
 		}
 	}
 

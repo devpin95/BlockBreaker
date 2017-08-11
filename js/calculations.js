@@ -5,6 +5,11 @@ function slopeTrace( ball, block ) {
 	var cont = false;
 	var message;
 
+	var collided_with = {
+		top_bottom : false,
+		left_right : false
+	}
+
 	//debug_current_block.update();
 
 	for ( var i = 0; i < 100; ++i ) {
@@ -21,14 +26,16 @@ function slopeTrace( ball, block ) {
 			//ball can only hit top or left
 			if ( new_x <= block.left_edge ) {
 				//left
-				ball.spdX *= -1;
+				//ball.spdX *= -1;
+				collided_with.left_right = true;
 				cont = true;
 				//ball.x = block.left_edge - ball.width;
 				message = "1 : left";
 			} 
 			else if ( new_y <= block.top_edge ) {
 				//bottom
-				ball.spdY *= -1;
+				//ball.spdY *= -1;
+				collided_with.top_bottom = true;
 				cont = true;
 				//ball.y = block.bottom_edge;
 				message = "1 : top";
@@ -42,14 +49,16 @@ function slopeTrace( ball, block ) {
 			//ball can only hit top or right
 			if ( new_x >= block.right_edge ) {
 				//right
-				ball.spdX *= -1;
+				//ball.spdX *= -1;
+				collided_with.left_right = true;
 				cont = true;
 				//ball.x = block.right_edge;
 				message = "2 : right";
 			} 
 			else if ( new_y >= block.bottom_edge ) {
 				//top
-				ball.spdY *= -1;
+				//ball.spdY *= -1;
+				collided_with.top_bottom = true;
 				cont = true;
 				//ball.y = block.top_edge - ball.height;
 				message = "2 : bottom";
@@ -63,14 +72,16 @@ function slopeTrace( ball, block ) {
 			//ball can only hit bottom or left
 			if ( new_x <= block.left_edge ) {
 				//left
-				ball.spdX *= -1;
+				//ball.spdX *= -1;
+				collided_with.left_right = true;
 				cont = true;
 				//ball.x = block.left_edge - ball.width;
 				message = "3 : left";
 			} 
 			else if ( new_y >= block.bottom_edge ) {
 				//top
-				ball.spdY *= -1;
+				//ball.spdY *= -1;
+				collided_with.top_bottom = true;
 				cont = true;
 				//ball.y = block.top_edge - ball.height;
 				message = "3 : Bottom";
@@ -83,14 +94,16 @@ function slopeTrace( ball, block ) {
 			//ball can only hit top or right
 			if ( new_x >= block.right_edge ) {
 				//right
-				ball.spdX *= -1;
+				//ball.spdX *= -1;
+				collided_with.left_right = true;
 				cont = true;
 				//ball.x = block.right_edge;
 				message = "4 : right";
 			} 
 			else if ( new_y <= block.top_edge ) {
 				//bottom
-				ball.spdY *= -1;
+				//ball.spdY *= -1;
+				collided_with.top_bottom = true;
 				cont = true;
 				//ball.y = block.bottom_edge;
 				message = "4 : top";
@@ -104,18 +117,20 @@ function slopeTrace( ball, block ) {
 			} else if ( ball.spdY > 0 ) {
 				//ball.y = block.top_edge - ball.height;
 			}
-			ball.spdY *= -1;
+			//ball.spdY *= -1;
+			collided_with.top_bottom = true;
 		 	cont = true;
 		}
 
 		if ( cont == true ) {
-			break;
+			//break;
+			return collided_with;
 		} else if ( i == 99 ) {
 			//alert(message);
 		}
 	}
 
-	//calculate if the center is passed an edge or outside the block
+	return null;
 	
 }
 

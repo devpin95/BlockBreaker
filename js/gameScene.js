@@ -80,8 +80,11 @@ var gameScene = {
 				myGameArea.context.fillText( "Click to launch ball", myPaddle.x + ( myPaddle.width / 2 ), myPaddle.y - 40 );
 			}
 
-			myPaddle.newPos( mousePos.x, mousePos.y );
-			myPaddle.update();
+			// alert("KEK");
+			//console.log(myPaddle);
+			// myPaddle.newPos( mousePos.x, mousePos.y );
+			// myPaddle.update();
+			// alert("HEH");
 
 			//delete a block that was marked for deletion on the previous frame
 			if ( block_to_delete != -1 ) {
@@ -187,6 +190,8 @@ var gameScene = {
 				// }
 
 				for ( var j = 0; j < paddles.length; ++j ) {
+					paddles[j].newPos(mousePos.x, mousePos.y);
+					paddles[j].update();
 					if ( paddles[j].collision( balls[i] ) ) {
 						balls[i].streak = 0;
 					}
@@ -195,8 +200,20 @@ var gameScene = {
 				//check for collisions with the blocks
 				for ( var j = 0; j < blocks.length; ++j ) {
 
+					//check the collision between the ball and the block
+					var collided_with = blocks[j].collision( balls[i] );
+
 					//if a ball is colliding with a block, prepare that block for deletion and increment the balls streak
-					if ( blocks[j].collision( balls[i] ) ) {
+					//decide how the ball should bounce
+					if ( collided_with != null ) {
+
+						//change the velocity of the ball
+						if ( collided_with.left_right ) {
+							balls[i].spdX *= -1;
+						} else {
+							balls[i].spdY *= -1;
+						}
+
 						block_to_delete = j; //prepare block to be deleted on next frame
 						++balls[i].streak;
 						if ( balls[i].streak >= 2 ) {
@@ -205,6 +222,17 @@ var gameScene = {
 							UI.score.add( streak_multiplyer * balls[i].streak * block_score_multiplyer );
 						}
 					}
+
+					//if a ball is colliding with a block, prepare that block for deletion and increment the balls streak
+					// if ( blocks[j].collision( balls[i] ) ) {
+					// 	block_to_delete = j; //prepare block to be deleted on next frame
+					// 	++balls[i].streak;
+					// 	if ( balls[i].streak >= 2 ) {
+					// 		streaks.push( new streak( blocks[ block_to_delete ].center.x, blocks[ block_to_delete ].center.y, "+" + ( streak_multiplyer * balls[i].streak * block_score_multiplyer ) ) );
+					// 		player.score += streak_multiplyer * balls[i].streak * block_score_multiplyer;
+					// 		UI.score.add( streak_multiplyer * balls[i].streak * block_score_multiplyer );
+					// 	}
+					// }
 
 					blocks[j].update();
 				}
