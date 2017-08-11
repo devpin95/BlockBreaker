@@ -259,6 +259,8 @@
 			border:none;
 			width:100%;
 			margin-top:10px;
+			padding-left:20px;
+			border-left:2px solid #444;
 		}
 
 		#code:focus {
@@ -335,7 +337,7 @@
 					</li>
 					<li>
 						<label for="main_paddle_length_mod"><strong>Modified Length:&nbsp;&nbsp;</strong></label>
-						<input type="selection" id="main_paddle_length_mod" value="300" name="main_paddle_values" placeholder="300">
+						<input type="selection" id="main_paddle_length_mod" value="175" name="main_paddle_values" placeholder="175">
 					</li>
 					<br/>
 					<br/>
@@ -427,8 +429,8 @@ var BIG_BLOCK_IMAGE = "assets/big_block_green.jpg";
 var SMALL_BLOCK_IMAGE = "assets/small_block_green.jpg";
 var PLACEMENT_BIG_BLOCK, PLACEMENT_SMALL_BLOCK, PLACEMENT_WALL, PLACEMENT_PORTAL;
 var main_paddle_default_length = 100;
-var main_paddle_modded_length = 300;
-
+var main_paddle_modded_length = 175;
+ 
 //holds all of the assets for each type of block that can be placed
 var block_assets = {
 	big : {
@@ -507,6 +509,7 @@ var level_object = {
 	blocks : [],
 
 	main_paddle : {
+		default : true,
 		major_length : 100,
 		major_modded_length : 300,
 		left_bound_x : 0,
@@ -902,6 +905,7 @@ function validPlacement( blk ) {
 function clearCanvas( ) {
 	test_blocks = [];
 	level_object.blocks = [];
+	level_object.paddles = [];
 	document.getElementById("code").innerHTML = "";
 }
 
@@ -920,11 +924,13 @@ function generateLevelInfoCode() {
 
 	//MAIN PADDLE VALUES
 	if ( document.getElementById("main_paddle").checked ) {
+		level_object.main_paddle.default = false;
 		level_object.main_paddle.major_length = document.getElementById("main_paddle_length").value;
 		level_object.main_paddle.major_modded_length = document.getElementById("main_paddle_length_mod").value;
 		level_object.main_paddle.left_bound_x = document.getElementById("main_paddle_left_x").value;
 		level_object.main_paddle.right_bound_x = document.getElementById("main_paddle_right_x").value;
 	} else {
+		level_object.main_paddle.default = true;
 		level_object.main_paddle.major_length = main_paddle_default_length;
 		level_object.main_paddle.major_modded_length = main_paddle_modded_length;
 		level_object.main_paddle.left_bound_x = 0;
