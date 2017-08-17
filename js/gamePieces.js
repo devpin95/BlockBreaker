@@ -58,9 +58,10 @@ function ball( width, height, color, x, y, type = "color" ) {
 	}
 
 	this.update = function() {
+
 		if ( !this.free ) {
-			this.x = ( myPaddle.x + ( myPaddle.width / 2 ) ) - (this.width / 2);
-		 	this.y = myPaddle.y - this.height;
+			this.x = ( myPaddle.bounding_box.x + ( myPaddle.bounding_box.width / 2 ) ) - (this.width / 2);
+			this.y = myPaddle.bounding_box.y - this.height;
 		}
 
 		ctx = myGameArea.context;
@@ -69,7 +70,15 @@ function ball( width, height, color, x, y, type = "color" ) {
 			ctx.fillStyle = color;
 			ctx.fillRect( this.x, this.y, this.width, this.height );
 		} else if ( type == "image" ) {
-			ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+			if ( !this.free ) {
+				//draw the ball as if it was sitting on the paddle
+				//when it is really sitting above the paddle
+				ctx.drawImage(this.image, myPaddle.x + ( myPaddle.width / 2 ) - (this.width / 2), myPaddle.y - this.height, this.width, this.height );
+			}
+			else {
+				//draw the ball in it's true location
+				ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+			}
 		}
 
 		//draw the flight path line
@@ -137,6 +146,11 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 	this.right_edge = this.left_edge + this.width;
 
 	this.update = function() {
+		this.top_edge = this.y;
+		this.bottom_edge = this.top_edge + this.height;
+		this.left_edge = this.x;
+		this.right_edge = this.left_edge + this.width;
+
 		ctx = myGameArea.context;
 		if ( type == "color" ) {
 			ctx.fillStyle = color;
@@ -152,26 +166,44 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 		this.y += this.spdY;
 	}
 
-	this.collision = function( ball ) {
-		var block = this;
-		if (ball.x < block.x + block.width &&
-			ball.x + ball.width > block.x &&
-			ball.y < block.y + block.height &&
-			ball.height + ball.y > block.y ) 
-		{
-			if ( isFinite( ball.equation.slope )  ) {
-				// debug_current_block.x = this.x;
-				// debug_current_block.y = this.y;
-				// debug_current_block.width = this.width;
-				// debug_current_block.height = this.height;
-				return slopeTrace( ball, block );
-			} else {
-				ball.spdY *= -1;
-			}
+	this.collision = function( bouncingRect ) {
+		var centerRect = this;
+		var hit = {
+			left_right : false,
+			top_bottom : false
+		};
 
-			this.sound.play();
-			return true;
+		if ( !bouncingRect.free ) {
+			return null;
 		}
+
+		var coll = RectangleRectangleCollision( bouncingRect, centerRect );
+
+		if ( coll !== null ) {
+			//play the sound
+			this.sound.play();
+		}
+
+		return coll;
+
+		// if (ball.x < block.x + block.width &&
+		// 	ball.x + ball.width > block.x &&
+		// 	ball.y < block.y + block.height &&
+		// 	ball.height + ball.y > block.y ) 
+		// {
+		// 	if ( isFinite( ball.equation.slope )  ) {
+		// 		// debug_current_block.x = this.x;
+		// 		// debug_current_block.y = this.y;
+		// 		// debug_current_block.width = this.width;
+		// 		// debug_current_block.height = this.height;
+		// 		return slopeTrace( ball, block );
+		// 	} else {
+		// 		ball.spdY *= -1;
+		// 	}
+
+		// 	this.sound.play();
+		// 	return true;
+		// }
 	}
 }
 
@@ -186,6 +218,14 @@ function paddle( width = 100, height = 7, x1 = 0, y1 = 500, x2 = 960, y2 = 500, 
 	this.color = null;
 	this.sound = new sound( "assets/sound_wall.wav" );
 	this.is_main = false;
+	//width, height, color, x, y, health = 1, type = "color"
+	this.bounding_box = null;
+
+	if ( rail === "vertical" ) {
+		var temp = this.width;
+		this.width = this.height;
+		this.height = temp;
+	}
 
 	this.track = {
 		rail : rail,
@@ -210,6 +250,8 @@ function paddle( width = 100, height = 7, x1 = 0, y1 = 500, x2 = 960, y2 = 500, 
 
 	this.update = function() {
 		ctx = myGameArea.context;
+
+		this.bounding_box.width = this.width;
 
 		if ( GAME_SETTINGS.paddle.papa_paddle ) {
 			this.width = width;
@@ -280,95 +322,132 @@ function paddle( width = 100, height = 7, x1 = 0, y1 = 500, x2 = 960, y2 = 500, 
 			ctx.fillRect( this.x, this.y, this.width, this.height );
 		}
 		else {
-			ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+			this.bounding_box.update();
+			if ( this.track.rail === "horizontal" ) 
+			{
+				ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+			} 
+			else if ( this.track.rail === "vertical" ) 
+			{
+			 ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+			}
+		}
+	}
+
+	//move the paddle as the mouse moves within the bounds of the canvas
+	this.newPos = function( x, y ) {
+
+		//initialize a bounding box for the paddle for use in collision detection
+		if ( this.bounding_box === null ) {
+			if ( this.track.rail === "horizontal" ) {
+				this.bounding_box = new block( this.width, this.height + 20, "rgba(255, 0, 0, 0)", this.x, this.y - 10 );
+			}
+			else if ( this.track.rail === "vertical" ) {
+				this.bounding_box = new block( this.height, this.width + 20, "rgba(255, 0, 0, 0)", this.x, this.y - 10 );
+			}
 		}
 
+		if ( GAME_SETTINGS.paddle.papa_paddle ) {
+			this.x = 0;
+			return;
+		}
 
-		//edges
+		if ( this.track.rail === "horizontal" ) 
+		{
+			if ( x >= this.track.first_bound.x + (this.width/2) && x <= this.track.second_bound.x - (this.width/2) ) 
+			{
+				this.x = x - (this.width/2);
+				this.bounding_box.x = this.x;
+			}
+		}
+		else if ( this.track.rail === "vertical" ) 
+		{
+			if ( y >= this.track.first_bound.y + (this.width/2) && y <= this.track.second_bound.y - (this.width/2) ) 
+			{
+				this.y = y - (this.width/2);
+				this.bounding_box.y = this.y - 10;
+			}
+		}
+
 		this.top_edge = this.y;
 		this.bottom_edge = this.top_edge + this.height;
 		this.left_edge = this.x;
 		this.right_edge = this.left_edge + this.width;
 	}
 
-	//move the paddle as the mouse moves within the bounds of the canvas
-	this.newPos = function( x, y ) {
-		if ( GAME_SETTINGS.paddle.papa_paddle ) {
-			this.x = 0;
+	//check if there was a collision with the paddle
+	this.collision = function( bouncingRect, is_mod = false ) {
+		var centerRect = this;
+
+		if ( is_mod ) {
+			if ( RectangleRectangleCollision( bouncingRect, this ) !== null ) {
+				return true;
+			}
+		}
+
+		var collided_with = RectangleRectangleCollision( bouncingRect, centerRect );
+		this.bounceBack( bouncingRect, collided_with );
+		return collided_with;
+	}
+
+	this.bounceBack = function( obj, collided_with = null ) {
+
+		if ( collided_with === null ) {
 			return;
 		}
 
-		if ( this.track.rail === "horizontal" ) {
-			//alert( x >= this.width/2 && x <= width - (this.width/2) );
-			//if ( x >= this.width/2 && x <= width - (this.width/2) ) {
-			if ( x >= this.track.first_bound.x + (this.width/2) && x <= this.track.second_bound.x - (this.width/2) ) {
-				this.x = x - (this.width/2);
-			}
-		} else {
-			alert("WAT");
-		}
-	}
+		if ( collided_with.left_right && this.track.rail === "vertical" ) 
+		{
+			var total_paddle_width = this.height;
+			var ypos = obj.y + (obj.height / 2);
+			var xpercentage = (ypos - this.y) / total_paddle_width;
+			//alert( ypos + " - " + this.x + " / " + total_paddle_width + " = " + xpercentage + "%" );
 
-	//check if there was a collision with the paddle
-	this.collision = function( obj ) {
-
-		//if the left most side is less than the width of the paddle or the right most side is greater than the x position
-		//and the bottom side is less that the top of the paddle
-		if ( ( obj.x <= this.x + this.width && obj.x + obj.width >= this.x ) && ( obj.y + obj.height >= this.y && obj.y <= this.y + this.height ) ) {
-			//move the ball to the top of the paddle so that it doesnt get stuck bouncing within the paddle
-			obj.y = this.top_edge - obj.height;
-
-
-			if ( GAME_SETTINGS.paddle.papa_paddle ) {
+			//now, find where the ball is along the length of the paddle
+			//and determine how the ball will bounce
+			if ( xpercentage < .40 ) {
+				//if the ball hits the left 40% of the paddle, multiply by the negative max speed by the location of the ball on the left 50% of the paddle
+				var left_percentage = (.50 - xpercentage) / .50;
+				obj.spdX = ( obj.spdX >= 0 ? -1 : 1 ) * maxBallSpeed;
+				obj.spdY = ( maxBallSpeed * left_percentage ) * -1;
+			} else if ( xpercentage >= .40 && xpercentage <= .60 ) {
+				//if the ball hits the middle 20% of the paddle, 40%-60%, the ball just changes it's Y speed
 				obj.spdY *= -1;
-
-				if ( mousePos.x < width / 2 && obj.spdX > 0 ) {
-					obj.spdX *= -1;	
-				} else if ( mousePos.x >= width / 2 && obj.spdX < 0  ) {
-					obj.spdX *= -1;
-				}
-			} 
-
-			else {
-				//bounce the ball off the paddle based on it's position
-				this.bounceBack(obj);
-				if ( obj.free ) {
-					++this.numberHits;
-				}
+			} else if ( xpercentage > .60 ) {
+				//if the ball hits the right 40% of the paddle, multiple by the max speed and the location of the ball of the right 50% of the paddle
+				var right_percentage = (xpercentage - .50) / .50;
+				obj.spdX = ( obj.spdX >= 0 ? -1 : 1 ) * maxBallSpeed;
+				obj.spdY = (maxBallSpeed * right_percentage);
 			}
+		} 
+		else if ( collided_with.top_bottom && this.track.rail === "horizontal" ) 
+		{
+			var total_paddle_width = this.width;
+			var xpos = obj.x + (obj.width / 2);
+			var xpercentage = (xpos - this.x) / total_paddle_width;
+			//console.log( xpos + " - " + this.x + " / " + total_paddle_width + " = " + xpercentage + "%" );
 
-			if ( obj.free ) {
-				this.sound.stop();
-				this.sound.play();
+			//now, find where the ball is along the length of the paddle
+			//and determine how the ball will bounce
+			if ( xpercentage < .40 ) 
+			{
+				//if the ball hits the left 40% of the paddle, multiply by the negative max speed by the location of the ball on the left 50% of the paddle
+				var left_percentage = (.50 - xpercentage) / .50;
+				obj.spdX = ( maxBallSpeed * left_percentage ) * -1;
+				obj.spdY = ( obj.spdY >= 0 ? -1 : 1 ) * maxBallSpeed;
 			}
-
-			return true;
-		}
-		return false;
-	}
-
-	this.bounceBack = function( obj ) {
-		//first, get the location of the ball in relation to the length of the paddle and turn it into a percentage
-		var total_paddle_width = this.width;
-		var xpos = obj.x + (obj.width / 2);
-		var xpercentage = (xpos - this.x) / total_paddle_width;
-		//console.log( xpos + " - " + this.x + " / " + total_paddle_width + " = " + xpercentage + "%" );
-
-		//now, find where the ball is along the length of the paddle
-		//and determine how the ball will bound
-		if ( xpercentage < .40 ) {
-			//if the ball hits the left 40% of the paddle, multiply by the negative max speed by the location of the ball on the left 50% of the paddle
-			var left_percentage = (.50 - xpercentage) / .50;
-			obj.spdX = ( maxBallSpeed * left_percentage ) * -1;
-			obj.spdY *= -1;
-		} else if ( xpercentage >= .40 && xpercentage <= .60 ) {
-			//if the ball hits the middle 20% of the paddle, 40%-60%, the ball just changes it's Y speed
-			obj.spdY *= -1;
-		} else if ( xpercentage > .60 ) {
-			//if the ball hits the right 40% of the paddle, multiple by the max speed and the location of the ball of the right 50% of the paddle
-			var right_percentage = (xpercentage - .50) / .50;
-			obj.spdX = (maxBallSpeed * right_percentage);
-			obj.spdY *= -1;
+			else if ( xpercentage >= .40 && xpercentage <= .60 ) 
+			{
+				//if the ball hits the middle 20% of the paddle, 40%-60%, the ball just changes it's Y speed
+				obj.spdY *= -1;
+			}
+			else if ( xpercentage > .60 ) 
+			{
+				//if the ball hits the right 40% of the paddle, multiple by the max speed and the location of the ball of the right 50% of the paddle
+				var right_percentage = (xpercentage - .50) / .50;
+				obj.spdX = (maxBallSpeed * right_percentage);
+				obj.spdY = ( obj.spdY >= 0 ? -1 : 1 ) * maxBallSpeed;
+			}
 		}
 	}
 }

@@ -1,4 +1,48 @@
 var debug_current_block;
+
+function RectangleRectangleCollision( bouncingRect, centerRect ) {
+	//RectangleRectangleCollision()
+	//Determines if the passed object is colliding with the block and which edge it is colliding with.
+	//Returns JSON with left_right and top_bottom values. If true, object is colliding with one of the edges
+	//If no collision is occuring, null will be returned. 
+	//The passed in object must have an x, y, width, height, x velocity, and y velocity
+	//If both objects are moving, update both positions before checking for a collision
+	//
+	//Collision detection method: http://happycoding.io/tutorials/processing/collision-detection
+
+	//object to hold which edges are colliding between the 2 rectangles
+	var bouncing = {
+		left_right : false,
+		top_bottom : false,
+	}
+
+	//check if next x position will collide with the block
+	if (bouncingRect.x + bouncingRect.width + bouncingRect.spdX > centerRect.x && 
+      bouncingRect.x + bouncingRect.spdX < centerRect.x + centerRect.width && 
+      bouncingRect.y + bouncingRect.height > centerRect.y && 
+      bouncingRect.y < centerRect.y + centerRect.height) 
+	{
+    	bouncing.left_right = true;
+  	}
+
+  	//check if next y position will collide with the block
+  	if (bouncingRect.x + bouncingRect.width > centerRect.x && 
+      bouncingRect.x < centerRect.x + centerRect.width && 
+      bouncingRect.y + bouncingRect.height + bouncingRect.spdY > centerRect.y && 
+      bouncingRect.y + bouncingRect.spdY < centerRect.y + centerRect.height) 
+  	{
+    	bouncing.top_bottom = true;
+  	}
+
+  	//if bouncingRect is hitting neither top/bottom nor left/right, return null
+  	if ( !bouncing.top_bottom && !bouncing.left_right ) {
+		return null;
+	}
+
+	//otherwise, return the bouncing object
+  	return bouncing;
+}
+
 function slopeTrace( ball, block ) {
 	var new_x = Math.round( ball.center.x );
 	var new_y = Math.round( ball.center.y );

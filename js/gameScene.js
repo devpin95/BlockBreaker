@@ -128,7 +128,7 @@ var gameScene = {
 				}
 
 				//check for a collision with the paddle
-				if ( myPaddle.collision( mods[i] ) ) {
+				if ( myPaddle.collision( mods[i], true ) ) {
 					if ( mods[i] instanceof mod_stretch ) {
 						//if there is a stretch mod already active, reset the stretch timer and make mod[i] unactive so that is is deleted on the next frame
 						//otherwise, set the stretch mod pointer to point the mods[i] as the new active stretch mod
@@ -192,7 +192,36 @@ var gameScene = {
 				for ( var j = 0; j < paddles.length; ++j ) {
 					paddles[j].newPos(mousePos.x, mousePos.y);
 					paddles[j].update();
-					if ( paddles[j].collision( balls[i] ) ) {
+
+					// var collided_with = paddles[j].collision( balls[i] );
+
+					// if ( collided_with !== null ) {
+					// 	balls[i].streak = 0;
+
+					// 	if ( collided_with.top_bottom ) {
+					// 		balls[i].spdY *= -1;
+					// 		if ( balls[i].spdX >= 0 ) {
+					// 			if ( balls[i].spdY >= 0 ) {
+					// 				balls[i].y = paddles[j].y - balls[i].height;
+					// 			}
+					// 			else if ( balls[i].spdY <= 0 ) {
+					// 				balls[i].y = paddles[j].y;
+					// 			}
+					// 		}
+					// 	} else if ( collided_with.left_right ) {
+					// 		balls[i].spdX *= -1;
+					// 		if ( balls[i].spdX <= 0 ) {
+					// 			if ( balls[i].spdY >= 0 ) {
+					// 				balls[i].y = paddles[j].y - balls[i].height;
+					// 			}
+					// 			else if ( balls[i].spdY <= 0 ) {
+					// 				balls[i].y = paddles[j].y;
+					// 			}
+					// 		}
+					// 	}
+					// }
+
+					if ( paddles[j].collision( balls[i] ) !== null ) {
 						balls[i].streak = 0;
 					}
 				}
@@ -205,7 +234,7 @@ var gameScene = {
 
 					//if a ball is colliding with a block, prepare that block for deletion and increment the balls streak
 					//decide how the ball should bounce
-					if ( collided_with != null ) {
+					if ( collided_with !== null ) {
 
 						//change the velocity of the ball
 						if ( collided_with.left_right ) {
@@ -215,6 +244,7 @@ var gameScene = {
 						}
 
 						block_to_delete = j; //prepare block to be deleted on next frame
+						
 						++balls[i].streak;
 						if ( balls[i].streak >= 2 ) {
 							streaks.push( new streak( blocks[ block_to_delete ].center.x, blocks[ block_to_delete ].center.y, "+" + ( streak_multiplyer * balls[i].streak * block_score_multiplyer ) ) );
