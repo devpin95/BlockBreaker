@@ -195,7 +195,7 @@
 	    },
 
 	    collision : function( obj ) {  	
-	    	if ( obj.x + obj.spdX <= 0 || obj.x + obj.spdX >= width ) {
+	    	if ( obj.x + obj.spdX <= 0 || obj.x + obj.width + obj.spdX >= width ) {
 	    		obj.spdX *= -1;
 	    		this.sound.play();
 	    	}
