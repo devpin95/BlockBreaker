@@ -81,7 +81,6 @@ function buildLevel( level ) {
 
      //OTHER PADDLES
      if ( !(level.paddles == null) ) {
-          alert("THERE BE PADDLES, BOOOOOOOY");
           for ( var i = 0; i < level.paddles.length; ++i ) {
                //width = 100, height = 7, x1 = 0, y1 = 0, x2 = 0, y2 = 0, rail = "horizontal"
                paddles.push( new paddle( 
@@ -9339,6 +9338,14 @@ function level_eleven() {
                "x2": 908.3999938964844,
                "y2": 53,
                "orientation": "horizontal",
+               "major_length": 100
+          },
+          {
+               "x1": 37.399993896484375,
+               "y1": 104,
+               "x2": 37.399993896484375,
+               "y2": 396,
+               "orientation": "vertical",
                "major_length": 100
           }
      ]
