@@ -244,7 +244,7 @@ var gameScene = {
 						}
 
 						block_to_delete = j; //prepare block to be deleted on next frame
-						
+
 						++balls[i].streak;
 						if ( balls[i].streak >= 2 ) {
 							streaks.push( new streak( blocks[ block_to_delete ].center.x, blocks[ block_to_delete ].center.y, "+" + ( streak_multiplyer * balls[i].streak * block_score_multiplyer ) ) );
@@ -269,7 +269,16 @@ var gameScene = {
 
 				//check for collisions with walls
 				for ( var k = 0; k < walls.length; ++k ) {
-					walls[k].collision( balls[i] );
+					var collided_with = walls[k].collision( balls[i] );
+
+					if ( collided_with !== null ) {
+						if ( collided_with.left_right ) {
+							balls[i].spdX *= -1;
+						} else {
+							balls[i].spdY *= -1;
+						}
+					}
+
 					walls[k].update();
 				}
 
