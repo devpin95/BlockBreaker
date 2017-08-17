@@ -504,17 +504,20 @@ function wall( width, height, src, x, y, orientation ) {
 
 	this.collision = function( ball ) {
 		var block = this;
-		if (ball.x < block.x + block.width &&
-			ball.x + ball.width > block.x &&
-			ball.y < block.y + block.height &&
-			ball.height + ball.y > block.y ) 
-		{
-			if ( isFinite( ball.equation.slope )  ) {
-				slopeTrace( ball, block );
-			} else {
-				ball.spdY *= -1;
-			}
-		}
+
+		return RectangleRectangleCollision( ball, block );
+
+		// if (ball.x < block.x + block.width &&
+		// 	ball.x + ball.width > block.x &&
+		// 	ball.y < block.y + block.height &&
+		// 	ball.height + ball.y > block.y ) 
+		// {
+		// 	if ( isFinite( ball.equation.slope )  ) {
+		// 		slopeTrace( ball, block );
+		// 	} else {
+		// 		ball.spdY *= -1;
+		// 	}
+		// }
 	}
 }
 
