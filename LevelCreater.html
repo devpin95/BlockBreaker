@@ -266,6 +266,14 @@
 		#code:focus {
 			outline:none;
 		}
+		.main_paddle_track_line {
+			border-top:2px dashed #f00;
+			display:block;
+			float:left;
+			width:100px;
+			margin-top:10px;
+			margin-right:10px;
+		}
 	</style>
 </head>
 
@@ -330,6 +338,7 @@
 			<div class="level_info_section">
 				<h1><input class="h1_checkbox" type="checkbox" id="main_paddle" name="paddles" onclick="level_info_section('main_paddle')" checked><label for="main_paddle">Main Paddle</label></h1>
 				<p>If disabled, the default values will be used. Enable to edit the main paddle values</p>
+				<p><span class="main_paddle_track_line"></span><em>Main Paddle Track</em></p>
 				<ul>
 					<li>
 						<label for="main_paddle_length"><strong>Major Length:&nbsp;&nbsp;</strong></label>
@@ -593,8 +602,8 @@ function updateGameArea() {
 	//Bottom bound
 	ctx.setLineDash([5, 3]);/*dashes are 5px and spaces are 3px*/
 	ctx.beginPath();
-	ctx.moveTo(0,height - 75);
-	ctx.lineTo(width, height - 75);
+	ctx.moveTo( document.getElementById("main_paddle_left_x").value ,500);
+	ctx.lineTo(document.getElementById("main_paddle_right_x").value, 500);
 	ctx.strokeStyle = '#ff0000';
 	ctx.stroke();
 
