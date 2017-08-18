@@ -118,12 +118,23 @@
 			margin-right:20px;
 			display:none;
 		}
-		.selections #paddle_options input[type=input]{
+		.selections #paddle_options input[type=selection]{
 			width:40px;
 			height:20px;
 			border-radius:5px;
 			border:1px solid #aaa;
 			padding:5px 0 5px 10px;
+		}
+		.selections #portal_velocities {
+			margin-right:20px;
+			display:none;
+		}
+		.selections #portal_velocities input[type=selection] {
+			width:40px;
+			height:20px;
+			border-radius:5px;
+			border:1px solid #aaa;
+			padding:5px 0 5px 10px;		
 		}
 		#import-wrapper {
 			display:none;
@@ -307,10 +318,14 @@
 		</div>
 		<div id="portal_colors">
 			<input type="radio" id="blue_portal" name="portal_colors" value="blue" checked><label for="blue_portal">Blue</label> <br/>
-			<input type="radio" for="red_portal" name="portal_colors" value="red"><label for="blue_portal">Red</label><br/>
+			<input type="radio" id="red_portal" name="portal_colors" value="red"><label for="red_portal">Red</label><br/>
+		</div>
+		<div id="portal_velocities">
+			<label for="velx">X Velocity&nbsp;&nbsp;</label><input type="selection" id="velx" name="portal_velocities" value="9" checked> <br/>
+			<label for="vely">Y Velocity&nbsp;&nbsp;</label><input type="selection" id="vely" name="portal_velocities" value="9"><br/>
 		</div>
 		<div id="paddle_options">
-			<label for="paddle_length">Length:&nbsp;&nbsp;</label><input type="input" id="paddle_length" name="paddle_values" value="100" placeholder="100"><br/>
+			<label for="paddle_length">Length:&nbsp;&nbsp;</label><input type="selection" id="paddle_length" name="paddle_values" value="100" placeholder="100"><br/>
 			<!-- <input type="radio" for="red_portal" name="portal_colors" value="red"><label for="blue_portal">Red</label><br/> -->
 		</div>
 	</form>
@@ -629,6 +644,7 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 	this.spdY = 0;
 	this.x = x;
 	this.y = y;
+	this.color = color;
 	this.is_wall = false;
 	this.is_portal = false;
 	this.is_paddle = false;
@@ -668,7 +684,7 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 
 		if ( type == "color" ) 
 		{
-			ctx.fillStyle = color;
+			ctx.fillStyle = this.color;
 			ctx.fillRect( this.x, this.y, this.width, this.height );
 		} 
 		else if ( this.is_wall ) 
@@ -792,6 +808,7 @@ for(var i = 0; i < rad.length; ++i) {
         	document.getElementById("block_colors").style.display = "block";
         	document.getElementById("portal_colors").style.display = "none";
         	document.getElementById("paddle_options").style.display = "none";
+        	document.getElementById("portal_velocities").style.display = "none";
         } 
 
         else if ( prev.value == "small" )
@@ -803,6 +820,7 @@ for(var i = 0; i < rad.length; ++i) {
         	document.getElementById("block_colors").style.display = "block";
         	document.getElementById("portal_colors").style.display = "none";
         	document.getElementById("paddle_options").style.display = "none";
+        	document.getElementById("portal_velocities").style.display = "none";
         } 
 
         else if ( prev.value == "wall" )
@@ -812,6 +830,7 @@ for(var i = 0; i < rad.length; ++i) {
     		document.getElementById("block_colors").style.display = "none";
     		document.getElementById("paddle_options").style.display = "none";
     		document.getElementById("portal_colors").style.display = "none";
+    		document.getElementById("portal_velocities").style.display = "none";
     	} 
 
     	else if ( prev.value == "portal" )
@@ -823,6 +842,7 @@ for(var i = 0; i < rad.length; ++i) {
     		document.getElementById("block_colors").style.display = "none";
     		document.getElementById("paddle_options").style.display = "none";
     		document.getElementById("portal_colors").style.display = "block";
+    		document.getElementById("portal_velocities").style.display = "block";
     	}
 
     	else if ( prev.value == "paddle" ) {
@@ -830,6 +850,7 @@ for(var i = 0; i < rad.length; ++i) {
     		document.getElementById("block_colors").style.display = "none";
     		document.getElementById("portal_colors").style.display = "none";
     		document.getElementById("paddle_options").style.display = "block";
+    		document.getElementById("portal_velocities").style.display = "none";
     	}
 
         PLACEMENT_BIG_BLOCK.x = -100;
