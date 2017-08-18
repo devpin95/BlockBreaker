@@ -20,7 +20,18 @@ var portalPlacementScene = {
 		top : false,
 		right : false,
 		bottom : false,
-		left : false
+		left : false,
+		spdX : 0,
+		spdY : 0
+	},
+	temp_node_position : {
+		active : false,
+		top : false,
+		right : false,
+		bottom : false,
+		left : false,
+		spdX : 0,
+		spdY : 0
 	},
 	aligning_with_portal : false,
 	aligning_portal : null,
@@ -43,6 +54,7 @@ var portalPlacementScene = {
 						active_block.y = test_blocks[i].teleport_point.y - (active_block.height/2);
 						this.aligning_with_portal = true;
 						this.aligning_portal = i;
+						console.log(i);
 						break;
 					} else {
 						this.aligning_with_portal = false;
@@ -50,19 +62,120 @@ var portalPlacementScene = {
 				}
 			}
 
+			if ( this.aligning_with_portal ) {
+				ctx.font = "bold 30px Arial";
+				ctx.fillStyle = "green";
+				ctx.textAlign = "center";
+				ctx.fillText("Select Exit-Node", width / 2, 35);
+
+				ctx.font = "12px Arial";
+				ctx.fillStyle = "black";
+				ctx.textAlign = "center";
+				ctx.fillText("Click a portal's node to select where the ball will exit the portal.", width / 2, 50);
+
+				//Note: Select and appropriate x and y velocity for the ball.
+				ctx.font = "12px Arial";
+				ctx.fillStyle = "black";
+				ctx.textAlign = "center";
+				ctx.fillText("Note: Select and appropriate x and y velocity for the ball upon exit. If the ball enters the portal again after exiting, it may get stuck.", width / 2, 65);
+
+				//top node
+				this.top_node.x = active_block.x + (active_block.width/2) - (this.top_node.width/2);
+				this.top_node.y = active_block.y;
+
+				//right node
+				this.right_node.x = active_block.x + (active_block.width) - this.right_node.width;
+				this.right_node.y = active_block.y + (active_block.height/2) - (this.right_node.height/2);
+
+				//bottom node
+				this.bottom_node.x = active_block.x + (active_block.width/2) - (this.bottom_node.width/2);
+				this.bottom_node.y = active_block.y + (active_block.height) - this.bottom_node.height;
+
+				//left node
+				this.left_node.x = active_block.x;
+				this.left_node.y = active_block.y + (active_block.height/2) - (this.left_node.height/2);
+
+				if ( mousePos.x < this.top_node.x + this.top_node.width && 
+					mousePos.x > this.top_node.x && 
+					mousePos.y < this.top_node.y + this.top_node.height && 
+					mousePos.y > this.top_node.y ) 
+				{		
+					this.top_node.color = "#0f0";
+					this.node_position.top = true;
+				}
+				else {
+					this.top_node.color = "#000";
+					this.node_position.top = false;
+				}
+
+				if ( mousePos.x < this.right_node.x + this.right_node.width && 
+					mousePos.x > this.right_node.x && 
+					mousePos.y < this.right_node.y + this.right_node.height && 
+					mousePos.y > this.right_node.y ) 
+				{		
+					this.right_node.color = "#0f0";
+					this.node_position.right = true;
+				}
+				else {
+					this.right_node.color = "#000";
+					this.node_position.right = false;
+				}
+
+				if ( mousePos.x < this.bottom_node.x + this.bottom_node.width && 
+					mousePos.x > this.bottom_node.x && 
+					mousePos.y < this.bottom_node.y + this.bottom_node.height && 
+					mousePos.y > this.bottom_node.y ) 
+				{		
+					this.bottom_node.color = "#0f0";
+					this.node_position.bottom = true;
+				}
+				else {
+					this.bottom_node.color = "#000";
+					this.node_position.bottom = false;
+				}
+
+				if ( mousePos.x < this.left_node.x + this.left_node.width && 
+					mousePos.x > this.left_node.x && 
+					mousePos.y < this.left_node.y + this.left_node.height && 
+					mousePos.y > this.left_node.y ) 
+				{		
+					this.left_node.color = "#0f0";
+					this.node_position.left = true;
+				}
+				else {
+					this.left_node.color = "#000";
+					this.node_position.left = false;
+				}
+			}
+			else {
+				this.top_node.x = -100;
+				this.top_node.y = -100;
+				this.right_node.x = -100;
+				this.right_node.y = -100;
+				this.bottom_node.x = -100;
+				this.bottom_node.y = -100;
+				this.left_node.x = -100;
+				this.left_node.y = -100;
+
+				this.tx = mousePos.x;
+				this.ty = mousePos.y;
+			}
+
+			ctx.globalCompositeOperation='destination-over';
+			this.left_node.update();
+			this.top_node.update();
+			this.right_node.update();
+			this.bottom_node.update();
 			active_block.update();
 		}
 
 		else if ( this.clicks == 1 ) {
 			this.temp_portal.update();
 
-			if ( this.aligning_with_portal ) {
-				level_object.blocks[this.aligning_portal].teleport_point.is_endpoint = true;
-			}
+			// if ( this.aligning_with_portal ) {
+			// 	level_object.blocks[this.aligning_portal].teleport_point.is_endpoint = true;
+			// }
 
-			//var xpos, ypos;
-
-			this.aligning_with_portal = false;
 			for ( var i = 0; i < test_blocks.length; ++i ) {
 				if ( test_blocks[i].is_portal ) {
 					if ( mousePos.x >= test_blocks[i].left_edge && 
@@ -70,22 +183,35 @@ var portalPlacementScene = {
 						mousePos.y >= test_blocks[i].top_edge && 
 						mousePos.y <= test_blocks[i].bottom_edge ) 
 					{
-						console.log( test_blocks[i] );
 						this.tx = test_blocks[i].center.x;
-						console.log( test_blocks[i].center.x );
-						//this.tx = xpos;
 						this.ty = test_blocks[i].center.y;
-						console.log( test_blocks[i].center.y );
-						//this.ty = ypos;
-						test_blocks[i].teleport_point.is_a_portal = true;
+						//test_blocks[i].teleport_point.is_a_portal = true;
 						this.aligning_with_portal = true;
 						this.aligning_portal = i;
+						console.log(i);
 						break;
 					} 
 				}
 			}
 
 			if ( this.aligning_with_portal ) {
+
+				ctx.font = "bold 30px Arial";
+				ctx.fillStyle = "green";
+				ctx.textAlign = "center";
+				ctx.fillText("Select Exit-Node", width / 2, 35);
+
+				ctx.font = "12px Arial";
+				ctx.fillStyle = "black";
+				ctx.textAlign = "center";
+				ctx.fillText("Click a portal's node to select where the ball will exit the portal.", width / 2, 50);
+
+				//Note: Select and appropriate x and y velocity for the ball.
+				ctx.font = "12px Arial";
+				ctx.fillStyle = "black";
+				ctx.textAlign = "center";
+				ctx.fillText("Note: Select and appropriate x and y velocity for the ball upon exit. If the ball enters the portal again after exiting, it may get stuck.", width / 2, 65);
+
 				//top node
 				this.top_node.x = test_blocks[ this.aligning_portal ].x + (test_blocks[ this.aligning_portal ].width/2) - (this.top_node.width/2);
 				this.top_node.y = test_blocks[ this.aligning_portal ].y;
@@ -183,23 +309,64 @@ var portalPlacementScene = {
 		this.top_node.update();
 		this.right_node.update();
 		this.bottom_node.update();
-
 	},
 
 	click_down : function(e) {
 		++this.clicks;
 
-		if ( this.clicks == 1 ) {
+		if ( this.clicks == 1 ) 
+		{
 			//if this is the first clicks, make a temperary block so that we can draw a line
-			//between the placed portal and the point at which it will teleport the ball
+			//between the placed portal and the point to which it will teleport the ball
 
-			//active_block = null;
+			if ( mousePos.x < this.top_node.x + this.top_node.width && 
+				mousePos.x > this.top_node.x && 
+				mousePos.y < this.top_node.y + this.top_node.height && 
+				mousePos.y > this.top_node.y ) 
+			{		
+				this.node_position.top = true;
+			}
+			else {
+				this.node_position.top = false;
+			}
+
+			if ( mousePos.x < this.right_node.x + this.right_node.width && 
+				mousePos.x > this.right_node.x && 
+				mousePos.y < this.right_node.y + this.right_node.height && 
+				mousePos.y > this.right_node.y ) 
+			{		
+				this.node_position.right = true;
+			}
+			else {
+				this.node_position.right = false;
+			}
+
+			if ( mousePos.x < this.bottom_node.x + this.bottom_node.width && 
+				mousePos.x > this.bottom_node.x && 
+				mousePos.y < this.bottom_node.y + this.bottom_node.height && 
+				mousePos.y > this.bottom_node.y ) 
+			{		
+				this.node_position.bottom = true;
+			}
+			else {
+				this.node_position.bottom = false;
+			}
+
+			if ( mousePos.x < this.left_node.x + this.left_node.width && 
+				mousePos.x > this.left_node.x && 
+				mousePos.y < this.left_node.y + this.left_node.height && 
+				mousePos.y > this.left_node.y ) 
+			{		
+				this.node_position.left = true;
+			}
+			else {
+				this.node_position.left = false;
+			}
 
 			//width, height, color, x, y, health = 1, type = "color"
 			this.temp_portal = new block( 
 				active_block.width,
     			active_block.height,
-    			//(this.orientation == "vertical") ? "assets/wall_vertical.png" : "assets/wall_horizontal.png",
     			active_block.image.src,
     			active_block.x,
     			active_block.y,
@@ -213,12 +380,28 @@ var portalPlacementScene = {
 			this.temp_portal.is_portal = true;
 
 			if ( this.aligning_with_portal  ) {
+				console.log(this.node_position);
+				alert("Node value added to level_object.blocks[" + this.aligning_portal + "]" + "\nTOP:" + this.node_position.top);
 				this.temp_portal.teleport_point.is_a_portal = true;
-				this.aligning_with_portal = false;
+				this.node_position.spdX = document.getElementById("velx").value;
+				this.node_position.spdY = document.getElementById("vely").value;
+				level_object.blocks[ this.aligning_portal ].teleport_point.node = this.node_position;
 			}
+
+			//reset the node
+			this.node_position.top = false;
+			this.node_position.right = false;
+			this.node_position.bottom = false;
+			this.node_position.left = false;
+			this.node_position.spdX = "";
+			this.node_position.spdY = "";
+
+			this.aligning_with_portal = false;
+			this.aligning_portal = -1;
 		}
 
-		else if ( this.clicks == 2 ) {
+		else if ( this.clicks == 2 ) 
+		{
 			level_object.blocks.push( new placement_code(
     			this.temp_portal.width,
     			this.temp_portal.height,
@@ -243,16 +426,25 @@ var portalPlacementScene = {
     			1,
     			"image" 
 			) );
+
+			//set the teleport points
 			test_blocks[ test_blocks.length - 1 ].is_portal = true;
 			test_blocks[ test_blocks.length - 1 ].teleport_point.x = this.tx;
 			test_blocks[ test_blocks.length - 1 ].teleport_point.y = this.ty;
 
 			if ( this.aligning_with_portal  ) {
+				console.log(this.node_position);
+				alert("Node value added to level_object.blocks[" + (level_object.blocks.length - 1) + "]" + "\nTOP:" + this.node_position.top);				
 				level_object.blocks[ this.aligning_portal ].teleport_point.is_endpoint = true;
-				level_object.blocks[ this.aligning_portal ].teleport_point.node = this.node_position;
+				//exit values
+				this.node_position.spdX = document.getElementById("velx").value;
+				this.node_position.spdY = document.getElementById("vely").value;
+				level_object.blocks[ level_object.blocks.length - 1 ].teleport_point.node = this.node_position;
 			}
 
 			this.clicks = 0;
+			this.aligning_portal = -1;
+			this.aligning_with_portal = false;
 			this.top_node.x = -100;
 			this.top_node.y = -100;
 			this.right_node.x = -100;
@@ -261,6 +453,12 @@ var portalPlacementScene = {
 			this.bottom_node.y = -100;
 			this.left_node.x = -100;
 			this.left_node.y = -100;
+			this.node_position.top = false;
+			this.node_position.right = false;
+			this.node_position.bottom = false;
+			this.node_position.left = false;
+			this.node_position.spdX = "";
+			this.node_position.spdY = "";
 		}
 	},
 
