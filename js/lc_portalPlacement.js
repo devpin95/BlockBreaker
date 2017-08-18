@@ -4,10 +4,24 @@ var portalPlacementScene = {
 
 	setup : function() {
 		this.temp_portal = new block( 50, 50, block_assets.portal.red, -100, -100, 1, "image" );
+		this.left_node = new block( 10, 10, "#000", -100, -100, 1, "color" );
+		this.top_node = new block( 10, 10, "#000", -100, -100, 1, "color" );
+		this.right_node = new block( 10, 10, "#000", -100, -100, 1, "color" );
+		this.bottom_node = new block( 10, 10, "#000", -100, -100, 1, "color" );
 	},
 
 	clicks : 0,
 	temp_portal : null,
+	left_node : null,
+	top_node : null,
+	right_node : null,
+	bottom_node : null,
+	node_position : {
+		top : false,
+		right : false,
+		bottom : false,
+		left : false
+	},
 	aligning_with_portal : false,
 	aligning_portal : null,
 	tx : null,
@@ -47,9 +61,8 @@ var portalPlacementScene = {
 			}
 
 			//var xpos, ypos;
-			this.tx = mousePos.x;
-			this.ty = mousePos.y;
 
+			this.aligning_with_portal = false;
 			for ( var i = 0; i < test_blocks.length; ++i ) {
 				if ( test_blocks[i].is_portal ) {
 					if ( mousePos.x >= test_blocks[i].left_edge && 
@@ -59,8 +72,10 @@ var portalPlacementScene = {
 					{
 						console.log( test_blocks[i] );
 						this.tx = test_blocks[i].center.x;
+						console.log( test_blocks[i].center.x );
 						//this.tx = xpos;
 						this.ty = test_blocks[i].center.y;
+						console.log( test_blocks[i].center.y );
 						//this.ty = ypos;
 						test_blocks[i].teleport_point.is_a_portal = true;
 						this.aligning_with_portal = true;
@@ -68,6 +83,89 @@ var portalPlacementScene = {
 						break;
 					} 
 				}
+			}
+
+			if ( this.aligning_with_portal ) {
+				//top node
+				this.top_node.x = test_blocks[ this.aligning_portal ].x + (test_blocks[ this.aligning_portal ].width/2) - (this.top_node.width/2);
+				this.top_node.y = test_blocks[ this.aligning_portal ].y;
+
+				//right node
+				this.right_node.x = test_blocks[ this.aligning_portal ].x + (test_blocks[ this.aligning_portal ].width) - this.right_node.width;
+				this.right_node.y = test_blocks[ this.aligning_portal ].y + (test_blocks[ this.aligning_portal ].height/2) - (this.right_node.height/2);
+
+				//bottom node
+				this.bottom_node.x = test_blocks[ this.aligning_portal ].x + (test_blocks[ this.aligning_portal ].width/2) - (this.bottom_node.width/2);
+				this.bottom_node.y = test_blocks[ this.aligning_portal ].y + (test_blocks[ this.aligning_portal ].height) - this.bottom_node.height;
+
+				//left node
+				this.left_node.x = test_blocks[ this.aligning_portal ].x;
+				this.left_node.y = test_blocks[ this.aligning_portal ].y + (test_blocks[ this.aligning_portal ].height/2) - (this.left_node.height/2);
+
+				if ( mousePos.x < this.top_node.x + this.top_node.width && 
+					mousePos.x > this.top_node.x && 
+					mousePos.y < this.top_node.y + this.top_node.height && 
+					mousePos.y > this.top_node.y ) 
+				{		
+					this.top_node.color = "#0f0";
+					this.node_position.top = true;
+				}
+				else {
+					this.top_node.color = "#000";
+					this.node_position.top = false;
+				}
+
+				if ( mousePos.x < this.right_node.x + this.right_node.width && 
+					mousePos.x > this.right_node.x && 
+					mousePos.y < this.right_node.y + this.right_node.height && 
+					mousePos.y > this.right_node.y ) 
+				{		
+					this.right_node.color = "#0f0";
+					this.node_position.right = true;
+				}
+				else {
+					this.right_node.color = "#000";
+					this.node_position.right = false;
+				}
+
+				if ( mousePos.x < this.bottom_node.x + this.bottom_node.width && 
+					mousePos.x > this.bottom_node.x && 
+					mousePos.y < this.bottom_node.y + this.bottom_node.height && 
+					mousePos.y > this.bottom_node.y ) 
+				{		
+					this.bottom_node.color = "#0f0";
+					this.node_position.bottom = true;
+				}
+				else {
+					this.bottom_node.color = "#000";
+					this.node_position.bottom = false;
+				}
+
+				if ( mousePos.x < this.left_node.x + this.left_node.width && 
+					mousePos.x > this.left_node.x && 
+					mousePos.y < this.left_node.y + this.left_node.height && 
+					mousePos.y > this.left_node.y ) 
+				{		
+					this.left_node.color = "#0f0";
+					this.node_position.left = true;
+				}
+				else {
+					this.left_node.color = "#000";
+					this.node_position.left = false;
+				}
+			}
+			else {
+				this.top_node.x = -100;
+				this.top_node.y = -100;
+				this.right_node.x = -100;
+				this.right_node.y = -100;
+				this.bottom_node.x = -100;
+				this.bottom_node.y = -100;
+				this.left_node.x = -100;
+				this.left_node.y = -100;
+
+				this.tx = mousePos.x;
+				this.ty = mousePos.y;
 			}
 
 			//draw a line from the center of the portal to the mouse
@@ -79,6 +177,12 @@ var portalPlacementScene = {
 			ctx.strokeStyle = '#00f';
 			ctx.stroke();
 		}
+
+		ctx.globalCompositeOperation='destination-over';
+		this.left_node.update();
+		this.top_node.update();
+		this.right_node.update();
+		this.bottom_node.update();
 
 	},
 
@@ -115,7 +219,6 @@ var portalPlacementScene = {
 		}
 
 		else if ( this.clicks == 2 ) {
-			//alert(this.aligning_with_portal);
 			level_object.blocks.push( new placement_code(
     			this.temp_portal.width,
     			this.temp_portal.height,
@@ -126,7 +229,7 @@ var portalPlacementScene = {
     			null,
     			1,
     			this.tx, //tx
-    			this.ty,	//ty	
+    			this.ty, //ty	
     			this.temp_portal.teleport_point.is_a_portal
 			) );
 
@@ -141,13 +244,23 @@ var portalPlacementScene = {
     			"image" 
 			) );
 			test_blocks[ test_blocks.length - 1 ].is_portal = true;
-			test_blocks[ test_blocks.length - 1 ].teleport_point.x = mousePos.x;
-			test_blocks[ test_blocks.length - 1 ].teleport_point.y = mousePos.y;
+			test_blocks[ test_blocks.length - 1 ].teleport_point.x = this.tx;
+			test_blocks[ test_blocks.length - 1 ].teleport_point.y = this.ty;
+
 			if ( this.aligning_with_portal  ) {
 				level_object.blocks[ this.aligning_portal ].teleport_point.is_endpoint = true;
+				level_object.blocks[ this.aligning_portal ].teleport_point.node = this.node_position;
 			}
 
 			this.clicks = 0;
+			this.top_node.x = -100;
+			this.top_node.y = -100;
+			this.right_node.x = -100;
+			this.right_node.y = -100;
+			this.bottom_node.x = -100;
+			this.bottom_node.y = -100;
+			this.left_node.x = -100;
+			this.left_node.y = -100;
 		}
 	},
 
