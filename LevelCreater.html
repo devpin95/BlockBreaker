@@ -125,11 +125,37 @@
 		}
 		.selections #paddle_options {
 			margin-right:20px;
+			padding-left:20px;
+			border-left:1px solid #333;
 			display:none;
+		}
+		.selections #paddle_options p{
+			font-size:14px;
+			margin:0;
+			margin-bottom:10px;
+			border-bottom:1px solid #c0392b;
+			padding:0;
+			color:#c0392b;
+		}
+		.selections #paddle_options label{
+			font-size:12px;
 		}
 		.selections #portal_velocities {
 			margin-right:20px;
+			padding-left:20px;
+			border-left:1px solid #333;
 			display:none;
+		}
+		.selections #portal_velocities p{
+			font-size:14px;
+			margin:0;
+			margin-bottom:10px;
+			border-bottom:1px solid #c0392b;
+			padding:0;
+			color:#c0392b;
+		}
+		.selections #portal_velocities label{
+			font-size:12px;
 		}
 		#import-wrapper {
 			display:none;
@@ -305,12 +331,14 @@
 			<input type="radio" id="red_portal" name="portal_colors" value="red"><label for="red_portal">Red</label><br/>
 		</div>
 		<div id="portal_velocities">
-			<label for="velx">X Velocity&nbsp;&nbsp;</label><input type="selection" id="velx" name="portal_velocities" value="" checked> <br/>
+			<p><em>Leave x and y velocity blank to keep the balls velocity after being teleported</em></p>
+			<label for="velx">X Velocity&nbsp;&nbsp;</label><input type="selection" id="velx" name="portal_velocities" value="">
+			&nbsp;&nbsp;
 			<label for="vely">Y Velocity&nbsp;&nbsp;</label><input type="selection" id="vely" name="portal_velocities" value=""><br/>
 		</div>
 		<div id="paddle_options">
+			<p><em>Length must be between 10 and 300</em></p>
 			<label for="paddle_length">Length:&nbsp;&nbsp;</label><input type="selection" id="paddle_length" name="paddle_values" value="100" placeholder="100"><br/>
-			<!-- <input type="radio" for="red_portal" name="portal_colors" value="red"><label for="blue_portal">Red</label><br/> -->
 		</div>
 	</form>
 	<div style="clear:both;"></div>
@@ -861,8 +889,24 @@ for(var i = 0; i < act_rad.length; ++i) {
 
         if ( act_prev.value == "place" ) {
         	document.getElementById("block_types").style.display = "block";
+
+        	if ( document.getElementById("small_type").checked || document.getElementById("big_type").checked ) {
+    			document.getElementById("block_colors").style.display = "block";
+        	}
+        	else if ( document.getElementById("portal_type").checked ) {
+        		document.getElementById("portal_colors").style.display = "block";
+        		document.getElementById("portal_velocities").style.display = "block";        		
+        	}
+        	else if ( document.getElementById("paddle_type").checked ) {
+    			document.getElementById("paddle_options").style.display = "block";
+        	}
+
         } else if ( act_prev.value == "erase" ) {
         	document.getElementById("block_types").style.display = "none";
+        	document.getElementById("paddle_options").style.display = "none";
+        	document.getElementById("block_colors").style.display = "none";
+        	document.getElementById("portal_colors").style.display = "none";
+        	document.getElementById("portal_velocities").style.display = "none";
         }
 
         ACTIVE_SCENE.blur();
