@@ -54,7 +54,6 @@ var portalPlacementScene = {
 						active_block.y = test_blocks[i].teleport_point.y - (active_block.height/2);
 						this.aligning_with_portal = true;
 						this.aligning_portal = i;
-						console.log(i);
 						break;
 					} else {
 						this.aligning_with_portal = false;
@@ -194,7 +193,6 @@ var portalPlacementScene = {
 						//test_blocks[i].teleport_point.is_a_portal = true;
 						this.aligning_with_portal = true;
 						this.aligning_portal = i;
-						console.log(i);
 						break;
 					} else {
 						this.aligning_with_portal = false;
@@ -331,50 +329,6 @@ var portalPlacementScene = {
 			//if this is the first clicks, make a temperary block so that we can draw a line
 			//between the placed portal and the point to which it will teleport the ball
 
-			if ( mousePos.x < this.top_node.x + this.top_node.width && 
-				mousePos.x > this.top_node.x && 
-				mousePos.y < this.top_node.y + this.top_node.height && 
-				mousePos.y > this.top_node.y ) 
-			{		
-				this.node_position.top = true;
-			}
-			else {
-				this.node_position.top = false;
-			}
-
-			if ( mousePos.x < this.right_node.x + this.right_node.width && 
-				mousePos.x > this.right_node.x && 
-				mousePos.y < this.right_node.y + this.right_node.height && 
-				mousePos.y > this.right_node.y ) 
-			{		
-				this.node_position.right = true;
-			}
-			else {
-				this.node_position.right = false;
-			}
-
-			if ( mousePos.x < this.bottom_node.x + this.bottom_node.width && 
-				mousePos.x > this.bottom_node.x && 
-				mousePos.y < this.bottom_node.y + this.bottom_node.height && 
-				mousePos.y > this.bottom_node.y ) 
-			{		
-				this.node_position.bottom = true;
-			}
-			else {
-				this.node_position.bottom = false;
-			}
-
-			if ( mousePos.x < this.left_node.x + this.left_node.width && 
-				mousePos.x > this.left_node.x && 
-				mousePos.y < this.left_node.y + this.left_node.height && 
-				mousePos.y > this.left_node.y ) 
-			{		
-				this.node_position.left = true;
-			}
-			else {
-				this.node_position.left = false;
-			}
-
 			//width, height, color, x, y, health = 1, type = "color"
 			this.temp_portal = new block( 
 				active_block.width,
@@ -467,6 +421,18 @@ var portalPlacementScene = {
 			this.node_position.left = false;
 			this.node_position.spdX = "";
 			this.node_position.spdY = "";
+		}
+	},
+
+	buttonPress : function(e) {
+		//27 = escape
+		if ( e.keyCode == 27 ) 
+		{
+			if ( this.clicks == 1 && this.aligning_with_portal ) {
+				alert("REVERT");
+				level_object.blocks[this.aligning_portal].teleport_point.node = null;
+			}
+			this.clicks = 0;
 		}
 	},
 
