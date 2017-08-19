@@ -347,8 +347,8 @@ var portalPlacementScene = {
 
 			if ( this.aligning_with_portal  ) {
 				this.temp_portal.teleport_point.is_a_portal = true;
-				this.node_position.spdX = parseInt( document.getElementById("velx").value );
-				this.node_position.spdY = parseInt( document.getElementById("vely").value );
+				this.node_position.spdX = document.getElementById("velx").value;
+				this.node_position.spdY = document.getElementById("vely").value;
 				level_object.blocks[ this.aligning_portal ].teleport_point.node = JSON.parse( JSON.stringify(this.node_position) );
 			}
 
@@ -399,8 +399,8 @@ var portalPlacementScene = {
 			if ( this.aligning_with_portal  ) {
 				level_object.blocks[ this.aligning_portal ].teleport_point.is_endpoint = true;
 				//exit values
-				this.node_position.spdX = parseInt( document.getElementById("velx").value );
-				this.node_position.spdY = parseInt(  document.getElementById("vely").value );
+				this.node_position.spdX = document.getElementById("velx").value;
+				this.node_position.spdY = document.getElementById("vely").value;
 				level_object.blocks[ level_object.blocks.length - 1 ].teleport_point.node = JSON.parse( JSON.stringify(this.node_position) );
 			}
 
