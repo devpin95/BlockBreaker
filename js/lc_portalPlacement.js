@@ -66,7 +66,7 @@ var portalPlacementScene = {
 				ctx.font = "bold 30px Arial";
 				ctx.fillStyle = "green";
 				ctx.textAlign = "center";
-				ctx.fillText("Select Exit-Node", width / 2, 35);
+				ctx.fillText("Place Portal Object and Select Exit-Node", width / 2, 35);
 
 				ctx.font = "12px Arial";
 				ctx.fillStyle = "black";
@@ -77,7 +77,8 @@ var portalPlacementScene = {
 				ctx.font = "12px Arial";
 				ctx.fillStyle = "black";
 				ctx.textAlign = "center";
-				ctx.fillText("Note: Select and appropriate x and y velocity for the ball upon exit. If the ball enters the portal again after exiting, it may get stuck.", width / 2, 65);
+				ctx.fillText("Note: When placing a portal on the exit point of another portal, the first placement will accept " +
+					"the velocity values above and apply them to the endpoint's portal.", width / 2, 65);
 
 				//top node
 				this.top_node.x = active_block.x + (active_block.width/2) - (this.top_node.width/2);
@@ -148,6 +149,11 @@ var portalPlacementScene = {
 				}
 			}
 			else {
+				ctx.font = "bold 30px Arial";
+				ctx.fillStyle = "green";
+				ctx.textAlign = "center";
+				ctx.fillText("Place Portal Object", width / 2, 35);
+
 				this.top_node.x = -100;
 				this.top_node.y = -100;
 				this.right_node.x = -100;
@@ -190,16 +196,17 @@ var portalPlacementScene = {
 						this.aligning_portal = i;
 						console.log(i);
 						break;
-					} 
+					} else {
+						this.aligning_with_portal = false;
+					}
 				}
 			}
 
 			if ( this.aligning_with_portal ) {
-
 				ctx.font = "bold 30px Arial";
 				ctx.fillStyle = "green";
 				ctx.textAlign = "center";
-				ctx.fillText("Select Exit-Node", width / 2, 35);
+				ctx.fillText("Place Portal Teleporting-Point and Select Exit-Node", width / 2, 35);
 
 				ctx.font = "12px Arial";
 				ctx.fillStyle = "black";
@@ -281,6 +288,11 @@ var portalPlacementScene = {
 				}
 			}
 			else {
+				ctx.font = "bold 30px Arial";
+				ctx.fillStyle = "green";
+				ctx.textAlign = "center";
+				ctx.fillText("Place Portal Teleporting-Point", width / 2, 35);
+
 				this.top_node.x = -100;
 				this.top_node.y = -100;
 				this.right_node.x = -100;
@@ -381,8 +393,8 @@ var portalPlacementScene = {
 
 			if ( this.aligning_with_portal  ) {
 				this.temp_portal.teleport_point.is_a_portal = true;
-				this.node_position.spdX = document.getElementById("velx").value;
-				this.node_position.spdY = document.getElementById("vely").value;
+				this.node_position.spdX = parseInt( document.getElementById("velx").value );
+				this.node_position.spdY = parseInt( document.getElementById("vely").value );
 				level_object.blocks[ this.aligning_portal ].teleport_point.node = JSON.parse( JSON.stringify(this.node_position) );
 			}
 
@@ -433,8 +445,8 @@ var portalPlacementScene = {
 			if ( this.aligning_with_portal  ) {
 				level_object.blocks[ this.aligning_portal ].teleport_point.is_endpoint = true;
 				//exit values
-				this.node_position.spdX = document.getElementById("velx").value;
-				this.node_position.spdY = document.getElementById("vely").value;
+				this.node_position.spdX = parseInt( document.getElementById("velx").value );
+				this.node_position.spdY = parseInt(  document.getElementById("vely").value );
 				level_object.blocks[ level_object.blocks.length - 1 ].teleport_point.node = JSON.parse( JSON.stringify(this.node_position) );
 			}
 
