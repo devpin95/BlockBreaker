@@ -533,7 +533,6 @@ function portal( width, height, src, x, y, tx, ty, endpoint = false ) {
 		y : ty,
 		is_endpoint : endpoint, //this portal is at the endpoint of another portal
 		radius : this.width/2,
-		exit_node : null
 	};
 	this.center = {
 		x : this.x + (this.width / 2),
@@ -542,21 +541,21 @@ function portal( width, height, src, x, y, tx, ty, endpoint = false ) {
 
 	if ( this.teleporter.is_endpoint ) {
 		//use these to spawn the ball correctly when the portal is the endpoint of another portal
-		this.top_point = {
+		this.top_node = {
 			x : tx + (this.width/2),
-			y : ty
+			y : ty - 10
 		};
-		this.right_point = {
-			x : tx + (this.width),
+		this.right_node = {
+			x : tx + (this.width) + 10,
 			y : ty + (this.height/2)
 		};
-		this.bottom_point = {
+		this.bottom_node = {
 			x : tx + (this.width/2),
-			y : ty + this.height
+			y : ty + this.height + 10
 		};
-		this.left_point = {
-			x : tx,
-			y : ty + (this.height/2)
+		this.left_node = {
+			x : tx - 10,
+			y : ty + (this.height/2) + 10
 		}
 	}
 
@@ -573,14 +572,72 @@ function portal( width, height, src, x, y, tx, ty, endpoint = false ) {
 		//collision based on distance between center points of the objects
 		if ( distanceBetweenPoints( this.center.x, this.center.y, ball.center.x, ball.center.y ) <= this.teleporter.radius ) 
 		{
+			//alert( JSON.stringify(this.teleporter) );
 			if ( !this.teleporter.is_endpoint ) {
 				ball.x = this.teleporter.x;
 				ball.y = this.teleporter.y;
-				ball.spdX = ( (this.teleporter.exit_node !== null && this.teleporter.exit_node.spdX === "") ? ball.spdX : this.teleporter.exit_node.spdX );
-				ball.spdY = ( (this.teleporter.exit_node !== null && this.teleporter.exit_node.spdY === "") ? ball.spdY : this.teleporter.exit_node.spdY );
+				ball.spdX = ( (this.teleporter.node !== null && this.teleporter.node.spdX === "") ? ball.spdX : this.teleporter.node.spdX );
+				ball.spdY = ( (this.teleporter.node !== null && this.teleporter.node.spdY === "") ? ball.spdY : this.teleporter.node.spdY );
 			}
+			else {
+				if ( this.teleporter.hasOwnProperty("node") ) 
+				{
+					//the portal does have a node property
+					if ( this.teleporter.node.top ) {
+						ball.x = this.top_node.x;
+						ball.y = this.top_node.y;
+					}
+					else if ( this.teleporter.node.right ) 
+					{
+						ball.x = this.right_node.x;
+						ball.y = this.right_node.y;
+					}
+					else if ( this.teleporter.node.bottom ) 
+					{
+						ball.x = this.bottom_node.x;
+						ball.y = this.bottom_node.y;
+					}
+					else if ( this.teleporter.node.left ) 
+					{
+						ball.x = this.left_node.x;
+						ball.y = this.left_node.y;
+					}
 
-			// //the endpoint is not another portal, so we dont need to worrry about an exit-node
+					if ( this.teleporter.node.spdX !== null ) 
+					{
+						if ( !isNaN( parseFloat(this.teleporter.node.spdX) ) ) {
+							ball.spdX = this.teleporter.node.spdX;
+						}
+						else if ( this.teleporter.node.spdX === "+" ) {
+							ball.spdX = Math.abs( ball.spdX );
+						}
+						else if ( this.teleporter.node.spdX === "-" ) {
+							ball.spdX = Math.abs( ball.spdX ) * -1;
+						}
+					}
+
+					if ( this.teleporter.node.spdY !== null ) 
+					{
+						if ( !isNaN( parseFloat(this.teleporter.node.spdY) ) ) {
+							ball.spdY = this.teleporter.node.spdY;
+						}
+						else if ( this.teleporter.node.spdY === "+" ) {
+							ball.spdY = Math.abs( ball.spdY );
+						}
+						else if ( this.teleporter.node.spdY === "-" ) {
+							ball.spdY = Math.abs( ball.spdY ) * -1
+						}
+					}
+				}
+				else 
+				{
+					ball.x = this.teleporter.x;
+					ball.y = this.teleporter.y;
+				}
+			}
+			//alert( "X: " + ball.x + "\nY: " + ball.y + "\nspdX: " + ball.spdX + "\nspdY: " + ball.spdY );
+
+			// //the endpoint is not another portal, so we dont need to worry about an exit-node
 			// if ( !block.teleporter.is_endpoint ) 
 			// {
 			// 	ball.x = block.teleporter.x;
