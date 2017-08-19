@@ -380,12 +380,10 @@ var portalPlacementScene = {
 			this.temp_portal.is_portal = true;
 
 			if ( this.aligning_with_portal  ) {
-				console.log(this.node_position);
-				alert("Node value added to level_object.blocks[" + this.aligning_portal + "]" + "\nTOP:" + this.node_position.top);
 				this.temp_portal.teleport_point.is_a_portal = true;
 				this.node_position.spdX = document.getElementById("velx").value;
 				this.node_position.spdY = document.getElementById("vely").value;
-				level_object.blocks[ this.aligning_portal ].teleport_point.node = this.node_position;
+				level_object.blocks[ this.aligning_portal ].teleport_point.node = JSON.parse( JSON.stringify(this.node_position) );
 			}
 
 			//reset the node
@@ -433,13 +431,11 @@ var portalPlacementScene = {
 			test_blocks[ test_blocks.length - 1 ].teleport_point.y = this.ty;
 
 			if ( this.aligning_with_portal  ) {
-				console.log(this.node_position);
-				alert("Node value added to level_object.blocks[" + (level_object.blocks.length - 1) + "]" + "\nTOP:" + this.node_position.top);				
 				level_object.blocks[ this.aligning_portal ].teleport_point.is_endpoint = true;
 				//exit values
 				this.node_position.spdX = document.getElementById("velx").value;
 				this.node_position.spdY = document.getElementById("vely").value;
-				level_object.blocks[ level_object.blocks.length - 1 ].teleport_point.node = this.node_position;
+				level_object.blocks[ level_object.blocks.length - 1 ].teleport_point.node = JSON.parse( JSON.stringify(this.node_position) );
 			}
 
 			this.clicks = 0;
