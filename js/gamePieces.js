@@ -225,6 +225,7 @@ function paddle( width = 100, height = 7, x1 = 0, y1 = 500, x2 = 960, y2 = 500, 
 		var temp = this.width;
 		this.width = this.height;
 		this.height = temp;
+		this.image.src = "assets/paddle_vertical.png";
 	}
 
 	this.track = {
@@ -409,15 +410,15 @@ function paddle( width = 100, height = 7, x1 = 0, y1 = 500, x2 = 960, y2 = 500, 
 				//if the ball hits the left 40% of the paddle, multiply by the negative max speed by the location of the ball on the left 50% of the paddle
 				var left_percentage = (.50 - xpercentage) / .50;
 				obj.spdX = ( obj.spdX >= 0 ? -1 : 1 ) * maxBallSpeed;
-				obj.spdY = ( maxBallSpeed * left_percentage ) * -1;
+				obj.spdY = (( maxBallSpeed * left_percentage ) * -1) * 1.25;
 			} else if ( xpercentage >= .40 && xpercentage <= .60 ) {
 				//if the ball hits the middle 20% of the paddle, 40%-60%, the ball just changes it's Y speed
-				obj.spdY *= -1;
+				obj.spdX *= -1;
 			} else if ( xpercentage > .60 ) {
 				//if the ball hits the right 40% of the paddle, multiple by the max speed and the location of the ball of the right 50% of the paddle
 				var right_percentage = (xpercentage - .50) / .50;
 				obj.spdX = ( obj.spdX >= 0 ? -1 : 1 ) * maxBallSpeed;
-				obj.spdY = (maxBallSpeed * right_percentage);
+				obj.spdY = (maxBallSpeed * right_percentage) * 1.25;
 			}
 		} 
 		else if ( collided_with.top_bottom && this.track.rail === "horizontal" ) 
@@ -506,18 +507,6 @@ function wall( width, height, src, x, y, orientation ) {
 		var block = this;
 
 		return RectangleRectangleCollision( ball, block );
-
-		// if (ball.x < block.x + block.width &&
-		// 	ball.x + ball.width > block.x &&
-		// 	ball.y < block.y + block.height &&
-		// 	ball.height + ball.y > block.y ) 
-		// {
-		// 	if ( isFinite( ball.equation.slope )  ) {
-		// 		slopeTrace( ball, block );
-		// 	} else {
-		// 		ball.spdY *= -1;
-		// 	}
-		// }
 	}
 }
 
@@ -636,83 +625,6 @@ function portal( width, height, src, x, y, tx, ty, endpoint = false ) {
 				}
 			}
 			//alert( "X: " + ball.x + "\nY: " + ball.y + "\nspdX: " + ball.spdX + "\nspdY: " + ball.spdY );
-
-			// //the endpoint is not another portal, so we dont need to worry about an exit-node
-			// if ( !block.teleporter.is_endpoint ) 
-			// {
-			// 	ball.x = block.teleporter.x;
-			// 	ball.y = block.teleporter.y;
-			// }
-
-			// else 
-			// {
-			// //if the ball is moving to the right
-			// 	if ( ball.spdX >= 0 ) 
-			// 	{
-			// 		if ( ball.spdY < 0 ) 
-			// 		{
-			// 			//the ball is moving up (actually moving down) the canvas
-			// 			var num = Math.floor(Math.random()*1) + 1;
-			// 			num *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
-
-			// 			if ( num > 0 ) {
-			// 				ball.x = block.top_point.x;
-			// 				ball.y = block.top_point.y;
-			// 			} else {
-			// 				ball.x = block.right_point.x;
-			// 				ball.y = block.right_point.y;
-			// 			}
-			// 		} 
-
-			// 		else if ( ball.spdY > 0 ) 
-			// 		{
-			// 			//the ball is moving up (actually moving down) the canvas
-			// 			var num = Math.floor(Math.random()*1) + 1;
-			// 			num *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
-
-			// 			if ( num > 0 ) {
-			// 				ball.x = block.bottom_point.x;
-			// 				ball.y = block.bottom_point.y;
-			// 			} else {
-			// 				ball.x = block.left_point.x;
-			// 				ball.y = block.left_point.y;
-			// 			}
-			// 		}
-			// 	} 
-
-			// 	else if ( ball.spdX < 0 ) 
-			// 	{
-			// 		if ( ball.spdY < 0 ) 
-			// 		{
-			// 			//the ball is moving up (actually moving down) the canvas
-			// 			var num = Math.floor(Math.random()*1) + 1;
-			// 			num *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
-
-			// 			if ( num > 0 ) {
-			// 				ball.x = block.top_point.x;
-			// 				ball.y = block.top_point.y;
-			// 			} else {
-			// 				ball.x = block.left_point.x;
-			// 				ball.y = block.left_point.y;
-			// 			}
-			// 		} 
-
-			// 		else if ( ball.spdY > 0 ) 
-			// 		{
-			// 			//the ball is moving up (actually moving down) the canvas
-			// 			var num = Math.floor(Math.random()*1) + 1;
-			// 			num *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
-
-			// 			if ( num > 0 ) {
-			// 				ball.x = block.bottom_point.x;
-			// 				ball.y = block.bottom_point.y;
-			// 			} else {
-			// 				ball.x = block.left_point.x;
-			// 				ball.y = block.left_point.y;
-			// 			}
-			// 		}
-			// 	}
-			// }
 		}
 	}
 }
