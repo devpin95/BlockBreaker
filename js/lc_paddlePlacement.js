@@ -66,6 +66,28 @@ var paddlePlacementScene = {
 		}
 
 		if ( this.clicks == 0 ) {
+			if ( mousePos.x <= 100 && mousePos.y <= 35 ) {
+				ctx.font = "12px Courier New";
+				ctx.fillStyle = "black";
+				ctx.textAlign = "left";
+				ctx.fillText("X1: " + (mousePos.x).toFixed(2), width - 60, 20);
+
+				ctx.font = "12px Courier New";
+				ctx.fillStyle = "black";
+				ctx.textAlign = "left";
+				ctx.fillText("Y1: " + mousePos.y.toFixed(2), width - 60, 35);
+			} else {
+				ctx.font = "12px Courier New";
+				ctx.fillStyle = "black";
+				ctx.textAlign = "left";
+				ctx.fillText("X1: " + (mousePos.x).toFixed(2), 10, 20);
+
+				ctx.font = "12px Courier New";
+				ctx.fillStyle = "black";
+				ctx.textAlign = "left";
+				ctx.fillText("Y1: " + mousePos.y.toFixed(2), 10, 35);
+			}
+
 			this.x1 = this.x2 = mousePos.x;
 			this.y1 = this.y2 = mousePos.y;
 		}
@@ -85,6 +107,47 @@ var paddlePlacementScene = {
 				this.y2 = this.y1;
 				this.x2 = mousePos.x;
 
+				if ( this.x2 <= 150 && this.y2 <= 45 ) {
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("X1: " + this.x1.toFixed(2), width - 180, 20);
+
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("Y1: " + this.y1.toFixed(2), width - 180, 35);
+
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("X2: " + this.x2.toFixed(2), width - 90, 20);
+
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("Y2: " + this.y2.toFixed(2), width - 90, 35);
+				} else {
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("X1: " + this.x1.toFixed(2), 10, 20);
+
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("Y1: " + this.y1.toFixed(2), 10, 35);
+
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("X2: " + this.x2.toFixed(2), 100, 20);
+
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("Y2: " + this.y2.toFixed(2), 100, 35);
+				}
 			}
 
 			//----------------------------------------------------------------------------------------------------------------
@@ -98,6 +161,48 @@ var paddlePlacementScene = {
 			{
 				this.x2 = this.x1;
 				this.y2 = mousePos.y;
+
+				if ( this.x2 <= 150 && this.y2 <= 45 ) {
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("X1: " + this.x1.toFixed(2), width - 180, 20);
+
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("Y1: " + this.y1.toFixed(2), width - 180, 35);
+
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("X2: " + this.x2.toFixed(2), width - 90, 20);
+
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("Y2: " + this.y2.toFixed(2), width - 90, 35);
+				} else {
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("X1: " + this.x1.toFixed(2), 10, 20);
+
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("Y1: " + this.y1.toFixed(2), 10, 35);
+
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("X2: " + this.x2.toFixed(2), 100, 20);
+
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("Y2: " + this.y2.toFixed(2), 100, 35);
+				}
 			}	
 
 			//draw lines between nodes
