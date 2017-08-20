@@ -37,6 +37,7 @@ var walls = [];
 var portals = [];
 var streaks = [];
 var mods = [];
+var deathzones = [];
 var mod_list = [ 
 		mod_1up, 
 		mod_stretch, 
