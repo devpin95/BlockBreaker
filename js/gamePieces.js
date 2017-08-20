@@ -185,25 +185,6 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 		}
 
 		return coll;
-
-		// if (ball.x < block.x + block.width &&
-		// 	ball.x + ball.width > block.x &&
-		// 	ball.y < block.y + block.height &&
-		// 	ball.height + ball.y > block.y ) 
-		// {
-		// 	if ( isFinite( ball.equation.slope )  ) {
-		// 		// debug_current_block.x = this.x;
-		// 		// debug_current_block.y = this.y;
-		// 		// debug_current_block.width = this.width;
-		// 		// debug_current_block.height = this.height;
-		// 		return slopeTrace( ball, block );
-		// 	} else {
-		// 		ball.spdY *= -1;
-		// 	}
-
-		// 	this.sound.play();
-		// 	return true;
-		// }
 	}
 }
 
@@ -731,8 +712,8 @@ function mod_stretch( x, y ) {
 				//console.log("1");
 				--this.interval_counter;
 
-				this.count_down_block.width = width * ( this.interval_counter / 500 );
-				this.count_down_block.x = (width/2) - (this.count_down_block.width / 2);
+				this.count_down_block.width = myPaddle.width * ( this.interval_counter / 500 );
+				this.count_down_block.x = ( myPaddle.x + (myPaddle.width / 2) ) - (this.count_down_block.width / 2);
 
 				if ( this.interval_counter == 0 ) {
 					this.shrinkify = true;
@@ -773,8 +754,8 @@ function mod_stretch( x, y ) {
 			myPaddle.image.src = "assets/paddle_big.png";
 
 			this.count_down_block.x = myPaddle.x;
-			this.count_down_block.y = height - 3;
-			this.count_down_block.height = 3;
+			this.count_down_block.y = myPaddle.y + myPaddle.height;
+			this.count_down_block.height = 5;
 
 		} else {
 			streaks.push( new streak( this.x + (this.width/2), this.y + (this.height/2), "+50", false ) );
@@ -1056,5 +1037,24 @@ function menu() {
 		}
 
 		return false;
+	}
+}
+
+function deathzone( width, height, x, y, edge ) {
+	this.width = width;
+	this.height = height;
+	this.x = x;
+	this.y = y;
+	this.edge = edge;
+
+	this.update = function() {
+		ctx.beginPath();
+	    var img = document.getElementById("death_" + ( (this.edge === "top" || this.edge === "bottom") ? "horizontal" : "vertical" ) );
+	    var pat = ctx.createPattern( img, "repeat" );
+	    ctx.save();
+	    ctx.fillStyle = pat;
+	    ctx.translate( this.x, this.y );
+	    ctx.fillRect(0, 0, this.width, this.height);
+	    ctx.restore();
 	}
 }
