@@ -311,7 +311,7 @@ function paddle( width = 100, height = 7, x1 = 0, y1 = 500, x2 = 960, y2 = 500, 
 			} 
 			else if ( this.track.rail === "vertical" ) 
 			{
-			 ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+				ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
 			}
 		}
 	}
@@ -346,7 +346,7 @@ function paddle( width = 100, height = 7, x1 = 0, y1 = 500, x2 = 960, y2 = 500, 
 		{
 			if ( y >= this.track.first_bound.y + (this.width/2) && y <= this.track.second_bound.y - (this.width/2) ) 
 			{
-				this.y = y - (this.width/2);
+				this.y = y - (this.height/2);
 				this.bounding_box.y = this.y - 10;
 			}
 		}
