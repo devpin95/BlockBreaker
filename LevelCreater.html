@@ -456,6 +456,7 @@
 <!-- <script src="../js/GLOBALS.js"></script> -->
 <!-- <script src="js/creater.js"></script> -->
 <!-- <script src="../js/gamePieces.js"></script> -->
+<script src="js/lc_deathPlacement.js"></script>
 <script src="js/lc_blockPlacement.js"></script>
 <script src="js/lc_wallPlacement.js"></script>
 <script src="js/lc_portalPlacement.js"></script>
@@ -550,7 +551,8 @@ var SCENES = {
 	erase : eraseBlocksScene,
 	wall : wallPlacementScene,
 	portal : portalPlacementScene,
-	paddle : paddlePlacementScene
+	paddle : paddlePlacementScene,
+	death : deathPlacementScene
 }
 
 var active_block; //keeps track of the block that is currently being placed
@@ -582,7 +584,8 @@ var level_object = {
 		left_bound_x : 0,
 		right_bound_x : width
 	},
-	paddles : []
+	paddles : [],
+	death_zones : []
 }
 
 function startGame() {
@@ -691,6 +694,7 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 	this.is_wall = false;
 	this.is_portal = false;
 	this.is_paddle = false;
+	this.is_deathzone = false;
 	this.orientation = null;
 	this.teleport_point = {
 		x : null,
@@ -793,7 +797,18 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 			ctx.strokeStyle = '#00f';
 			ctx.stroke();
 		}
-		else /*( type == "image" )*/ 
+		else if ( this.deathzone ) 
+		{
+			ctx.beginPath();
+		    var img = document.getElementById("wall_" + this.orientation);
+		    var pat = ctx.createPattern( img, "repeat" );
+		    ctx.save();
+		    ctx.fillStyle = pat;
+		    ctx.translate( this.x, this.y );
+		    ctx.fillRect(0, 0, this.width, this.height);
+		    ctx.restore();
+		}
+		else //type = image 
 		{
 			ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
 		}
@@ -830,6 +845,14 @@ function paddle_code( x1, y1, x2, y2, orientation, width = 100 ) {
 	this.y2 = y2;
 	this.orientation = orientation;
 	this.major_length = width;
+}
+
+function death_zone_code( width, height, x, y, edge ) {
+	this.width = width;
+	this.height = height;
+	this.x = x;
+	this.y = y;
+	this.edge = edge;
 }
 
 var rad = document.placement_form.types;
@@ -893,6 +916,13 @@ for(var i = 0; i < rad.length; ++i) {
     		document.getElementById("block_colors").style.display = "none";
     		document.getElementById("portal_colors").style.display = "none";
     		document.getElementById("paddle_options").style.display = "block";
+    		document.getElementById("portal_velocities").style.display = "none";
+    	}
+    	else if ( prev.value == "death" ) {
+    		ACTIVE_SCENE = SCENES.death;
+    		document.getElementById("block_colors").style.display = "none";
+    		document.getElementById("paddle_options").style.display = "none";
+    		document.getElementById("portal_colors").style.display = "none";
     		document.getElementById("portal_velocities").style.display = "none";
     	}
 
