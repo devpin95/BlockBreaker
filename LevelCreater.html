@@ -41,6 +41,9 @@
 			left:0;
 			pointer-events: none;
 		}
+		form[name=placement_form] label {
+			font-size:12px;
+		}
 		input[type=selection], input[type=number]{
 			width:40px;
 			height:20px;
@@ -63,6 +66,15 @@
 		}
 		.selections div {
 			float:left;
+		}
+		.section_header {
+			font-size:12px !important;
+			font-weight:bold;
+			color:#111 !important;
+			border:none;
+			margin:0;
+			padding:0;
+			border-bottom:1px solid #000 !important;
 		}
 		.selections .macro_actions ul{
 			margin:0;
@@ -115,12 +127,21 @@
 			margin-right: 20px;
 			display:none;
 		}
+		.selections #block_types .types_col {
+			float:left;
+			margin-right:10px;
+		}
 		.selections #block_colors {
 			margin-right: 20px;
+			padding-left:20px;
+			border-left:1px solid #333;
 			display:none;
 		}
 		.selections #portal_colors {
+			height:80px;
 			margin-right:20px;
+			padding-left:20px;
+			border-left:1px solid #333;
 			display:none;
 		}
 		.selections #paddle_options {
@@ -129,11 +150,10 @@
 			border-left:1px solid #333;
 			display:none;
 		}
-		.selections #paddle_options p{
-			font-size:14px;
+		.warning {
+			font-size:10px;
 			margin:0;
 			margin-bottom:10px;
-			border-bottom:1px solid #c0392b;
 			padding:0;
 			color:#c0392b;
 		}
@@ -141,18 +161,11 @@
 			font-size:12px;
 		}
 		.selections #portal_velocities {
+			height:80px;
 			margin-right:20px;
 			padding-left:20px;
-			border-left:1px solid #333;
+			/*border-left:1px solid #333;*/
 			display:none;
-		}
-		.selections #portal_velocities p{
-			font-size:14px;
-			margin:0;
-			margin-bottom:10px;
-			border-bottom:1px solid #c0392b;
-			padding:0;
-			color:#c0392b;
 		}
 		.selections #portal_velocities label{
 			font-size:12px;
@@ -309,38 +322,55 @@
 			</ul>
 		</div>
 		<div id="actions">
+			<p class="section_header">Actions</p>
 			<input type="radio" id="action_place" name="action" value="place"><label for="action_place">Place Object</label><br/>
 			<input type="radio" id="action_erase" name="action" value="erase"><label for="action_erase">Erase</label> <br/>
 		</div>
 		<div id="block_types">
-			<input type="radio" id="big_type" name="types" value="big"><label for="big_type">Big Block</label><br/>
-			<input type="radio" id="small_type" name="types" value="small"><label for="small_type">Small Block</label><br/>
-			<input type="radio" id="wall_type" name="types" value="wall"><label for="wall_type">Wall</label><br/>
-			<input type="radio" id="portal_type" name="types" value="portal"><label for="portal_type">Portal</label><br/>
-			<input type="radio" id="paddle_type" name="types" value="paddle"><label for="paddle_type">Paddle</label><br/>
+			<p class="section_header">&gt;&nbsp;Objects</p>
+			<div class="types_col">
+				<input type="radio" id="big_type" name="types" value="big"><label for="big_type">Big Block</label><br/>
+				<input type="radio" id="small_type" name="types" value="small"><label for="small_type">Small Block</label><br/>
+				<input type="radio" id="wall_type" name="types" value="wall"><label for="wall_type">Wall</label><br/>
+			</div>
+			<div class="types_col">
+				<input type="radio" id="portal_type" name="types" value="portal"><label for="portal_type">Portal</label><br/>
+				<input type="radio" id="paddle_type" name="types" value="paddle"><label for="paddle_type">Paddle</label><br/>
+				<input type="radio" id="death_zone" name="types" value="death"><label for="death_zone">Death Zone</label><br/>
+			</div>
 		</div>
 		<div id="block_colors">
-			<input type="radio" id="green" name="colors" value="green" checked> <label for="green">Green</label><br/>
-			<input type="radio" id="blue" name="colors" value="blue"> <label for="blue">Blue <br/>
-			<input type="radio" id="red" name="colors" value="red"> <label for="red">Red <br/>
-			<input type="radio" id="yellow" name="colors" value="yellow"> <label for="yellow">Yellow <br/>
-			<input type="radio" id="purple" name="colors" value="purple"> <label for="purple">Purple <br/>
+			<p class="section_header">&gt;&nbsp;Block Options</p>
+			<div class="types_col">
+				<input type="radio" id="green" name="colors" value="green" checked> <label for="green">Green</label><br/>
+				<input type="radio" id="blue" name="colors" value="blue"> <label for="blue">Blue</label> <br/>
+				<input type="radio" id="red" name="colors" value="red"> <label for="red">Red</label> <br/>
+			</div>
+			<div class="types_col">
+				<input type="radio" id="yellow" name="colors" value="yellow"> <label for="yellow">Yellow</label> <br/>
+				<input type="radio" id="purple" name="colors" value="purple"> <label for="purple">Purple</label> <br/>
+			</div>
 		</div>
 		<div id="portal_colors">
-			<input type="radio" id="blue_portal" name="portal_colors" value="blue" checked><label for="blue_portal">Blue</label> <br/>
-			<input type="radio" id="red_portal" name="portal_colors" value="red"><label for="red_portal">Red</label><br/>
-		</div>
-		<div id="portal_velocities">
-			<p><em>Leave x and y velocity blank to keep the balls velocity after being teleported.<br/>
-			Enter - to match the velocity in the negative direction, + for the positive direction</em></p>
-			<label for="velx">X Velocity&nbsp;&nbsp;</label><input type="selection" id="velx" name="portal_velocities" value="">
-			&nbsp;&nbsp;
-			<label for="vely">Y Velocity&nbsp;&nbsp;</label><input type="selection" id="vely" name="portal_velocities" value=""><br/>
+			<p class="section_header">&gt;&nbsp;Portal Options</p>
+			<p class="warning"><em>Leave x and y velocity blank to keep the balls velocity after being teleported.<br/>
+				Enter - to match the velocity in the negative direction, + for the positive direction</em></p>
+			<div class="types_col">
+				<input type="radio" id="blue_portal" name="portal_colors" value="blue" checked><label for="blue_portal">Blue</label> <br/>
+				<input type="radio" id="red_portal" name="portal_colors" value="red"><label for="red_portal">Red</label>
+			</div>
+			<div id="portal_velocities" class="types_col">
+				<label for="velx">X Velocity&nbsp;&nbsp;</label><input type="selection" id="velx" name="portal_velocities" value="">
+				&nbsp;&nbsp;
+				<label for="vely">Y Velocity&nbsp;&nbsp;</label><input type="selection" id="vely" name="portal_velocities" value=""><br/>
+			</div>
 		</div>
 		<div id="paddle_options">
-			<p><em>Length must be between 10 and 300</em></p>
+			<p class="section_header">&gt;&nbsp;Paddle Options</p>
+			<p class="warning"><em>Length must be between 10 and 300</em></p>
 			<label for="paddle_length">Length:&nbsp;&nbsp;</label><input type="selection" id="paddle_length" name="paddle_values" value="100" placeholder="100"><br/>
 		</div>
+
 	</form>
 	<div style="clear:both;"></div>
 	<div id="import-wrapper">
