@@ -17,7 +17,7 @@ var blockPlacementScene = {
 		//---------------------------------------------------------------------------------------------------------------------------------------------------------
 		for ( var i = 0; i < test_blocks.length; ++i ) {
 			if ( active_block.is_wall ) break;
-			if ( test_blocks[i].is_portal || test_blocks[i].is_wall ) continue;
+			if ( test_blocks[i].is_portal || test_blocks[i].is_wall || test_blocks[i].is_deathzone ) continue;
 
 			//check if the block is centered vertically with another block
 			if ( ( mousePos.x <= test_blocks[i].center.x + 5 && mousePos.x >= test_blocks[i].center.x - 5 )  && placement_guides.vertical_centering != true ) {
@@ -49,7 +49,7 @@ var blockPlacementScene = {
 
 		for ( var i = 0; i < test_blocks.length; ++i ) {
 			if ( active_block.is_wall ) break;
-			if ( test_blocks[i].is_portal || test_blocks[i].is_wall ) continue;
+			if ( test_blocks[i].is_portal || test_blocks[i].is_wall || test_blocks[i].is_deathzone ) continue;
 
 			//check if the block is centered horizontally with another block
 			//placement_guides.horizontal_centering != true
@@ -104,7 +104,7 @@ var blockPlacementScene = {
 		if ( !placement_guides.horizontal_centering ) {
 			for ( var i = 0; i < test_blocks.length; ++i ) {
 				if ( active_block.is_wall ) break;
-				if ( test_blocks[i].is_portal || test_blocks[i].is_wall ) continue;
+				if ( test_blocks[i].is_portal || test_blocks[i].is_wall || test_blocks[i].is_deathzone ) continue;
 
 				//check if the block is locked against the top edge of other blocks
 				if ( mousePos.y + ( active_block.height / 2 ) >= test_blocks[i].top_edge - 5 && mousePos.y <= test_blocks[i].center.y && 
@@ -184,7 +184,7 @@ var blockPlacementScene = {
 		if ( !placement_guides.vertical_centering ) {
 			for ( var i = 0; i < test_blocks.length; ++i ) {
 				if ( active_block.is_wall ) break;
-				if ( test_blocks[i].is_portal || test_blocks[i].is_wall ) continue;
+				if ( test_blocks[i].is_portal || test_blocks[i].is_wall || test_blocks[i].is_deathzone ) continue;
 
 				if ( mousePos.x <= test_blocks[i].right_edge + ( active_block.width / 2 ) + 5 && mousePos.x >= test_blocks[i].right_edge + ( active_block.width / 2 ) - 5 ) 
 				{
