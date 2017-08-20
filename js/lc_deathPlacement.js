@@ -183,7 +183,35 @@ var deathPlacementScene = {
 	click_down : function() {
 		this.clicks++;
 		if ( this.clicks == 2 ) {
+			var width, height, x, y, orientation;
+
+			if ( this.edge === "top" || this.edge === "bottom" ) {
+				width = Math.abs( this.x2 - this.x1 );
+				height = 4;
+				x = ( (this.x2 > this.x1) ? this.x1 : this.x2 );
+				y = ( (this.y1 == 0) ? this.y1 : this.y1 - 4 );
+				orientation = "horizontal";
+			}
+			else {
+				width = 4;
+				height = Math.abs( this.y2 - this.y1 );
+				x = ( (this.x1 == 0) ? this.x1 : this.x1 - 4 );
+				y = ( (this.y2 > this.y1) ? this.y1 : this.y2 );
+				orientation = "vertical";
+			}
+
+			//width, height, x, y, edge
+			level_object.death_zones.push( new death_zone_code( width, height, x, y, this.edge ) );
+
+			//width, height, color, x, y, health = 1, type = "color"
+			test_blocks.push( new block( width, height, "assets/deathzone.png", x, y, 1, "image" ) );
+
+			test_blocks[ test_blocks.length - 1 ].is_deathzone = true;
+			test_blocks[ test_blocks.length - 1 ].orientation = orientation;
+
 			this.clicks = 0;
+
+			alert("Width: " + width + "\nHeight: " + height + "\nX: " + x + "\nY: " + y);
 		}
 	},
 
@@ -195,7 +223,8 @@ var deathPlacementScene = {
 			return;
 		} 
 
-		if ( this.clicks == 0 ) {
+		if ( this.clicks == 0 ) 
+		{
 			if ( e.keyCode == 37 ) {
 				e.preventDefault();
 				this.edge = "left";
@@ -214,10 +243,34 @@ var deathPlacementScene = {
 			}
 			return;
 		}
-		else if ( this.clicks == 1 && ( e.keyCode >= 37 && e.keyCode <= 40 ) ) {
-			this.clicks = 0;
-			this.buttonPress(e);
-			return;
+		else if ( this.clicks == 1 ) 
+		{
+			//32 = spacebar
+			if ( e.keyCode == 32 ) 
+			{
+				if ( this.edge === "top" || this.edge === "bottom" ) {
+					this.x1 = 0;
+					this.x2 = width;
+					this.y1 = ( (this.edge === "top") ? 0 : height );
+					this.y2 = this.y1;
+				}
+				else {
+					this.x1 = ( (this.edge === "left") ? 0 : width );
+					this.x2 = this.x1;
+					this.y1 = 0;
+					this.y2 = height;
+				}
+
+				//force the next click function to run
+				this.click_down();
+			}
+			//37-40 arrow keys, 37 = left, 38 = up, 39 = right, 40 = down
+			else if ( e.keyCode >= 37 && e.keyCode <= 40 ) 
+			{
+				this.clicks = 0;
+				this.buttonPress(e);
+				return;
+			}
 		}
 	},
 
