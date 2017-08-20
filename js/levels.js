@@ -15,7 +15,8 @@ var levels = [
 ];
 
 function buildLevel( level ) {
-     for ( var i = 0; i < level.blocks.length; ++i ) {
+     for ( var i = 0; i < level.blocks.length; ++i ) 
+     {
           //BLOCK
           if ( level.blocks[i].type != "wall" && level.blocks[i].type != "portal" ) 
           {
@@ -66,19 +67,24 @@ function buildLevel( level ) {
      }
 
      //MAIN PADDLE
-     if ( level.hasOwnProperty("main_paddle") ) {
-          if ( level.main_paddle.default ) {
+     if ( level.hasOwnProperty("main_paddle") ) 
+     {
+          if ( level.main_paddle.default ) 
+          {
                myPaddle.width = default_paddle_width;
                myPaddle.track.first_bound.x = 0;
                myPaddle.track.second_bound.x = width;
                custom_big_paddle_width = level.main_paddle.major_modded_length;
-          } else {
+          } else 
+          {
                myPaddle.width = default_paddle_width;
                myPaddle.track.first_bound.x = level.main_paddle.left_bound_x;
                myPaddle.track.second_bound.x = level.main_paddle.right_bound_x;
                custom_big_paddle_width = level.main_paddle.major_modded_length;
           }
-     } else {
+     } 
+     else 
+     {
           myPaddle.width = default_paddle_width;
           myPaddle.track.first_bound.x = 0;
           myPaddle.track.second_bound.x = width;
@@ -86,8 +92,10 @@ function buildLevel( level ) {
      }
 
      //OTHER PADDLES
-     if ( level.hasOwnProperty("paddles") ) {
-          for ( var i = 0; i < level.paddles.length; ++i ) {
+     if ( level.hasOwnProperty("paddles") ) 
+     {
+          for ( var i = 0; i < level.paddles.length; ++i ) 
+          {
                //width = 100, height = 7, x1 = 0, y1 = 0, x2 = 0, y2 = 0, rail = "horizontal"
                paddles.push( new paddle( 
                     level.paddles[i].major_length,
@@ -99,6 +107,22 @@ function buildLevel( level ) {
                     level.paddles[i].orientation
                ) )
           }
+     }
+
+     //death zones
+     if ( level.hasOwnProperty("death_zones") ) 
+     {
+
+     }
+     else 
+     {
+          //no custom death zones, so just add one big one to the bottom of the game area
+          // "width": 960,
+          // "height": 4,
+          // "x": 0,
+          // "y": 536,
+          // "edge": "bottom"
+          deathzones.push( new deathzone( 960, 4, 0, 536, "bottom" ) );
      }
 }
 
