@@ -164,6 +164,28 @@ var portalPlacementScene = {
 
 				this.tx = mousePos.x;
 				this.ty = mousePos.y;
+
+				if ( mousePos.x <= 100 && mousePos.y <= 35 ) {
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("X: " + this.tx.toFixed(2), width - 70, 20);
+
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("Y: " + this.ty.toFixed(2), width - 70, 35);
+				} else {
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("X: " + this.tx.toFixed(2), 10, 20);
+
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("Y: " + mousePos.y.toFixed(2), 10, 35);
+				}
 			}
 
 			ctx.globalCompositeOperation='destination-over';
@@ -302,6 +324,28 @@ var portalPlacementScene = {
 
 				this.tx = mousePos.x;
 				this.ty = mousePos.y;
+				
+				if ( mousePos.x <= 100 && mousePos.y <= 35 ) {
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("X: " + this.tx.toFixed(2), width - 70, 20);
+
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("Y: " + this.ty.toFixed(2), width - 70, 35);
+				} else {
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("X: " + this.tx.toFixed(2), 10, 20);
+
+					ctx.font = "12px Courier New";
+					ctx.fillStyle = "black";
+					ctx.textAlign = "left";
+					ctx.fillText("Y: " + mousePos.y.toFixed(2), 10, 35);
+				}
 			}
 
 			//draw a line from the center of the portal to the mouse
