@@ -3,9 +3,9 @@ myPaddle = new paddle();
 
 var gameScene = {
 	setup : function() {
+		//reset all level data
 		GAME_STATE.reset();
 		player.reset();
-		//balls = blocks = walls = portals = streaks = mods = paddles = [];
 		balls = [];
 		blocks = [];
 		walls = [];
@@ -13,9 +13,11 @@ var gameScene = {
 		streaks = [];
 		mods = [];
 		paddles = [];
+		deathzones = [];
 		this.stretch_mod_ptr = null;
 
 		myPaddle.width = default_paddle_width;
+		myPaddle.is_stretched = false;
 
 		paddles.push(myPaddle);
 
@@ -80,11 +82,9 @@ var gameScene = {
 				myGameArea.context.fillText( "Click to launch ball", myPaddle.x + ( myPaddle.width / 2 ), myPaddle.y - 40 );
 			}
 
-			// alert("KEK");
-			//console.log(myPaddle);
-			// myPaddle.newPos( mousePos.x, mousePos.y );
-			// myPaddle.update();
-			// alert("HEH");
+			for ( var i = 0; i < deathzones.length; ++i ) {
+				deathzones[i].update();
+			}
 
 			//delete a block that was marked for deletion on the previous frame
 			if ( block_to_delete != -1 ) {
@@ -162,69 +162,160 @@ var gameScene = {
 					portals[j].update();	//update each portal
 					portals[j].collision( balls[i] );
 				}
+				//---------------------------------------------------------------------------------------------------------------------------------
+				//---------------------------------------------------------------------------------------------------------------------------------
+				//  ____        _ _       __ __          __   _ _    _____      _ _ _     _                 
+				// |  _ \      | | |     / / \ \        / /  | | |  / ____|    | | (_)   (_)                
+				// | |_) | __ _| | |    / /   \ \  /\  / /_ _| | | | |     ___ | | |_ ___ _  ___  _ __  ___ 
+				// |  _ < / _` | | |   / /     \ \/  \/ / _` | | | | |    / _ \| | | / __| |/ _ \| '_ \/ __|
+				// | |_) | (_| | | |  / /       \  /\  / (_| | | | | |___| (_) | | | \__ \ | (_) | | | \__ \
+				// |____/ \__,_|_|_| /_/         \/  \/ \__,_|_|_|  \_____\___/|_|_|_|___/_|\___/|_| |_|___/
+				//
+				//---------------------------------------------------------------------------------------------------------------------------------
+				//---------------------------------------------------------------------------------------------------------------------------------
 
 				//check for a collision with the game area walls
-				myGameArea.collision( balls[i] );
+				var collided_with_wall = myGameArea.collision( balls[i] );
+				var dead_ball = false; //bool when true, ball hit deathzone
+
+				//alert(balls[i].free);
+
+				if ( (collided_with_wall.top_bottom || collided_with_wall.left_right) && balls[i].free ) {
+					// alert("DEATHZONE CHECK");
+
+					//loop through the deathzones and check for a collision with the ball
+					//if there was no collision, bounce the ball off the wall
+					for ( var j = 0; j < deathzones.length; ++j ) 
+					{
+						// alert(JSON.stringify(collided_with_wall));
+						//if the deathzone is on the top or bottom and the ball hit the top or bottom wall
+						if ( collided_with_wall.top_bottom ) {
+							//the ball is hitting the top and the deathzone is on the top wall
+							if ( deathzones[j].edge === "top" && balls[i].y <= 50 ) 
+							{
+								alert("TOP");
+								if ( balls[i].x + balls[i].spdX >= deathzones[j].x && balls[i].x + balls[i].spdX <= deathzones[j].x + deathzones[j].width ) 
+								{
+									//the hitting the wall within the left and right bounds of the deathzone
+									dead_ball = true;
+									break;
+								}
+							}
+							//the ball is hitting the bottom and the deathzone is on the bottom wall
+							else if ( deathzones[j].edge === "bottom"  && balls[i].y >= height - 50 ) 
+							{
+								alert("BOTTOM");
+								if ( balls[i].x >= deathzones[j].x && balls[i].x <= deathzones[j].x + deathzones[j].width ) 
+								{
+									//the hitting the wall within the left and right bounds of the deathzone
+									dead_ball = true;
+									break;
+								}
+							}
+						}
+						else if ( collided_with_wall.left_right ) 
+						{
+							//if the deathzone is on the left or right and the ball hit the left or right wall
+							if ( collided_with_wall.left_right ) 
+							{
+								//the ball is hitting the left and the deathzone is on the left wall
+								if ( deathzones[j].edge === "left" && balls[i].x <= 50 ) 
+								{
+									alert("LEFT");
+									//the hitting the wall within the top and bottom bounds of the deathzone
+									if ( balls[i].y + balls[i].spdY >= deathzones[j].y && balls[i].y + balls[i].spdY <= deathzones[j].y + deathzones[j].height ) 
+									{
+										dead_ball = true;
+										break;
+									}
+								}
+								//the ball is hitting the right and the deathzone is on the right wall
+								else if ( deathzones[j].edge === "right" && balls[i].x >= width - 50 ) 
+								{
+									alert("RIGHT");
+									//the hitting the wall within the top and bottom bounds of the deathzone
+									if ( balls[i].y + balls[i].spdY >= deathzones[j].y && balls[i].y + balls[i].spdY <= deathzones[j].y + deathzones[j].height ) 
+									{
+										dead_ball = true;
+										break;
+									}
+								}
+							}
+						}
+					}
+
+					if ( dead_ball ) {
+						//the ball hit a deathzone
+						//if there are no more free balls, a life is lost
+						balls.splice( i, 1 );
+						if ( balls.length == 0 && !GAME_STATE.BALL_READY ) {
+							GAME_STATE.LIFE_LOST = true;
+							--player.lives;
+						}
+						continue; //skip to the next ball
+					}
+					else {
+						// alert("DEFAULT BOUNCE");
+						//the ball did not hit a deathzone, it hit the wall
+						if ( collided_with_wall.top_bottom ) {
+							balls[i].spdY *= -1;
+						}
+						else if ( collided_with_wall.left_right ) {
+							balls[i].spdX *= -1;
+						}
+					}
+				}
+
 
 				//check if the ball went past the bottom of the canvas
-				if ( myGameArea.bottom_hit ) {
-					//if it did, remove the ball and deal with the player data
-					//GAME_STATE.STOP_TIME = true;
-					balls.splice( i, 1 );
+				// if ( myGameArea.bottom_hit ) {
+				// 	//if it did, remove the ball and deal with the player data
+				// 	//GAME_STATE.STOP_TIME = true;
+				// 	balls.splice( i, 1 );
 
-					//if there are no more free balls, a life is lost
-					if ( balls.length == 0 && !GAME_STATE.BALL_READY ) {
-						GAME_STATE.LIFE_LOST = true;
-						--player.lives;						
-					}
-					myGameArea.bottom_hit = false;
+				// 	//if there are no more free balls, a life is lost
+				// 	if ( balls.length == 0 && !GAME_STATE.BALL_READY ) {
+				// 		GAME_STATE.LIFE_LOST = true;
+				// 		--player.lives;
+				// 	}
+				// 	myGameArea.bottom_hit = false;
 
-					//go to the next frame
-					continue;
-				}
-			
-				//check for a collision with a paddle
-				//if a ball hit the paddle, reset it's streak
-				// if ( myPaddle.collision( balls[i] ) ) {
-				// 	balls[i].streak = 0;
+				// 	//go to the next frame
+				// 	continue;
 				// }
 
 				for ( var j = 0; j < paddles.length; ++j ) {
 					paddles[j].newPos(mousePos.x, mousePos.y);
 					paddles[j].update();
 
-					// var collided_with = paddles[j].collision( balls[i] );
-
-					// if ( collided_with !== null ) {
-					// 	balls[i].streak = 0;
-
-					// 	if ( collided_with.top_bottom ) {
-					// 		balls[i].spdY *= -1;
-					// 		if ( balls[i].spdX >= 0 ) {
-					// 			if ( balls[i].spdY >= 0 ) {
-					// 				balls[i].y = paddles[j].y - balls[i].height;
-					// 			}
-					// 			else if ( balls[i].spdY <= 0 ) {
-					// 				balls[i].y = paddles[j].y;
-					// 			}
-					// 		}
-					// 	} else if ( collided_with.left_right ) {
-					// 		balls[i].spdX *= -1;
-					// 		if ( balls[i].spdX <= 0 ) {
-					// 			if ( balls[i].spdY >= 0 ) {
-					// 				balls[i].y = paddles[j].y - balls[i].height;
-					// 			}
-					// 			else if ( balls[i].spdY <= 0 ) {
-					// 				balls[i].y = paddles[j].y;
-					// 			}
-					// 		}
-					// 	}
-					// }
-
+					//---------------------------------------------------------------------------------------------------------------------------------
+					//---------------------------------------------------------------------------------------------------------------------------------
+					//  ____        _ _       __  _____          _     _ _         _____      _ _ _     _                 
+					// |  _ \      | | |     / / |  __ \        | |   | | |       / ____|    | | (_)   (_)                
+					// | |_) | __ _| | |    / /  | |__) |_ _  __| | __| | | ___  | |     ___ | | |_ ___ _  ___  _ __  ___ 
+					// |  _ < / _` | | |   / /   |  ___/ _` |/ _` |/ _` | |/ _ \ | |    / _ \| | | / __| |/ _ \| '_ \/ __|
+					// | |_) | (_| | | |  / /    | |  | (_| | (_| | (_| | |  __/ | |___| (_) | | | \__ \ | (_) | | | \__ \
+					// |____/ \__,_|_|_| /_/     |_|   \__,_|\__,_|\__,_|_|\___|  \_____\___/|_|_|_|___/_|\___/|_| |_|___/
+					//
+					//---------------------------------------------------------------------------------------------------------------------------------
+					//---------------------------------------------------------------------------------------------------------------------------------
+                                                                                                    
 					if ( paddles[j].collision( balls[i] ) !== null ) {
 						balls[i].streak = 0;
 					}
 				}
+
+				//---------------------------------------------------------------------------------------------------------------------------------
+				//---------------------------------------------------------------------------------------------------------------------------------	
+				// ____        _ _       __  ____  _            _       _____      _ _ _     _                 
+				// |  _ \      | | |     / / |  _ \| |          | |     / ____|    | | (_)   (_)                
+				// | |_) | __ _| | |    / /  | |_) | | ___   ___| | __ | |     ___ | | |_ ___ _  ___  _ __  ___ 
+				// |  _ < / _` | | |   / /   |  _ <| |/ _ \ / __| |/ / | |    / _ \| | | / __| |/ _ \| '_ \/ __|
+				// | |_) | (_| | | |  / /    | |_) | | (_) | (__|   <  | |___| (_) | | | \__ \ | (_) | | | \__ \
+				// |____/ \__,_|_|_| /_/     |____/|_|\___/ \___|_|\_\  \_____\___/|_|_|_|___/_|\___/|_| |_|___/
+				//
+				//---------------------------------------------------------------------------------------------------------------------------------
+				//---------------------------------------------------------------------------------------------------------------------------------
 
 				//check for collisions with the blocks
 				for ( var j = 0; j < blocks.length; ++j ) {
@@ -266,6 +357,18 @@ var gameScene = {
 
 					blocks[j].update();
 				}
+
+				//---------------------------------------------------------------------------------------------------------------------------------
+				//---------------------------------------------------------------------------------------------------------------------------------
+				//  ____        _ _       __ __          __   _ _            ____  _            _       _____      _ _ _     _                 
+				// |  _ \      | | |     / / \ \        / /  | | |          |  _ \| |          | |     / ____|    | | (_)   (_)                
+				// | |_) | __ _| | |    / /   \ \  /\  / /_ _| | |  ______  | |_) | | ___   ___| | __ | |     ___ | | |_ ___ _  ___  _ __  ___ 
+				// |  _ < / _` | | |   / /     \ \/  \/ / _` | | | |______| |  _ <| |/ _ \ / __| |/ / | |    / _ \| | | / __| |/ _ \| '_ \/ __|
+				// | |_) | (_| | | |  / /       \  /\  / (_| | | |          | |_) | | (_) | (__|   <  | |___| (_) | | | \__ \ | (_) | | | \__ \
+				// |____/ \__,_|_|_| /_/         \/  \/ \__,_|_|_|          |____/|_|\___/ \___|_|\_\  \_____\___/|_|_|_|___/_|\___/|_| |_|___/
+				//
+				//---------------------------------------------------------------------------------------------------------------------------------
+				//---------------------------------------------------------------------------------------------------------------------------------
 
 				//check for collisions with walls
 				for ( var k = 0; k < walls.length; ++k ) {
@@ -337,14 +440,12 @@ var gameScene = {
 			else if ( player.lives < 0 ) {
 				document.body.style.cursor = "";
 				this.scene_ready = false;
-				//this.draw_level = true;
 				GAME_STATE.ACTIVE_SCENE = SCENES.GAME_OVER_SCENE;
 				GAME_STATE.reset();
 				clearInterval(this.timer_interval);
 			} 
 			else 
 			{
-				//alert("IN HERE FOR SOME REASON");
 				GAME_STATE.LIFE_LOST = false;
 			}
 		}
