@@ -452,6 +452,8 @@
 
 <img src="assets/wall_horizontal.png" id="wall_horizontal" style="display:none;" >
 <img src="assets/wall_vertical.png" id="wall_vertical" style="display:none;" >
+<img src="assets/deathzone.png" id="death_horizontal" style="display:none;" >
+<img src="assets/deathzone_vertical.png" id="death_vertical" style="display:none;" >
 
 <!-- <script src="../js/GLOBALS.js"></script> -->
 <!-- <script src="js/creater.js"></script> -->
@@ -797,16 +799,18 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 			ctx.strokeStyle = '#00f';
 			ctx.stroke();
 		}
-		else if ( this.deathzone ) 
+		else if ( this.is_deathzone ) 
 		{
+			// ctx.globalAlpha = 0.5;
 			ctx.beginPath();
-		    var img = document.getElementById("wall_" + this.orientation);
+		    var img = document.getElementById("death_" + this.orientation);
 		    var pat = ctx.createPattern( img, "repeat" );
 		    ctx.save();
 		    ctx.fillStyle = pat;
 		    ctx.translate( this.x, this.y );
 		    ctx.fillRect(0, 0, this.width, this.height);
 		    ctx.restore();
+		    // ctx.globalAlpha = 1;
 		}
 		else //type = image 
 		{
@@ -1025,6 +1029,7 @@ function clearCanvas( ) {
 	test_blocks = [];
 	level_object.blocks = [];
 	level_object.paddles = [];
+	level_object.death_zones = [];
 	document.getElementById("code").innerHTML = "";
 }
 
