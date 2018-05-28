@@ -25,18 +25,18 @@ var settingsScene = {
 	setup : function( ) {
 		SETTINGS_HEADER = new block( 122, 50, settings_header_image, ( myGameArea.canvas.width / 2 ) - 61, 25, 0, "image" );
 		FLIGHT_PATH = new block( 400, 64, flight_path_deactivated, ( myGameArea.canvas.width / 2 ) - 200, 75, 0, "image" );
-		PAPA_PADDLE = new block( 400, 64, papa_paddle_deactivated, ( myGameArea.canvas.width / 2 ) - 200, 125, 0, "image" );
-		CURSOR = new block( 400, 64, cursor_deactivated, ( myGameArea.canvas.width / 2 ) - 200, 175, 0, "image" );
-		SOUNDS = new block( 400, 64, sounds_deactivated, ( myGameArea.canvas.width / 2 ) - 200, 225, 0, "image" );
+		// PAPA_PADDLE = new block( 400, 64, papa_paddle_deactivated, ( myGameArea.canvas.width / 2 ) - 200, 125, 0, "image" );
+		CURSOR = new block( 400, 64, cursor_deactivated, ( myGameArea.canvas.width / 2 ) - 200, 125, 0, "image" );
+		SOUNDS = new block( 400, 64, sounds_deactivated, ( myGameArea.canvas.width / 2 ) - 200, 175, 0, "image" );
 
 		//set the correct state of the flight path setting
 		if ( GAME_SETTINGS.ball.flight_path == true ) {
 			FLIGHT_PATH.image.src = flight_path_activated;
 		}
 
-		if ( GAME_SETTINGS.paddle.papa_paddle == true ) {
-			PAPA_PADDLE.image.src = papa_paddle_activated;
-		}
+		// if ( GAME_SETTINGS.paddle.papa_paddle == true ) {
+		// 	PAPA_PADDLE.image.src = papa_paddle_activated;
+		// }
 
 		if ( GAME_SETTINGS.paddle.papa_paddle == true ) {
 			PAPA_PADDLE.image.src = papa_paddle_activated;
@@ -77,29 +77,29 @@ var settingsScene = {
 			}
 		}
 
-		if (mousePos.x < PAPA_PADDLE.x + PAPA_PADDLE.width &&
-			mousePos.x > PAPA_PADDLE.x &&
-			mousePos.y < PAPA_PADDLE.y + PAPA_PADDLE.height &&
-			mousePos.y > PAPA_PADDLE.y ) 
-		{
-			//hovering
-			if ( GAME_SETTINGS.paddle.papa_paddle == true ) {
-				//hovering and active
-				PAPA_PADDLE.image.src = papa_paddle_activated_hover;
-			} else {
-				//hovering and deactivated
-				PAPA_PADDLE.image.src = papa_paddle_deactivated_hover;
-			}
-		} else {
-			//not hovering
-			if ( GAME_SETTINGS.paddle.papa_paddle == true ) {
-				//not hovering and active
-				PAPA_PADDLE.image.src = papa_paddle_activated;
-			} else {
-				//not hovering and deactivated
-				PAPA_PADDLE.image.src = papa_paddle_deactivated;
-			}
-		}
+		// if (mousePos.x < PAPA_PADDLE.x + PAPA_PADDLE.width &&
+		// 	mousePos.x > PAPA_PADDLE.x &&
+		// 	mousePos.y < PAPA_PADDLE.y + PAPA_PADDLE.height &&
+		// 	mousePos.y > PAPA_PADDLE.y ) 
+		// {
+		// 	//hovering
+		// 	if ( GAME_SETTINGS.paddle.papa_paddle == true ) {
+		// 		//hovering and active
+		// 		PAPA_PADDLE.image.src = papa_paddle_activated_hover;
+		// 	} else {
+		// 		//hovering and deactivated
+		// 		PAPA_PADDLE.image.src = papa_paddle_deactivated_hover;
+		// 	}
+		// } else {
+		// 	//not hovering
+		// 	if ( GAME_SETTINGS.paddle.papa_paddle == true ) {
+		// 		//not hovering and active
+		// 		PAPA_PADDLE.image.src = papa_paddle_activated;
+		// 	} else {
+		// 		//not hovering and deactivated
+		// 		PAPA_PADDLE.image.src = papa_paddle_deactivated;
+		// 	}
+		// }
 
 		if (mousePos.x < CURSOR.x + CURSOR.width &&
 			mousePos.x > CURSOR.x &&
@@ -152,7 +152,7 @@ var settingsScene = {
 
 		SETTINGS_HEADER.update();
 		FLIGHT_PATH.update();
-		PAPA_PADDLE.update();
+		// PAPA_PADDLE.update();
 		CURSOR.update();
 		SOUNDS.update();
 
@@ -178,26 +178,26 @@ var settingsScene = {
 			}
 		}
 
-		else if (mousePos.x < PAPA_PADDLE.x + PAPA_PADDLE.width &&
-			mousePos.x > PAPA_PADDLE.x &&
-			mousePos.y < PAPA_PADDLE.y + PAPA_PADDLE.height &&
-			mousePos.y > PAPA_PADDLE.y ) 
-		{
-			//toggle the flight path setting and the activated/deactivated image
-			if ( GAME_SETTINGS.paddle.papa_paddle == true ) {
-				GAME_SETTINGS.paddle.papa_paddle = false;
-				PAPA_PADDLE.image.src = papa_paddle_deactivated;				
-				default_paddle_width = 100;
-				big_paddle_width = 175;
-				myPaddle.width = default_paddle_width;
-			} else {
-				GAME_SETTINGS.paddle.papa_paddle = true;
-				PAPA_PADDLE.image.src = papa_paddle_activated;
-				default_paddle_width = 200;
-				big_paddle_width = 300;
-				myPaddle.width = default_paddle_width;
-			}
-		}
+		// else if (mousePos.x < PAPA_PADDLE.x + PAPA_PADDLE.width &&
+		// 	mousePos.x > PAPA_PADDLE.x &&
+		// 	mousePos.y < PAPA_PADDLE.y + PAPA_PADDLE.height &&
+		// 	mousePos.y > PAPA_PADDLE.y ) 
+		// {
+		// 	//toggle the flight path setting and the activated/deactivated image
+		// 	if ( GAME_SETTINGS.paddle.papa_paddle == true ) {
+		// 		GAME_SETTINGS.paddle.papa_paddle = false;
+		// 		PAPA_PADDLE.image.src = papa_paddle_deactivated;				
+		// 		default_paddle_width = 100;
+		// 		big_paddle_width = 175;
+		// 		myPaddle.width = default_paddle_width;
+		// 	} else {
+		// 		GAME_SETTINGS.paddle.papa_paddle = true;
+		// 		PAPA_PADDLE.image.src = papa_paddle_activated;
+		// 		default_paddle_width = 200;
+		// 		big_paddle_width = 300;
+		// 		myPaddle.width = default_paddle_width;
+		// 	}
+		// }
 
 		else if (mousePos.x < CURSOR.x + CURSOR.width &&
 			mousePos.x > CURSOR.x &&

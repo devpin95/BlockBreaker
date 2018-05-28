@@ -10,12 +10,8 @@ var mainMenuScene = {
 		var settings_button = "assets/settings_button.png";
 		var settings_button_hover = "assets/settings_button_hover.png";
 		var mode_classic_image = "assets/mode_classic.png";
-		var mode_double_trouble_image = "assets/mode_double_trouble.png";
-		var mode_survival_image = "assets/mode_survival.png";
 
-		this.mode_classic = new block( 274, 317, mode_classic_image, 53, 125, 0, "image" );
-		this.mode_double_trouble = new block( 274, 317, mode_double_trouble_image, 53 + 274 + 10, 125, 0, "image" );
-		this.mode_survival = new block( 274, 317, mode_survival_image, 53 + 274 + 274 + 10 + 10, 125, 0, "image" );
+		this.mode_classic = new block( 274, 317, mode_classic_image, 53 + 274 + 10, 125, 0, "image" );
 
 		//create the menu
 		this.menu = new menu();
@@ -25,7 +21,6 @@ var mainMenuScene = {
 		var modes_y = (this.mode_classic.y + this.mode_classic.height) - 50;
 		this.menu.add( classic_center_x , classic_center_x, modes_y, modes_y, "image", play_button, play_button_hover, function() {
 			this.menu_balls = [];
-			//this.scene_ready = false;
 			GAME_STATE.change_scene( SCENES.C_MODE_LVL_SELECT );
 			GAME_STATE.MESSAGE = "Classic Mode";
 		} );
@@ -60,8 +55,6 @@ var mainMenuScene = {
 
 		LOGO.update();
 		this.mode_classic.update();
-		this.mode_double_trouble.update();
-		this.mode_survival.update();
 		this.menu.hovering( mousePos.x, mousePos.y );
 		this.menu.update();
 
@@ -95,6 +88,6 @@ var mainMenuScene = {
 	},
 
 	button_press : function( e ) {
-		
+		return
 	}
 };

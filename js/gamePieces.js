@@ -874,13 +874,14 @@ function sound( src ) {
 //type = "text"
 //v1 = text value
 //v2 = font size
-function button( x1, x2, y1, y2, type = "image", v1 = "", v2 = "", callback = function(){ alert("CLICKED"); }, ff = "arial", c1 = "#000", c2 = null ) {
+function button( x1, x2, y1, y2, type = "image", v1 = "", v2 = "", callback = function(){ alert("CLICKED"); }, ff = "arial", c1 = "#000", c2 = null, active = true ) {
 	this.x = x1;
 	this.y = y1;
 	this.width = 0;
 	this.height = 0;
 	// width, height, color, x, y, health = 1, type = "color"
 	this.bb = new block(this.width, this.height, "rgba(255, 0, 0, 0)", this.x, this.y, 1, "color");
+	this.active = active
 
 	if ( type === "image" ) {
 		this.v1 = new Image();
@@ -909,8 +910,6 @@ function button( x1, x2, y1, y2, type = "image", v1 = "", v2 = "", callback = fu
 	};
 
 	this.text_vals.color2 = ( (c2 == null) ? c1 : c2 );
-
-	//alert("c1: " + this.text_vals.color1 + "\nc2: " + this.text_vals.color2 );
 
 	this.type = type;
 	this.hovering = false;
@@ -949,6 +948,10 @@ function button( x1, x2, y1, y2, type = "image", v1 = "", v2 = "", callback = fu
 		//HOVERING
 		if ( this.hovering ) 
 		{
+			if ( !this.active ) {
+				return;
+			}
+			
 			document.body.style.cursor = "pointer";
 			if ( this.type === "image" ) {
 				ctx.drawImage(this.v2, this.effects.hover_x, this.effects.hover_y, this.effects.hover_width, this.effects.hover_height);

@@ -14,6 +14,11 @@ var classicModeLevelSelectionScene = {
 
 		for ( var i = 0; i < 4; ++i ) {
 			for ( var j = 0; j < 5; ++j ) {
+
+				if ( count+1 > 14 ) {
+					break;
+				}
+
 				var c1 = ( ( player.levels_complete[count] ) ? "#FCCF31" : "rgba(151, 171, 255, .5)" );
 				var c2 = ( ( player.levels_complete[count] ) ? "#F55555" : "rgba(18, 53, 151, .5)" );
 				this.menu.add( 
