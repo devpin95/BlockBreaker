@@ -12,7 +12,7 @@ var deathPlacementScene = {
 	},
 
 	run : function() {
-		var ctx = myGameArea.canvas.getContext("2d");
+		var ctx = GAMEAREA.canvas.getContext("2d");
 
 		if ( this.clicks == 0 ) {
 			if ( this.edge === "bottom" ) {

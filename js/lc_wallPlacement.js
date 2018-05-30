@@ -146,7 +146,7 @@ var wallPlacementScene = {
 			this.wall_guides.br.y = ( this.placement_wall.y + this.placement_wall.height ) + ( 5 / 2 );
 
 			//draw lines between nodes
-			var ctx = myGameArea.canvas.getContext("2d");
+			var ctx = GAMEAREA.canvas.getContext("2d");
 			//top left to top right
 			ctx.globalCompositeOperation='destination-over';
 			ctx.setLineDash([2, 2]);/*dashes are 5px and spaces are 3px*/

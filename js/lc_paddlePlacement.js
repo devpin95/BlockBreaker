@@ -14,7 +14,7 @@ var paddlePlacementScene = {
 	},
 
 	run : function() {
-		var ctx = myGameArea.canvas.getContext("2d");
+		var ctx = GAMEAREA.canvas.getContext("2d");
 
 		var paddle_length = document.getElementById("paddle_length").value;
 		var length_value = parseInt(paddle_length);

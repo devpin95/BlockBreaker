@@ -50,19 +50,19 @@ var gameScene = {
 
 			var xpos = (width/2) - (100 - this.draw_level_timer);
 
-			myGameArea.context.font = "70px Bebas Neue";
-			var gradient = myGameArea.context.createLinearGradient(10, 500, 10, 50);
+			GAMEAREA.context.font = "70px Bebas Neue";
+			var gradient = GAMEAREA.context.createLinearGradient(10, 500, 10, 50);
 			gradient.addColorStop("0.5","#FDD819");//
 			gradient.addColorStop("0","#E80505");
 			// Fill with gradient
-			myGameArea.context.fillStyle=gradient;
-			myGameArea.context.textAlign = "center";
-			myGameArea.context.fillText("LEVEL " + (GAME_STATE.LEVEL + 1), xpos, height - 200);
+			GAMEAREA.context.fillStyle=gradient;
+			GAMEAREA.context.textAlign = "center";
+			GAMEAREA.context.fillText("LEVEL " + (GAME_STATE.LEVEL + 1), xpos, height - 200);
 
-			myGameArea.context.font = "20px Bebas Neue";
-			myGameArea.context.fillStyle= "#000";
-			myGameArea.context.textAlign = "center";
-			myGameArea.context.fillText(GAME_STATE.MESSAGE, xpos - 15, height - 160);
+			GAMEAREA.context.font = "20px Bebas Neue";
+			GAMEAREA.context.fillStyle= "#000";
+			GAMEAREA.context.textAlign = "center";
+			GAMEAREA.context.fillText(GAME_STATE.MESSAGE, xpos - 15, height - 160);
 
 			GAME_STATE.MESSAGE
 
@@ -76,10 +76,10 @@ var gameScene = {
 	        }
 
 			if ( GAME_STATE.BALL_READY ) {
-				myGameArea.context.font = "20px Arial";
-				myGameArea.context.fillStyle = "#000";
-				myGameArea.context.textAlign = "center";
-				myGameArea.context.fillText( "Click to launch ball", myPaddle.x + ( myPaddle.width / 2 ), myPaddle.y - 40 );
+				GAMEAREA.context.font = "20px Arial";
+				GAMEAREA.context.fillStyle = "#000";
+				GAMEAREA.context.textAlign = "center";
+				GAMEAREA.context.fillText( "Click to launch ball", myPaddle.x + ( myPaddle.width / 2 ), myPaddle.y - 40 );
 			}
 
 			for ( var i = 0; i < deathzones.length; ++i ) {
@@ -175,7 +175,7 @@ var gameScene = {
 				//---------------------------------------------------------------------------------------------------------------------------------
 
 				//check for a collision with the game area walls
-				var collided_with_wall = myGameArea.collision( balls[i] );
+				var collided_with_wall = GAMEAREA.collision( balls[i] );
 				var dead_ball = false; //bool when true, ball hit deathzone
 
 				//alert(balls[i].free);
@@ -268,7 +268,7 @@ var gameScene = {
 
 
 				//check if the ball went past the bottom of the canvas
-				// if ( myGameArea.bottom_hit ) {
+				// if ( GAMEAREA.bottom_hit ) {
 				// 	//if it did, remove the ball and deal with the player data
 				// 	//GAME_STATE.STOP_TIME = true;
 				// 	balls.splice( i, 1 );
@@ -278,7 +278,7 @@ var gameScene = {
 				// 		GAME_STATE.LIFE_LOST = true;
 				// 		--player.lives;
 				// 	}
-				// 	myGameArea.bottom_hit = false;
+				// 	GAMEAREA.bottom_hit = false;
 
 				// 	//go to the next frame
 				// 	continue;

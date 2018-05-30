@@ -64,7 +64,7 @@ function ball( width, height, color, x, y, type = "color" ) {
 			this.y = myPaddle.bounding_box.y - this.height;
 		}
 
-		ctx = myGameArea.context;
+		ctx = GAMEAREA.context;
 		ctx.globalCompositeOperation='destination-over';
 		if ( type == "color" ) {
 			ctx.fillStyle = color;
@@ -151,7 +151,7 @@ function block( width, height, color, x, y, health = 1, type = "color" ) {
 		this.left_edge = this.x;
 		this.right_edge = this.left_edge + this.width;
 
-		ctx = myGameArea.context;
+		ctx = GAMEAREA.context;
 		if ( type == "color" ) {
 			ctx.fillStyle = color;
 			ctx.fillRect( this.x, this.y, this.width, this.height );
@@ -231,7 +231,7 @@ function paddle( width = 100, height = 7, x1 = 0, y1 = 500, x2 = 960, y2 = 500, 
 	this.right_edge = this.left_edge + this.width;
 
 	this.update = function() {
-		ctx = myGameArea.context;
+		ctx = GAMEAREA.context;
 
 		this.bounding_box.width = this.width;
 
@@ -459,7 +459,7 @@ function wall( width, height, src, x, y, orientation ) {
 	this.right_edge = this.left_edge + this.width;
 
 	this.update = function() {
-		var ctx = myGameArea.context;
+		var ctx = GAMEAREA.context;
 		if ( this.orientation == "horizontal" ) {
 			//draw the end caps
 			ctx.drawImage(this.cap_image, this.x - (5/2), this.y - (5/2), 25, 25);
@@ -530,7 +530,7 @@ function portal( width, height, src, x, y, tx, ty, endpoint = false ) {
 	}
 
 	this.update = function() {
-		ctx = myGameArea.context;
+		ctx = GAMEAREA.context;
 		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
 		if ( !this.teleporter.is_endpoint ) {
 			ctx.drawImage(this.image, this.teleporter.x, this.teleporter.y, 25, 25);
@@ -631,13 +631,13 @@ function streak( x, y, value, down = true ) {
 			this.is_done = true;
 		}
 
-		myGameArea.context.font = "30px Bebas Neue";
-		// var gradient = myGameArea.context.createLinearGradient(this.x, this.y, this.x, this.y + 100);
+		GAMEAREA.context.font = "30px Bebas Neue";
+		// var gradient = GAMEAREA.context.createLinearGradient(this.x, this.y, this.x, this.y + 100);
 		// gradient.addColorStop("0.5","#FDD819");//
 		// gradient.addColorStop("0","#E80505");
-		myGameArea.context.fillStyle = "rgba(255, 0, 0, " + ( (this.time/50) ) + " )";
-		myGameArea.context.textAlign = "center";
-		myGameArea.context.fillText( value, this.x, this.y );
+		GAMEAREA.context.fillStyle = "rgba(255, 0, 0, " + ( (this.time/50) ) + " )";
+		GAMEAREA.context.textAlign = "center";
+		GAMEAREA.context.fillText( value, this.x, this.y );
 	}
 }
 
@@ -654,7 +654,7 @@ function mod_1up( x, y ) {
 
 	this.update = function() {
 		this.y += this.spdY;
-		ctx = myGameArea.context;
+		ctx = GAMEAREA.context;
 		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
 	}
 
@@ -695,7 +695,7 @@ function mod_stretch( x, y ) {
 
 	this.update = function() {
 		this.y += this.spdY;
-		ctx = myGameArea.context;
+		ctx = GAMEAREA.context;
 		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
 
 		if ( myPaddle.is_stretched ) {
@@ -788,7 +788,7 @@ function mod_newBall( x, y ) {
 
 	this.update = function() {
 		this.y += this.spdY;
-		ctx = myGameArea.context;
+		ctx = GAMEAREA.context;
 		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
 	}
 
@@ -826,7 +826,7 @@ function mod_x2( x, y ) {
 
 	this.update = function() {
 		this.y += this.spdY;
-		ctx = myGameArea.context;
+		ctx = GAMEAREA.context;
 		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
 	}
 
@@ -935,7 +935,7 @@ function button( x1, x2, y1, y2, type = "image", v1 = "", v2 = "", callback = fu
 	}
 
 	else if ( type === "text" ) {
-		this.width = myGameArea.context.measureText(v1).width;
+		this.width = GAMEAREA.context.measureText(v1).width;
 		this.height = parseInt(v2);
 		this.bb.height = this.height;
 		this.y -= (this.height/2);
@@ -943,7 +943,7 @@ function button( x1, x2, y1, y2, type = "image", v1 = "", v2 = "", callback = fu
 	}
 
 	this.update = function() {
-		ctx = myGameArea.context;
+		ctx = GAMEAREA.context;
 
 		//HOVERING
 		if ( this.hovering ) 
@@ -960,11 +960,11 @@ function button( x1, x2, y1, y2, type = "image", v1 = "", v2 = "", callback = fu
 
 				ctx.font = (this.v2 + (this.v2 * .1) ) + "px " + this.text_vals.font_face;
 				ctx.textBaseline = this.text_vals.text_baseline; //https://stackoverflow.com/questions/14289331/html5-canvas-doesnt-fill-text-at-coordinates-0-0
-				myGameArea.context.textAlign = this.text_vals.text_align;
+				GAMEAREA.context.textAlign = this.text_vals.text_align;
 				var gradient = ctx.createLinearGradient(this.text_vals.position.x, this.y,  this.text_vals.position.x, this.y + this.height);
 				gradient.addColorStop( "0", this.text_vals.color1 );
 				gradient.addColorStop( "0.75", this.text_vals.color2 );
-				myGameArea.context.fillStyle = gradient;
+				GAMEAREA.context.fillStyle = gradient;
 				ctx.fillText( v1, this.text_vals.position.x, this.text_vals.position.y );
 
 				this.bb.update();
@@ -999,7 +999,7 @@ function button( x1, x2, y1, y2, type = "image", v1 = "", v2 = "", callback = fu
 		}
 
 		if ( this.type === "text" && this.text_vals.font_width_measured == false ) {
-			this.width = myGameArea.context.measureText(v1).width;
+			this.width = GAMEAREA.context.measureText(v1).width;
 			this.text_vals.font_width_measured = true;
 			this.bb.width = this.width;
 			this.x = this.x - (this.width / 2);
