@@ -193,7 +193,7 @@ var gameScene = {
 							//the ball is hitting the top and the deathzone is on the top wall
 							if ( deathzones[j].edge === "top" && balls[i].y <= 50 ) 
 							{
-								alert("TOP");
+								// alert("TOP");
 								if ( balls[i].x + balls[i].spdX >= deathzones[j].x && balls[i].x + balls[i].spdX <= deathzones[j].x + deathzones[j].width ) 
 								{
 									//the hitting the wall within the left and right bounds of the deathzone
@@ -204,7 +204,7 @@ var gameScene = {
 							//the ball is hitting the bottom and the deathzone is on the bottom wall
 							else if ( deathzones[j].edge === "bottom"  && balls[i].y >= height - 50 ) 
 							{
-								alert("BOTTOM");
+								// alert("BOTTOM");
 								if ( balls[i].x >= deathzones[j].x && balls[i].x <= deathzones[j].x + deathzones[j].width ) 
 								{
 									//the hitting the wall within the left and right bounds of the deathzone
@@ -221,7 +221,7 @@ var gameScene = {
 								//the ball is hitting the left and the deathzone is on the left wall
 								if ( deathzones[j].edge === "left" && balls[i].x <= 50 ) 
 								{
-									alert("LEFT");
+									// alert("LEFT");
 									//the hitting the wall within the top and bottom bounds of the deathzone
 									if ( balls[i].y + balls[i].spdY >= deathzones[j].y && balls[i].y + balls[i].spdY <= deathzones[j].y + deathzones[j].height ) 
 									{
@@ -232,7 +232,7 @@ var gameScene = {
 								//the ball is hitting the right and the deathzone is on the right wall
 								else if ( deathzones[j].edge === "right" && balls[i].x >= width - 50 ) 
 								{
-									alert("RIGHT");
+									// alert("RIGHT");
 									//the hitting the wall within the top and bottom bounds of the deathzone
 									if ( balls[i].y + balls[i].spdY >= deathzones[j].y && balls[i].y + balls[i].spdY <= deathzones[j].y + deathzones[j].height ) 
 									{
@@ -265,24 +265,6 @@ var gameScene = {
 						}
 					}
 				}
-
-
-				//check if the ball went past the bottom of the canvas
-				// if ( GAMEAREA.bottom_hit ) {
-				// 	//if it did, remove the ball and deal with the player data
-				// 	//GAME_STATE.STOP_TIME = true;
-				// 	balls.splice( i, 1 );
-
-				// 	//if there are no more free balls, a life is lost
-				// 	if ( balls.length == 0 && !GAME_STATE.BALL_READY ) {
-				// 		GAME_STATE.LIFE_LOST = true;
-				// 		--player.lives;
-				// 	}
-				// 	GAMEAREA.bottom_hit = false;
-
-				// 	//go to the next frame
-				// 	continue;
-				// }
 
 				for ( var j = 0; j < paddles.length; ++j ) {
 					paddles[j].newPos(mousePos.x, mousePos.y);
